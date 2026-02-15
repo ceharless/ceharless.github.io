@@ -2,12 +2,15 @@
   --charcoal: #0f172a;
   --charcoal-light: #1e293b;
   --electric-blue: #38bdf8;
+  --dark-blue: #05628a;
+  --electric-teal: #33FFFF;
   --text: #e5e7eb;
   --muted: rgba(229, 231, 235, 0.5);
-  --hint: rgba(148, 147, 147, 1);
-  --border: rgba(255, 255, 255, 0.10);
-  --panel: rgba(15, 23, 42, 0.55);
-  --panel-strong: rgba(15, 23, 42, 0.75);
+  --semimuted: rgba(229, 231, 235, 0.8);
+  --border: rgba(255, 255, 255, 0.1);
+  --panel: rgba(15, 23, 42, 0.5);
+  --panel-strong: rgba(15, 23, 42, 0.8);
+  --panel-solid: rgba(15, 23, 42, 1);
 }
 
 * {
@@ -86,8 +89,8 @@ a {
 .metric {
   padding: 0.85rem 0.75rem;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(15, 23, 42, 0.45)
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .metric-value {
@@ -114,7 +117,7 @@ a {
   padding: 0.75rem 1.35rem;
   border-radius: 10px;
   background: var(--electric-blue);
-  color: #0f172a;
+  color: var(--charcoal);
   font-weight: 900
 }
 
@@ -125,24 +128,26 @@ a {
 }
 
 .section {
-  padding-bottom: 20px;
-  padding-top: 64px;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
   padding-left: 20px;
   padding-right: 20px;
   max-width: 1100px;
-  margin-top: 64px;
-  margin-bottom: 32px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+}
+
+.light-content {
+  padding: 2rem 30px 2rem 30px;
 }
 
 .dark-content {
   background: var(--charcoal-light);
   border-radius: 14px;
-  padding-bottom: 40px;
-  padding-top: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 2rem 30px 2rem 30px;
+}
+
+.contact-content {
+  margin-bottom: 12rem; 
 }
 
 .section h2 {
@@ -154,6 +159,7 @@ a {
   margin-bottom: 1.25rem
 }
 
+/*
 .footer {
   position: fixed;
   bottom: 0;
@@ -162,27 +168,40 @@ a {
   width: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  padding-left: 16rem;
+  padding-left: 18rem;
   padding-right: 16rem;
-  background: rgba(15, 23, 42, 1);
+  background: var(--panel-solid);
+  color: var(--muted);
   z-index: 150;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   margin-top: 10px;
   margin-bottom: 0px;
 }
+*/
 
-.footer-copyright {
-  color: var(--muted);
+.footer {
+  position: fixed;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 64px;
+  background: var(--panel-solid);
+  color: var(--muted);
+  padding-left: 18rem;
+  padding-right: 18rem;
+  z-index: 150;
+}
+
+.footer-copyright {
+  color: var(--muted);
 }
 
 .footer-top {
-  display: flex;
-  justify-content: flex-end;
+  margin-left: auto;
 }
 
 .to-top {
@@ -192,6 +211,8 @@ a {
   padding: 0.45rem 0.85rem;
   color: var(--muted);
   font-size: 0.9rem;
+  border-radius: 24px;
+  border: 1px solid var(--border);  
 }
 
 .to-top:hover {
@@ -230,8 +251,8 @@ a {
   inset: 0;
   backface-visibility: hidden;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border);
+  background: var(--panel);
   padding: 1rem;
   overflow: hidden;
 }
@@ -239,7 +260,7 @@ a {
 .flipcard-front img {
   width: 100%;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
   margin-bottom: 0.75rem
 }
 
@@ -282,14 +303,8 @@ a {
 }
 
 .carousel-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: var(--electric-blue);
-  color: var(--text);
-  cursor: pointer;
-  font-size: 1.4rem;
-  line-height: 1;
+  font-size: 1.5rem;
+  line-height: 0.5;
 }
 
 .timeline-track {
@@ -320,8 +335,8 @@ a {
   scroll-snap-align: start;
   padding: 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .timeline-role {
@@ -362,8 +377,8 @@ a {
   scroll-snap-align: start;
   padding: 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .article-meta {
@@ -391,8 +406,8 @@ a {
 .skills-card {
   padding: 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .skills-card ul {
@@ -408,8 +423,8 @@ a {
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .contact-card a {
@@ -445,9 +460,9 @@ a {
 }
 
 .carousel-btn {
-  background: var(--electric-blue);
+  background: var(--dark-blue);
   border: none !important;
-  color: var(--charcoal);
+  color: var(--text);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
@@ -539,36 +554,17 @@ body.hero-animate .hero-content .hero-cta-row {
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .about-card ul {
   padding-left: 1.2rem;
-  color: rgba(229, 231, 235, 0.82);
 }
 
 .carousel-shell {
   position: relative;
   padding: 0;
-}
-
-.carousel-btn.side {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  z-index: 5;
-}
-
-.carousel-btn.side.left {
-  left: -3.25rem;
-}
-
-.carousel-btn.side.right {
-  right: -3.25rem;
 }
 
 .timeline-track,
@@ -587,17 +583,17 @@ body.hero-animate .hero-content .hero-cta-row {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 45px;
+  height: 45px;
+  border-radius: 22px;
 }
 
 .carousel-btn.side.left {
-  left: 0;
+  left: -1rem;
 }
 
 .carousel-btn.side.right {
-  right: 0;
+  right: -1rem;
 }
 
 .timeline-track,
@@ -618,10 +614,8 @@ body.hero-animate .hero-content .hero-cta-row {
 .company-logo {
   width: 34px;
   height: 34px;
-  border-radius: 10px;
   display: block;
   margin-bottom: 0.55rem;
-  border: 1px solid rgba(255, 255, 255, 0.10);
   background: rgba(0, 0, 0, 0.15);
 }
 
@@ -678,8 +672,8 @@ body.hero-animate .hero-content .hero-cta-row {
   .metrics-strip .metric:hover {
     transform: none;
     box-shadow: none;
-    border-color: rgba(255, 255, 255, 0.10);
-    background: rgba(15, 23, 42, 0.55);
+    border-color: var(--border);
+    background: var(--panel);
   }
 
   .metrics-strip .metric::after {
@@ -729,8 +723,8 @@ body.hero-animate .hero-content .hero-cta-row {
   .timeline-card:hover {
     transform: none;
     box-shadow: none;
-    border-color: rgba(255, 255, 255, 0.10);
-    background: rgba(15, 23, 42, 0.55);
+    border-color: var(--border);
+    background: var(--panel);
   }
 
   .timeline-card::after {
@@ -773,6 +767,6 @@ body.hero-animate .hero-content .hero-cta-row {
 @media (hover: none) {
   .flipcard.is-flipped {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-    border-color: rgba(255, 255, 255, 0.10);
+    border-color: var(--border);
   }
 }

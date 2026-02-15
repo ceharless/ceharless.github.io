@@ -52,14 +52,21 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   background: linear-gradient(180deg, #0f172a, #1e293b);
 }
 
-.hero-content {
-  max-width: 1050px;
-  margin: 0 auto;
-  text-align: center;
-  padding: 0 1.25rem 3.5rem;
+.hero-content{
+  max-width:1050px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  padding-top: 0;
+  padding-bottom: 2rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .hero h1 {
@@ -74,45 +81,37 @@ a {
   margin: 0 auto
 }
 
-.hero-image-fade {
+.hero-image {
   position: relative;
   text-align: center;
   width: 250px;
   height: 250px;
-}
-
-.hero-image-fade img {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 100%;
-  height: 100%;
-  transform: translate(-50%, -50%);
+  max-width: 500px;
+  margin: 0 auto
   
 }
 
-.top {
-  animation-name: fade;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-duration: 5s;
-  animation-direction: alternate;
+.hero-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1s ease-in-out
 }
 
-@keyframes fade {
-  0% {
-    opacity: 1;
-  }
-  25% {
-    opacity: 1;
-  }
-  75% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+.hero-image .bottom {
+	opacity: 0;
 }
+
+.hero-image:hover .top {
+	opacity: 0;
+}
+
+.hero-image:hover .bottom {
+	opacity: 1;
+}
+
 
 .metrics-strip {
   margin: 2rem auto 0;
@@ -159,12 +158,6 @@ a {
   background: var(--electric-blue);
   color: var(--charcoal);
   font-weight: 900
-}
-
-.cta.secondary {
-  background: transparent;
-  border: 1px solid rgba(56, 189, 248, 0.55);
-  color: var(--electric-blue)
 }
 
 .section {
@@ -538,23 +531,27 @@ body.hero-animate .hero {
 
 body.hero-animate .hero-content>* {
   opacity: 0;
-  animation: heroGlow 0.9s ease forwards;
+  animation: heroGlow 2s ease forwards;
+}
+
+body.hero-animate .hero-content .hero-image {
+  animation-delay: 0.3s;
 }
 
 body.hero-animate .hero-content h1 {
-  animation-delay: 0.15s;
+  animation-delay: 0.6s;
 }
 
 body.hero-animate .hero-content .subtitle {
-  animation-delay: 0.30s;
-}
-
-body.hero-animate .hero-content .metrics-strip {
-  animation-delay: 0.45s;
+  animation-delay: 0.9s;
 }
 
 body.hero-animate .hero-content .hero-cta-row {
-  animation-delay: 0.60s;
+  animation-delay: 1.3s;
+}
+
+body.hero-animate .hero-content .metrics-strip {
+  animation-delay: 1.6s;
 }
 
 @media (prefers-reduced-motion: reduce) {

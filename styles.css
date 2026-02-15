@@ -90,9 +90,9 @@ a {
 .hero-image {
   position: relative;
   text-align: center;
-  width: 250px;
-  height: 250px;
-  max-width: 500px;
+  width: 200px;
+  height: 200px;
+  max-width: 300px;
   margin: 0 auto;
 }
 

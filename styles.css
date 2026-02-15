@@ -74,6 +74,46 @@ a {
   margin: 0 auto
 }
 
+.hero-image-fade {
+  position: relative;
+  text-align: center;
+  width: 250px;
+  height: 250px;
+}
+
+.hero-image-fade img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  
+}
+
+.top {
+  animation-name: fade;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 5s;
+  animation-direction: alternate;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .metrics-strip {
   margin: 2rem auto 0;
   display: grid;
@@ -158,28 +198,6 @@ a {
 .section-intro {
   margin-bottom: 1.25rem
 }
-
-/*
-.footer {
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  text-align: center;
-  width: 100%;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 18rem;
-  padding-right: 16rem;
-  background: var(--panel-solid);
-  color: var(--muted);
-  z-index: 150;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 10px;
-  margin-bottom: 0px;
-}
-*/
 
 .footer {
   position: fixed;

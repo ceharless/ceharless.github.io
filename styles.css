@@ -39,14 +39,6 @@ a {
   display: none !important
 }
 
-.download {
-  border: 1px solid var(--electric-blue);
-  padding: 0.4rem 0.8rem;
-  border-radius: 999px;
-  color: var(--electric-blue) !important;
-  font-weight: 700;
-}
-
 .hero {
   min-height: 100vh;
   display: flex;
@@ -153,6 +145,19 @@ a {
   gap: 0.9rem;
   justify-content: center;
   flex-wrap: wrap
+}
+
+.cta {
+  display: inline-block;
+  padding: 0.75rem 1.35rem;
+  border-radius: 10px;
+  background: var(--electric-blue);
+  color: var(--charcoal);
+  font-weight: 900
+}
+
+.cta:hover {
+  background: white;
 }
 
 .section {

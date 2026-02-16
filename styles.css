@@ -172,10 +172,6 @@ a {
   background: var(--charcoal-light);
 }
 
-.why {
-  text-align: center;
-}
-
 .contact {
   margin-bottom: 10rem;
 }
@@ -390,22 +386,63 @@ a {
   margin-left: 2rem;
 }
 
-.why-list {
-  text-align: center;
-  padding-top: 1rem;
-}
-
 .why-bullets {
   display: inline-block;
   text-align: left;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
+  padding: 0;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .why-text {
   padding-left: 1rem;
-  font-size: 1rem;
+  padding-top: 0;
+  font-size: 0.9rem;
   font-weight: 500;
+}
+
+.why-section {
+  padding: 2rem;
+  max-width: 50%;
+  margin: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 14px;
+  background: var(--charcoal-light);
+  text-align: center;  
+}
+
+.no-background {
+  background: var(--charcoal);
+}
+
+.why-image {
+	display: block;
+	width: 80%;
+	margin: auto;
+} 
+
+.why-cta-row {
+  margin: 0;
+  display: flex;
+  gap: 0.9rem;
+  justify-content: center;
+  flex-wrap: wrap
+}
+
+.why-cta {
+  display: inline-block;
+  padding: 0.75rem 1.35rem;
+  border-radius: 10px;
+  background: var(--electric-blue);
+  color: var(--charcoal);
+  font-weight: 900
+}
+
+.why-cta:hover {
+  background: white;
 }
 
 .last {

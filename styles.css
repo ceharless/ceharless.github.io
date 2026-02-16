@@ -659,20 +659,20 @@ body.hero-animate .hero-content .hero-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 45px;
-  height: 45px;
+  width: 36px;
+  height: 36px;
   border-radius: 22px;
   padding-bottom: 5px;
 }
 
 .carousel-btn.side.left {
-  left: -1rem;
-  margin-left: 0.75rem;
+  left: 0;
+  margin: 0;
 }
 
 .carousel-btn.side.right {
-  right: -1rem;
-  margin-right: 0.75rem;
+  right: 0;
+  margin: 0;
 }
 
 .timeline-track,
@@ -689,7 +689,7 @@ body.hero-animate .hero-content .hero-arrow {
 }
 
 .carousel-btn.side:hover {
-  transform: translateY(-50%) scale(1.05);
+  transform: translateY(-50%) scale(1.25);
 }
 
 @media (max-width: 768px) {

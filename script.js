@@ -1,30 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  /* Scroll reveal */
-  const revealEls = Array.from(document.querySelectorAll('.reveal'));
-
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const markVisibleIfInView = () => {
-    revealEls.forEach(el => {
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.92 && r.bottom > 0) el.classList.add('visible');
-    });
-  };
-
-  if (!prefersReduced && 'IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
-
-    revealEls.forEach(el => observer.observe(el));
-    markVisibleIfInView();
-    window.addEventListener('resize', markVisibleIfInView);
-    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', () => setTimeout(markVisibleIfInView, 120)));
-  } else {
-    revealEls.forEach(el => el.classList.add('visible'));
-  }
 
   /* Hero "cool reveal" */
   document.body.classList.add('hero-animate');

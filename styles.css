@@ -511,6 +511,19 @@ a {
   }
 }
 
+.article-card {
+  flex: 0 0 calc((100% - 2rem) / 2);
+  min-width: 280px;
+  max-width: 360px;
+}
+
+@media (max-width: 980px) {
+  .timeline-card {
+    flex: 0 0 min(560px, 88vw);
+    max-width: none;
+  }
+}
+
 @keyframes heroGlow {
   0% {
     opacity: 0;
@@ -654,10 +667,12 @@ body.hero-animate .hero-content .hero-arrow {
 
 .carousel-btn.side.left {
   left: -1rem;
+  margin-left: 0.75rem;
 }
 
 .carousel-btn.side.right {
   right: -1rem;
+  margin-right: 0.75rem;
 }
 
 .timeline-track,

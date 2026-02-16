@@ -66,10 +66,8 @@ a {
   margin-bottom: 0.75rem
 }
 
-.hero-arrow {
-  padding-top: 1rem;
-  font-size: 2rem;
-  font-weight: 700;
+.scroll-down {
+  padding-top: 2rem;
 }
 
 .subtitle {
@@ -163,8 +161,8 @@ a {
 .section {
   padding-bottom: 2rem;
   padding-top: 2rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   max-width: 80%;
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -183,8 +181,12 @@ a {
   margin-bottom: 1.25rem
 }
 
-.section-intro {
+.section-padded-text {
   margin-bottom: 1.25rem
+}
+
+.section-text {
+  margin-bottom: 0.5rem;
 }
 
 .footer {
@@ -230,11 +232,11 @@ a {
 .flipcard-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem
+  gap: 1rem;
 }
 
 .flipcard {
-  height: 360px;
+  height: 320px;
   border-radius: 14px;
   perspective: 1200px;
   outline: none;
@@ -260,41 +262,43 @@ a {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
-  padding: 1rem;
+  padding: 2rem;
   overflow: hidden;
+  margin: auto;
 }
 
-.flipcard-front img {
+.flipcard-image {
   width: 100%;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  margin-bottom: 0.75rem
+  margin: auto;
 }
 
 .flipcard-front h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  margin: auto;
+  text-align: center;
+  margin-top: 0.5rem;
   margin-bottom: 0.25rem
 }
 
-.flip-hint {
+.flipcard-hint-image {
   position: absolute;
   bottom: 0;
   right: 0;
   margin: 0;
-  padding: 10px;
-  color: var(--muted);
-  font-size: 0.7rem
+  padding: 0;
+  width: 25px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .flipcard-back {
   transform: rotateY(180deg);
   overflow: auto;
-  background: rgba(11, 18, 32, 0.9);
 }
 
-.flipcard-back ul {
-  padding-left: 1.2rem;
-  margin-top: 0.75rem;
+.flipcard-back p {
+  padding-top: 1.5rem;
 }
 
 .timeline-carousel {
@@ -364,9 +368,8 @@ a {
 }
 
 .bullets {
-  margin-top: 0.5rem;
-  margin-left: 1.6rem;
-  padding-left: 0.9rem;
+  margin-top: 0;
+  margin-left: 2rem;
 }
 
 .article-carousel {
@@ -422,9 +425,8 @@ a {
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
-  margin-top: 1.25rem
 }
 
 .skills-card {
@@ -435,7 +437,6 @@ a {
 }
 
 .skills-card ul {
-  padding-left: 1.2rem;
   color: var(--muted)
 }
 
@@ -443,12 +444,34 @@ a {
   margin-bottom: 12rem;
 }
 
+.contact-text {
+  margin-left: 1rem;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
 .contact-card {
-  margin-top: 1rem;
-  padding: 1rem;
+  display: flex;
+  gap: 1.5rem;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
+  width: 40%;
+  margin-left: 4rem;
+}
+
+.contact-titles {
+  text-align: right;
+  padding-left: 6rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.contact-values {
+  text-align: left;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .contact-card a {
@@ -584,8 +607,8 @@ body.hero-animate .hero-content .metrics-strip {
   animation-delay: 1.75s;
 }
 
-body.hero-animate .hero-content .hero-arrow {
-  animation-delay: 2.5s;
+body.hero-animate .hero-content .scroll-down {
+  animation-delay: 3s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -601,7 +624,9 @@ body.hero-animate .hero-content .hero-arrow {
 
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-left: 10rem;
+  margin-right: 10rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -613,13 +638,16 @@ body.hero-animate .hero-content .hero-arrow {
   background: var(--panel);
 }
 
-.about-card ul {
-  margin-top: 0;
-  padding-left: 1.2rem;
+.about-tagline {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 1.25rem;
 }
 
 .teaching-grid {
   display: grid;
+  margin-left: 6rem;
+  margin-right: 6rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   margin-top: 1.25rem
@@ -631,11 +659,6 @@ body.hero-animate .hero-content .hero-arrow {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
-}
-
-.teaching-card ul {
-  margin-top: 0;
-  padding-left: 1.2rem;
 }
 
 .carousel-shell {

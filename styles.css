@@ -172,6 +172,10 @@ a {
   background: var(--charcoal-light);
 }
 
+.why {
+  text-align: center;
+}
+
 .contact {
   margin-bottom: 10rem;
 }
@@ -205,6 +209,20 @@ a {
   align-items: center;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
+  max-width: 80%;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--muted);
+}
+
+.footer-content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  padding-top: 1rem;
   max-width: 80%;
   margin-top: 0;
   margin-bottom: 0;
@@ -370,6 +388,28 @@ a {
 .bullets {
   margin-top: 0;
   margin-left: 2rem;
+}
+
+.why-list {
+  text-align: center;
+  padding-top: 1rem;
+}
+
+.why-bullets {
+  display: inline-block;
+  text-align: left;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.why-text {
+  padding-left: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.last {
+  margin-bottom: 10rem;
 }
 
 .article-carousel {

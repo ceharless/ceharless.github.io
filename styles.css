@@ -392,6 +392,7 @@ a {
   font-size: 1.1rem;
   font-weight: 800;
   padding: 0;
+  padding-top: 1rem;
   margin: 0;
   line-height: 1.4;
 }
@@ -404,14 +405,18 @@ a {
 }
 
 .why-section {
-  padding: 2rem;
+  padding: 0;
   max-width: 50%;
-  margin: 1rem;
+  margin: 0;
   margin-left: auto;
   margin-right: auto;
   border-radius: 14px;
   background: var(--charcoal-light);
   text-align: center;  
+}
+
+.why-padded {
+  padding: 2rem;
 }
 
 .no-background {
@@ -420,8 +425,9 @@ a {
 
 .why-image {
 	display: block;
-	width: 80%;
+	width: 75%;
 	margin: auto;
+	border-radius: 14px;
 } 
 
 .why-cta-row {

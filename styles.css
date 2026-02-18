@@ -6,7 +6,7 @@
   --electric-teal: #33FFFF;
   --text: #e5e7eb;
   --muted: rgba(229, 231, 235, 0.5);
-  --semimuted: rgba(229, 231, 235, 0.8);
+  --semimuted: rgba(229, 231, 235, 0.75);
   --border: rgba(255, 255, 255, 0.1);
   --panel: rgba(15, 23, 42, 0.5);
   --panel-strong: rgba(15, 23, 42, 0.8);
@@ -367,7 +367,7 @@ hr {
 
 .why-image {
   display: block;
-  width: 75%;
+  width: 100%;
   margin: auto;
   border-radius: 14px;
   height: auto;
@@ -393,6 +393,10 @@ hr {
 
 .why-cta:hover {
   background: white;
+}
+
+.why-header {
+  padding-bottom: 1rem;
 }
 
 .last {
@@ -540,23 +544,32 @@ hr {
   font-weight: 900
 }
 
-.timeline-company,
-.timeline-dates {
-  color: var(--muted);
-  margin-top: 0.15rem
+.timeline-company {
+  color: var(--semimuted)
 }
 
 .timeline-dates {
-  font-size: 0.92rem
+  color: var(--muted);
+  margin-top: 0.15rem font-size: 0.9rem;
+  text-align: right;
 }
 
 .company-logo {
-  width: 34px;
-  height: 34px;
-  display: block;
-  margin-bottom: 0.55rem;
-  background: rgba(0, 0, 0, 0.15);
+  width: 35px;
+  height: 35px;
+  margin-bottom: 0.5rem;
 }
+
+.timeline-top-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timeline-logo-container {}
+
+.timeline-dates-container {}
+
+
 
 .metrics-strip .metric {
   transition:

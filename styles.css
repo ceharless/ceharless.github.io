@@ -350,18 +350,15 @@ hr {
 }
 
 .why-section {
-  padding: 0;
+  padding: 2rem;
   max-width: 50%;
-  margin: 0;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   margin-left: auto;
   margin-right: auto;
   border-radius: 14px;
   background: var(--charcoal-light);
   text-align: center;
-}
-
-.why-padded {
-  padding: 2rem;
 }
 
 .no-background {
@@ -771,7 +768,7 @@ hr {
 }
 
 @media (min-width: 980px) {
-  hr {
+  .mobile-only {
     display: none;
   }
 }

@@ -97,7 +97,7 @@ hr {
   height: auto;
   max-width: 100%;
   border-radius: 50%;
-  transition: opacity 1s ease-in-out;
+  border: 5px solid var(--border);
 }
 
 .metrics-strip {
@@ -141,7 +141,7 @@ hr {
 .hero-cta {
   display: inline-block;
   padding: 0.75rem 1.35rem;
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--electric-blue);
   color: var(--charcoal);
   font-weight: 900
@@ -379,7 +379,7 @@ hr {
 .why-cta {
   display: inline-block;
   padding: 0.75rem 1.35rem;
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--electric-blue);
   color: var(--charcoal);
   font-weight: 900
@@ -436,11 +436,11 @@ hr {
 
 .contact-cta {
   display: inline-block;
-  padding: 1rem 1.5rem;
-  border-radius: 28px;
+  padding: 0.75rem 1.35rem;
+  border-radius: 12px;
   background: var(--electric-blue);
   color: var(--charcoal);
-  font-weight: 800;
+  font-weight: 900;
   width: 100%;
   text-align: center;
 }

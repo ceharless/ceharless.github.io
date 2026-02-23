@@ -96,19 +96,8 @@ hr {
   width: 100%;
   height: auto;
   max-width: 100%;
+  border-radius: 50%;
   transition: opacity 1s ease-in-out;
-}
-
-.hero-image .bottom {
-  opacity: 0;
-}
-
-.hero-image:hover .top {
-  opacity: 0;
-}
-
-.hero-image:hover .bottom {
-  opacity: 1;
 }
 
 .metrics-strip {

@@ -1,88 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Case Study: Designing Reliable Distributed APIs</title>
-  <link rel="stylesheet" href="styles.css" />
-  
-<style>
 
-h1{
-  text-align: center;
-  padding-bottom: 1rem;
-  
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Study: Designing Reliable Distributed APIs</title>
+    <link rel="stylesheet" href="styles.css" />
 
-h2{
-padding-top:1rem;
-}
+    <style>
+      h1 {
+        text-align: center;
+        padding-bottom: 1rem;
 
-pre {
-display: block;
-font-family: monospace;
-white-space-collapse: preserve;
-text-wrap-mode: nowrap;
-margin-block-start: 1em;
-margin-inline-start: 0px;
-}
+      }
 
-.diagram{
-padding-left: 2rem;
-}
+      h2 {
+        padding-top: 1rem;
+      }
 
-ul {
-padding-left: 3rem;
-}
+      pre {
+        display: block;
+        font-family: monospace;
+        white-space-collapse: preserve;
+        text-wrap-mode: nowrap;
+        margin-block-start: 1em;
+        margin-inline-start: 0px;
+      }
 
-.case-section {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-  max-width: 80%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 14px;
-  background: var(--charcoal-light);
-}
+      .diagram {
+        padding-left: 2rem;
+      }
 
-</style>  
-</head>
+      ul {
+        padding-left: 3rem;
+      }
+
+      .case-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        max-width: 80%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 14px;
+        background: var(--charcoal-light);
+      }
+    </style>
+  </head>
 
 <body>
 
   <div class="case-section">
 
-<h1>Designing Reliable Distributed APIs</h1>
+    <h1>Designing Reliable Distributed APIs</h1>
 
-<p>
-Modern software platforms rely heavily on APIs to connect services,
-applications, and external partners. As systems grow, APIs become the
-primary interface through which services interact with one another.
-Well-designed APIs can enable rapid development and system flexibility,
-while poorly designed ones can create reliability challenges and
-integration complexity.
-</p>
+    <p>
+      Modern software platforms rely heavily on APIs to connect services,
+      applications, and external partners. As systems grow, APIs become the
+      primary interface through which services interact with one another.
+      Well-designed APIs can enable rapid development and system flexibility,
+      while poorly designed ones can create reliability challenges and
+      integration complexity.
+    </p>
 
-<h2>The Role of APIs in Distributed Systems</h2>
+    <h2>The Role of APIs in Distributed Systems</h2>
 
-<p>
-In distributed architectures, APIs serve as the boundaries between services.
-Clear service contracts allow teams to work independently while maintaining
-a consistent system architecture.
-At companies building large digital platforms, engineering teams often
-manage dozens or even hundreds of service APIs across multiple systems.
-</p>
+    <p>
+      In distributed architectures, APIs serve as the boundaries between services.
+      Clear service contracts allow teams to work independently while maintaining
+      a consistent system architecture.
+      At companies building large digital platforms, engineering teams often
+      manage dozens or even hundreds of service APIs across multiple systems.
+    </p>
 
-<h2>Typical Service Architecture</h2>
+    <h2>Typical Service Architecture</h2>
 
-<div class="diagram">
-<pre>
+    <div class="diagram">
+      <pre>
 Client Applications  
        |  
 API Gateway  
@@ -96,39 +95,39 @@ API Gateway
        |  
 Data Services / Storage
 </pre>
-</div>
+    </div>
 
-<h2>Design Principles for Reliable APIs</h2>
+    <h2>Design Principles for Reliable APIs</h2>
 
-<ul>
-<li>Clear versioning strategy for evolving APIs</li>
-<li>Well-defined service boundaries</li>
-<li>Idempotent operations where possible</li>
-<li>Robust error handling and status codes</li>
-<li>Strong authentication and authorization controls</li>
-</ul>
+    <ul>
+      <li>Clear versioning strategy for evolving APIs</li>
+      <li>Well-defined service boundaries</li>
+      <li>Idempotent operations where possible</li>
+      <li>Robust error handling and status codes</li>
+      <li>Strong authentication and authorization controls</li>
+    </ul>
 
-<h2>Operational Practices</h2>
+    <h2>Operational Practices</h2>
 
-<p>
-In large systems, API reliability also depends on operational practices.
-Monitoring API performance, tracking error rates, and maintaining strong
-observability across services are essential for maintaining system health.
-Rate limiting, circuit breakers, and retry mechanisms are commonly used
-patterns that help prevent cascading failures in distributed environments.
-</p>
+    <p>
+      In large systems, API reliability also depends on operational practices.
+      Monitoring API performance, tracking error rates, and maintaining strong
+      observability across services are essential for maintaining system health.
+      Rate limiting, circuit breakers, and retry mechanisms are commonly used
+      patterns that help prevent cascading failures in distributed environments.
+    </p>
 
-<h2>Lessons Learned</h2>
+    <h2>Lessons Learned</h2>
 
-<p>
-Successful API ecosystems are rarely accidental. They require clear
-architecture guidelines, thoughtful service boundaries, and strong
-engineering governance.
-When APIs are designed thoughtfully, they become a powerful foundation
-for building scalable and flexible platforms.
-</p>
+    <p>
+      Successful API ecosystems are rarely accidental. They require clear
+      architecture guidelines, thoughtful service boundaries, and strong
+      engineering governance.
+      When APIs are designed thoughtfully, they become a powerful foundation
+      for building scalable and flexible platforms.
+    </p>
 
-</div>
+  </div>
 
   <div class="why-section no-background last">
     <div class="why-cta-row">
@@ -143,4 +142,5 @@ for building scalable and flexible platforms.
   </footer>
 
 </body>
+
 </html>

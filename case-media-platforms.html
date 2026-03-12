@@ -1,84 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Case Study: Scaling Distributed Platforms</title>
+  <title>Case Study: Scaling Distributed Platforms</title>
   <link rel="stylesheet" href="styles.css" />
-  
-<style>
 
-h1{
-  text-align: center;
-  padding-bottom: 1rem;
-  
-}
+  <style>
+    h1 {
+      text-align: center;
+      padding-bottom: 1rem;
 
-h2{
-padding-top:1rem;
-}
+    }
 
-pre {
-display: block;
-font-family: monospace;
-white-space-collapse: preserve;
-text-wrap-mode: nowrap;
-margin-block-start: 1em;
-margin-inline-start: 0px;
-}
+    h2 {
+      padding-top: 1rem;
+    }
 
-.diagram{
-padding-left: 2rem;
-}
+    pre {
+      display: block;
+      font-family: monospace;
+      white-space-collapse: preserve;
+      text-wrap-mode: nowrap;
+      margin-block-start: 1em;
+      margin-inline-start: 0px;
+    }
 
-ul {
-padding-left: 3rem;
-}
+    .diagram {
+      padding-left: 2rem;
+    }
+
+    ul {
+      padding-left: 3rem;
+    }
 
 
-.case-section {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-  max-width: 80%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 14px;
-  background: var(--charcoal-light);
-}
-
-</style>  
+    .case-section {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+      max-width: 80%;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 14px;
+      background: var(--charcoal-light);
+    }
+  </style>
 </head>
 
 <body>
   <div class="case-section">
-<h1>Scaling Distributed Media Platforms</h1>
+    <h1>Scaling Distributed Media Platforms</h1>
 
-<p>
-Modern digital platforms must support millions of users, high availability,
-and rapid product iteration. Over the course of my career working at companies
-including Disney, Amazon, and NBCUniversal, I have worked on systems
-that needed to operate reliably at very large scale.
-</p>
+    <p>
+      Modern digital platforms must support millions of users, high availability,
+      and rapid product iteration. Over the course of my career working at companies
+      including Disney, Amazon, and NBCUniversal, I have worked on systems
+      that needed to operate reliably at very large scale.
+    </p>
 
-<h2>The Challenge</h2>
+    <h2>The Challenge</h2>
 
-<p>
-Streaming media systems require infrastructure capable of supporting
-large bursts of traffic while maintaining reliability and performance.
-These systems must integrate many services including authentication,
-content metadata, media delivery, billing systems, and external partner APIs.
-In platforms like Disney Movies Anywhere, the system needed to support
-tens of millions of users while maintaining a seamless viewing experience.
-</p>
+    <p>
+      Streaming media systems require infrastructure capable of supporting
+      large bursts of traffic while maintaining reliability and performance.
+      These systems must integrate many services including authentication,
+      content metadata, media delivery, billing systems, and external partner APIs.
+      In platforms like Disney Movies Anywhere, the system needed to support
+      tens of millions of users while maintaining a seamless viewing experience.
+    </p>
 
-<h2>Typical Platform Architecture</h2>
+    <h2>Typical Platform Architecture</h2>
 
-<div class="diagram">
-<pre>
+    <div class="diagram">
+      <pre>
 Users  
   |  
 CDN / Edge Network  
@@ -96,44 +95,44 @@ Microservices Layer
   |  
 Databases / Media Storage
 </pre>
-</div>
+    </div>
 
-<h2>Key Engineering Challenges</h2>
+    <h2>Key Engineering Challenges</h2>
 
-<ul>
+    <ul>
 
-<li>Handling unpredictable spikes in user traffic</li>
-<li>Maintaining high availability across distributed services</li>
-<li>Ensuring fast response times for API requests</li>
-<li>Integrating multiple partner systems and content providers</li>
-<li>Supporting continuous product development without service disruption</li>
+      <li>Handling unpredictable spikes in user traffic</li>
+      <li>Maintaining high availability across distributed services</li>
+      <li>Ensuring fast response times for API requests</li>
+      <li>Integrating multiple partner systems and content providers</li>
+      <li>Supporting continuous product development without service disruption</li>
 
-</ul>
+    </ul>
 
-<h2>Engineering Approaches</h2>
+    <h2>Engineering Approaches</h2>
 
-<ul>
+    <ul>
 
-<li>Service-oriented architecture using microservices</li>
-<li>API-first platform design for system integration</li>
-<li>Cloud infrastructure enabling dynamic scaling</li>
-<li>Monitoring and observability to detect performance issues</li>
-<li>CI/CD pipelines supporting frequent, reliable releases</li>
+      <li>Service-oriented architecture using microservices</li>
+      <li>API-first platform design for system integration</li>
+      <li>Cloud infrastructure enabling dynamic scaling</li>
+      <li>Monitoring and observability to detect performance issues</li>
+      <li>CI/CD pipelines supporting frequent, reliable releases</li>
 
-</ul>
+    </ul>
 
-<h2>Lessons Learned</h2>
+    <h2>Lessons Learned</h2>
 
-<p>
-Building large distributed systems is rarely about a single technology
-choice. Success usually comes from clear architectural boundaries,
-strong operational visibility, and engineering teams that can iterate
-quickly while maintaining system stability.
-Platforms that invest early in service reliability, monitoring,
-and automation are able to scale much more effectively as traffic grows.
-</p>
+    <p>
+      Building large distributed systems is rarely about a single technology
+      choice. Success usually comes from clear architectural boundaries,
+      strong operational visibility, and engineering teams that can iterate
+      quickly while maintaining system stability.
+      Platforms that invest early in service reliability, monitoring,
+      and automation are able to scale much more effectively as traffic grows.
+    </p>
 
-</div>
+  </div>
 
   <div class="why-section no-background last">
     <div class="why-cta-row">
@@ -147,4 +146,5 @@ and automation are able to scale much more effectively as traffic grows.
     </div>
   </footer>
 </body>
+
 </html>

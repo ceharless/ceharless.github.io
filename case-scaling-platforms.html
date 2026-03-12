@@ -4,89 +4,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Case Study: Scaling Streaming Platforms to Millions of Users</title>
+  <title>Case Study: Scaling Streaming Platforms to Millions of Users</title>
   <link rel="stylesheet" href="styles.css" />
-  
-<style>
 
-h1{
-  text-align: center;
-  padding-bottom: 1rem;
-  
-}
+  <style>
+    h1 {
+      text-align: center;
+      padding-bottom: 1rem;
 
-h2{
-padding-top:1rem;
-}
+    }
 
-pre {
-display: block;
-font-family: monospace;
-white-space-collapse: preserve;
-text-wrap-mode: nowrap;
-margin-block-start: 1em;
-margin-inline-start: 0px;
-}
+    h2 {
+      padding-top: 1rem;
+    }
 
-.diagram{
-padding-left: 2rem;
-}
+    pre {
+      display: block;
+      font-family: monospace;
+      white-space-collapse: preserve;
+      text-wrap-mode: nowrap;
+      margin-block-start: 1em;
+      margin-inline-start: 0px;
+    }
 
-ul {
-padding-left: 3rem;
-}
+    .diagram {
+      padding-left: 2rem;
+    }
 
-
-.case-section {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-  max-width: 80%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 14px;
-  background: var(--charcoal-light);
-}
+    ul {
+      padding-left: 3rem;
+    }
 
 
-</style>  
+    .case-section {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+      max-width: 80%;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 14px;
+      background: var(--charcoal-light);
+    }
+  </style>
 </head>
 
 <body>
   <div class="case-section">
-<h1>Scaling Streaming Platforms to Millions of Users</h1>
+    <h1>Scaling Streaming Platforms to Millions of Users</h1>
 
-<p>
-Streaming media systems represent one of the most demanding types of modern
-internet platforms. Traffic can fluctuate dramatically depending on content
-releases, marketing events, or global usage patterns. Systems must remain
-available, responsive, and scalable even during sudden spikes in demand.
-During my time working on media platforms at companies such as Disney and
-Amazon, engineering teams needed to design services that could handle
-millions of users while maintaining reliability and strong performance.
-</p>
+    <p>
+      Streaming media systems represent one of the most demanding types of modern
+      internet platforms. Traffic can fluctuate dramatically depending on content
+      releases, marketing events, or global usage patterns. Systems must remain
+      available, responsive, and scalable even during sudden spikes in demand.
+      During my time working on media platforms at companies such as Disney and
+      Amazon, engineering teams needed to design services that could handle
+      millions of users while maintaining reliability and strong performance.
+    </p>
 
-<h2>The Core Challenge</h2>
+    <h2>The Core Challenge</h2>
 
-<p>
-Large-scale streaming systems must balance several competing requirements:
-</p>
+    <p>
+      Large-scale streaming systems must balance several competing requirements:
+    </p>
 
-<ul>
-<li>Support millions of concurrent users</li>
-<li>Maintain low latency across global networks</li>
-<li>Integrate multiple backend services</li>
-<li>Provide reliable authentication and authorization</li>
-<li>Ensure continuous uptime during deployments</li>
-</ul>
+    <ul>
+      <li>Support millions of concurrent users</li>
+      <li>Maintain low latency across global networks</li>
+      <li>Integrate multiple backend services</li>
+      <li>Provide reliable authentication and authorization</li>
+      <li>Ensure continuous uptime during deployments</li>
+    </ul>
 
-<h2>Typical Platform Architecture</h2>
+    <h2>Typical Platform Architecture</h2>
 
-<div class="diagram">
-<pre>
+    <div class="diagram">
+      <pre>
 User Devices  
     |  
 Content Delivery Network (CDN)  
@@ -104,45 +101,45 @@ Microservices Layer
     |  
 Databases / Content Storage
 </pre>
-</div>
+    </div>
 
-<h2>Engineering Strategies</h2>
+    <h2>Engineering Strategies</h2>
 
-<p>
-Several architectural patterns are commonly used to support systems of this
-scale:
-</p>
+    <p>
+      Several architectural patterns are commonly used to support systems of this
+      scale:
+    </p>
 
-<ul>
-<li>Use of CDNs to offload traffic from application servers</li>
-<li>Service-oriented architecture allowing systems to scale independently</li>
-<li>Caching strategies for frequently accessed metadata</li>
-<li>Asynchronous messaging between backend services</li>
-<li>Automated scaling of cloud infrastructure</li>
-</ul>
+    <ul>
+      <li>Use of CDNs to offload traffic from application servers</li>
+      <li>Service-oriented architecture allowing systems to scale independently</li>
+      <li>Caching strategies for frequently accessed metadata</li>
+      <li>Asynchronous messaging between backend services</li>
+      <li>Automated scaling of cloud infrastructure</li>
+    </ul>
 
-<h2>Operational Considerations</h2>
+    <h2>Operational Considerations</h2>
 
-<p>
-At large scale, operational discipline becomes just as important as system
-design. Monitoring, observability, and incident response processes are
-critical components of maintaining reliability.
-Engineering teams often invest heavily in metrics dashboards, alerting
-systems, and automated deployment pipelines in order to maintain stability
-while continuing to ship new features.
-</p>
+    <p>
+      At large scale, operational discipline becomes just as important as system
+      design. Monitoring, observability, and incident response processes are
+      critical components of maintaining reliability.
+      Engineering teams often invest heavily in metrics dashboards, alerting
+      systems, and automated deployment pipelines in order to maintain stability
+      while continuing to ship new features.
+    </p>
 
-<h2>Key Takeaways</h2>
+    <h2>Key Takeaways</h2>
 
-<p>
-Scalable streaming platforms are built through careful architectural
-decisions combined with strong operational practices. Systems that separate
-responsibilities across services, automate infrastructure management, and
-invest in observability are able to grow while maintaining reliability.
-</p>
+    <p>
+      Scalable streaming platforms are built through careful architectural
+      decisions combined with strong operational practices. Systems that separate
+      responsibilities across services, automate infrastructure management, and
+      invest in observability are able to grow while maintaining reliability.
+    </p>
 
 
-</div>
+  </div>
 
   <div class="why-section no-background last">
     <div class="why-cta-row">
@@ -155,6 +152,7 @@ invest in observability are able to grow while maintaining reliability.
       <p>© 2026 Charles Harless</p>
     </div>
   </footer>
-  
+
 </body>
+
 </html>

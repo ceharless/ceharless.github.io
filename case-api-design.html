@@ -1,46 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Case Study: Designing Reliable Distributed APIs</title>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Case Study: Designing Reliable Distributed APIs</title>
+  <link rel="stylesheet" href="styles.css" />
+  
 <style>
-body{
-font-family: Arial, Helvetica, sans-serif;
-margin:40px;
-max-width:900px;
-line-height:1.6;
-}
 
 h1{
-font-size:32px;
+  text-align: center;
+  padding-bottom: 1rem;
+  
 }
 
 h2{
-margin-top:40px;
+padding-top:1rem;
+}
+
+pre {
+display: block;
+font-family: monospace;
+white-space-collapse: preserve;
+text-wrap-mode: nowrap;
+margin-block-start: 1em;
+margin-inline-start: 0px;
 }
 
 .diagram{
-background:#f4f4f4;
-padding:20px;
-border-radius:6px;
-margin:20px 0;
-font-family:monospace;
+padding-left: 2rem;
 }
-</style>
+
+ul {
+padding-left: 3rem;
+}
+
+.case-section {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  max-width: 80%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 14px;
+  background: var(--charcoal-light);
+}
+
+</style>  
 </head>
 
 <body>
 
-<h1>Engineering Case Study:<br/> Designing Reliable Distributed APIs</h1>
+  <div class="case-section">
+
+<h1>Designing Reliable Distributed APIs</h1>
 
 <p>
 Modern software platforms rely heavily on APIs to connect services,
 applications, and external partners. As systems grow, APIs become the
 primary interface through which services interact with one another.
-</p>
-
-<p>
 Well-designed APIs can enable rapid development and system flexibility,
 while poorly designed ones can create reliability challenges and
 integration complexity.
@@ -52,9 +75,6 @@ integration complexity.
 In distributed architectures, APIs serve as the boundaries between services.
 Clear service contracts allow teams to work independently while maintaining
 a consistent system architecture.
-</p>
-
-<p>
 At companies building large digital platforms, engineering teams often
 manage dozens or even hundreds of service APIs across multiple systems.
 </p>
@@ -94,9 +114,6 @@ Data Services / Storage
 In large systems, API reliability also depends on operational practices.
 Monitoring API performance, tracking error rates, and maintaining strong
 observability across services are essential for maintaining system health.
-</p>
-
-<p>
 Rate limiting, circuit breakers, and retry mechanisms are commonly used
 patterns that help prevent cascading failures in distributed environments.
 </p>
@@ -107,12 +124,23 @@ patterns that help prevent cascading failures in distributed environments.
 Successful API ecosystems are rarely accidental. They require clear
 architecture guidelines, thoughtful service boundaries, and strong
 engineering governance.
-</p>
-
-<p>
 When APIs are designed thoughtfully, they become a powerful foundation
 for building scalable and flexible platforms.
 </p>
+
+</div>
+
+  <div class="why-section no-background last">
+    <div class="why-cta-row">
+      <a href="index.html" class="why-cta">Return Home</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content-center">
+      <p>© 2026 Charles Harless</p>
+    </div>
+  </footer>
 
 </body>
 </html>

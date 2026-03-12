@@ -1,47 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Case Study: Scaling Streaming Platforms to Millions of Users</title>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Case Study: Scaling Streaming Platforms to Millions of Users</title>
+  <link rel="stylesheet" href="styles.css" />
+  
 <style>
-body{
-font-family: Arial, Helvetica, sans-serif;
-margin:40px;
-max-width:900px;
-line-height:1.6;
-}
 
 h1{
-font-size:32px;
+  text-align: center;
+  padding-bottom: 1rem;
+  
 }
 
 h2{
-margin-top:40px;
+padding-top:1rem;
+}
+
+pre {
+display: block;
+font-family: monospace;
+white-space-collapse: preserve;
+text-wrap-mode: nowrap;
+margin-block-start: 1em;
+margin-inline-start: 0px;
 }
 
 .diagram{
-background:#f4f4f4;
-padding:20px;
-border-radius:6px;
-margin:20px 0;
-font-family:monospace;
+padding-left: 2rem;
 }
-</style>
+
+ul {
+padding-left: 3rem;
+}
+
+
+.case-section {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  max-width: 80%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 14px;
+  background: var(--charcoal-light);
+}
+
+
+</style>  
 </head>
 
 <body>
-
-<h1>Engineering Case Study:<br/> Scaling Streaming Platforms to Millions of Users</h1>
+  <div class="case-section">
+<h1>Scaling Streaming Platforms to Millions of Users</h1>
 
 <p>
 Streaming media systems represent one of the most demanding types of modern
 internet platforms. Traffic can fluctuate dramatically depending on content
 releases, marketing events, or global usage patterns. Systems must remain
 available, responsive, and scalable even during sudden spikes in demand.
-</p>
-
-<p>
 During my time working on media platforms at companies such as Disney and
 Amazon, engineering teams needed to design services that could handle
 millions of users while maintaining reliability and strong performance.
@@ -105,9 +127,6 @@ scale:
 At large scale, operational discipline becomes just as important as system
 design. Monitoring, observability, and incident response processes are
 critical components of maintaining reliability.
-</p>
-
-<p>
 Engineering teams often invest heavily in metrics dashboards, alerting
 systems, and automated deployment pipelines in order to maintain stability
 while continuing to ship new features.
@@ -122,5 +141,20 @@ responsibilities across services, automate infrastructure management, and
 invest in observability are able to grow while maintaining reliability.
 </p>
 
+
+</div>
+
+  <div class="why-section no-background last">
+    <div class="why-cta-row">
+      <a href="index.html" class="why-cta">Return Home</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content-center">
+      <p>© 2026 Charles Harless</p>
+    </div>
+  </footer>
+  
 </body>
 </html>

@@ -335,6 +335,7 @@ h3 {
   text-align: center;
 }
 
+
 .no-background {
   background: var(--charcoal);
 }
@@ -698,6 +699,15 @@ h3 {
   }
 
   .why-section {
+    max-width: 100%;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+  }
+
+  .case-section {
     max-width: 100%;
     margin-top: 0;
     margin-bottom: 1rem;

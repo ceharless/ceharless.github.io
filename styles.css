@@ -43,6 +43,12 @@ hr {
   color: var(--border)
 }
 
+h3 {
+  font-size: 1.15rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem
+}
+
 .hero {
   min-height: 100vh;
   display: flex;
@@ -113,7 +119,7 @@ hr {
 }
 
 .metric {
-  padding: 0.85rem 0.75rem;
+  padding: 1rem;
   border-radius: 12px;
   border: 1px solid var(--border);
   background: var(--panel);
@@ -236,20 +242,20 @@ hr {
   color: var(--text)
 }
 
-.flipcard-grid {
+.case-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
-.flipcard {
-  height: 320px;
+.case-card {
+  height: 275px;
   border-radius: 14px;
   perspective: 1200px;
   outline: none;
 }
 
-.flipcard-inner {
+.case-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
@@ -257,12 +263,7 @@ hr {
   transition: transform 0.65s ease;
 }
 
-.flipcard.is-flipped .flipcard-inner {
-  transform: rotateY(180deg)
-}
-
-.flipcard-front,
-.flipcard-back {
+.case-card-front {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
@@ -274,41 +275,20 @@ hr {
   margin: auto;
 }
 
-.flipcard-image {
-  width: 100%;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  border-radius: 12px;
-  margin: auto;
-  height: auto;
-  max-width: 100%;
-}
-
-.flipcard-front h3 {
-  font-size: 1.25rem;
-  margin: auto;
+.case-card-front h3 {
   text-align: center;
-  margin-top: 0.5rem;
-  margin-bottom: 0.25rem
 }
 
-.flipcard-hint-image {
+.case-card-link {
   position: absolute;
   bottom: 0;
   right: 0;
   margin: 0;
   padding: 2px;
-  width: 25px;
-  margin-right: 7px;
-  margin-bottom: 7px;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
   height: auto;
   max-width: 100%;
-}
-
-.flipcard-back {
-  transform: rotateY(180deg);
-  overflow: auto;
-  padding-top: 3rem;
 }
 
 .impact-list {
@@ -417,6 +397,7 @@ hr {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
+  height: 200px;  
 }
 
 .skills-card ul {
@@ -474,6 +455,7 @@ hr {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
+  height: 175px;
 }
 
 .about-tagline {
@@ -495,6 +477,7 @@ hr {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
+  height: 200px;  
 }
 
 .article-grid {
@@ -510,6 +493,7 @@ hr {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
+  height: 250px;
 }
 
 .article-meta {
@@ -540,6 +524,7 @@ hr {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
+  height: 225px;
 }
 
 .timeline-role {
@@ -558,7 +543,7 @@ hr {
 
 .company-logo {
   width: 35px;
-  height: 35px;
+  height: 30px;
   margin-bottom: 0.5rem;
 }
 
@@ -675,51 +660,12 @@ hr {
   }
 }
 
-.flipcard {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  position: relative;
-}
-
-.flipcard:hover {
-  box-shadow: none;
-  transform: none;
-}
-
-.flipcard.is-flipped {
-  border-color: rgba(56, 189, 248, 0.45);
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, 0.35),
-    0 0 18px rgba(56, 189, 248, 0.12);
-}
-
-.flipcard.is-flipped::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  opacity: 1;
-  pointer-events: none;
-  background: linear-gradient(120deg,
-      transparent 0%,
-      rgba(56, 189, 248, 0.05) 40%,
-      rgba(56, 189, 248, 0.10) 50%,
-      rgba(56, 189, 248, 0.05) 60%,
-      transparent 100%);
-}
-
-@media (hover: none) {
-  .flipcard.is-flipped {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-    border-color: var(--border);
-  }
-}
-
 @media (max-width: 980px) {
   .metrics-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr))
   }
 
-  .flipcard-grid {
+  .case-grid {
     grid-template-columns: 1fr
   }
 

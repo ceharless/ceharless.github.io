@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Engineering Case Study — Scaling Distributed Platforms</title>
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+margin:40px;
+max-width:900px;
+line-height:1.6;
+}
+
+h1{
+font-size:32px;
+}
+
+h2{
+margin-top:40px;
+}
+
+.section{
+margin-top:30px;
+}
+
+.diagram{
+background:#f4f4f4;
+padding:20px;
+margin:20px 0;
+border-radius:6px;
+font-family:monospace;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Engineering Case Study:<br/> Scaling Distributed Media Platforms</h1>
+
+<p>
+Modern digital platforms must support millions of users, high availability,
+and rapid product iteration. Over the course of my career working at companies
+including Disney, Amazon, and NBCUniversal, I have worked on systems
+that needed to operate reliably at very large scale.
+</p>
+
+<div class="section">
+
+<h2>The Challenge</h2>
+
+<p>
+Streaming media systems require infrastructure capable of supporting
+large bursts of traffic while maintaining reliability and performance.
+These systems must integrate many services including authentication,
+content metadata, media delivery, billing systems, and external partner APIs.
+</p>
+
+<p>
+In platforms like Disney Movies Anywhere, the system needed to support
+tens of millions of users while maintaining a seamless viewing experience.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Typical Platform Architecture</h2>
+
+<div class="diagram">
+<pre>
+Users  
+  |  
+CDN / Edge Network  
+  |  
+API Gateway  
+  |  
+---------------------------  
+| Authentication Service |  
+| Content Metadata API   |  
+| User Library Service   |  
+| Playback Authorization |  
+---------------------------  
+  |  
+Microservices Layer  
+  |  
+Databases / Media Storage
+</pre>
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Key Engineering Challenges</h2>
+
+<ul>
+
+<li>Handling unpredictable spikes in user traffic</li>
+<li>Maintaining high availability across distributed services</li>
+<li>Ensuring fast response times for API requests</li>
+<li>Integrating multiple partner systems and content providers</li>
+<li>Supporting continuous product development without service disruption</li>
+
+</ul>
+
+</div>
+
+<div class="section">
+
+<h2>Engineering Approaches</h2>
+
+<ul>
+
+<li>Service-oriented architecture using microservices</li>
+<li>API-first platform design for system integration</li>
+<li>Cloud infrastructure enabling dynamic scaling</li>
+<li>Monitoring and observability to detect performance issues</li>
+<li>CI/CD pipelines supporting frequent, reliable releases</li>
+
+</ul>
+
+</div>
+
+<div class="section">
+
+<h2>Lessons Learned</h2>
+
+<p>
+Building large distributed systems is rarely about a single technology
+choice. Success usually comes from clear architectural boundaries,
+strong operational visibility, and engineering teams that can iterate
+quickly while maintaining system stability.
+</p>
+
+<p>
+Platforms that invest early in service reliability, monitoring,
+and automation are able to scale much more effectively as traffic grows.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>About the Author</h2>
+
+<p>
+Charles Harless is a software engineering leader with experience building
+large-scale distributed systems and cloud platforms at companies including
+Disney, Amazon, NBCUniversal, and Brightcove. He also teaches computer
+science courses at UCLA Extension focused on real-world software engineering.
+</p>
+
+</div>
+
+</body>
+</html>

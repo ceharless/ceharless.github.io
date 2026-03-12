@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Case Study: Scaling Streaming Platforms to Millions of Users</title>
+
+<style>
+body{
+font-family: Arial, Helvetica, sans-serif;
+margin:40px;
+max-width:900px;
+line-height:1.6;
+}
+
+h1{
+font-size:32px;
+}
+
+h2{
+margin-top:40px;
+}
+
+.diagram{
+background:#f4f4f4;
+padding:20px;
+border-radius:6px;
+margin:20px 0;
+font-family:monospace;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Engineering Case Study:<br/> Scaling Streaming Platforms to Millions of Users</h1>
+
+<p>
+Streaming media systems represent one of the most demanding types of modern
+internet platforms. Traffic can fluctuate dramatically depending on content
+releases, marketing events, or global usage patterns. Systems must remain
+available, responsive, and scalable even during sudden spikes in demand.
+</p>
+
+<p>
+During my time working on media platforms at companies such as Disney and
+Amazon, engineering teams needed to design services that could handle
+millions of users while maintaining reliability and strong performance.
+</p>
+
+<h2>The Core Challenge</h2>
+
+<p>
+Large-scale streaming systems must balance several competing requirements:
+</p>
+
+<ul>
+<li>Support millions of concurrent users</li>
+<li>Maintain low latency across global networks</li>
+<li>Integrate multiple backend services</li>
+<li>Provide reliable authentication and authorization</li>
+<li>Ensure continuous uptime during deployments</li>
+</ul>
+
+<h2>Typical Platform Architecture</h2>
+
+<div class="diagram">
+<pre>
+User Devices  
+    |  
+Content Delivery Network (CDN)  
+    |  
+API Gateway  
+    |  
+--------------------------------  
+| User Identity Service        |
+| Content Metadata Service     |
+| Playback Authorization       |
+| User Library Service         |
+--------------------------------  
+    |  
+Microservices Layer  
+    |  
+Databases / Content Storage
+</pre>
+</div>
+
+<h2>Engineering Strategies</h2>
+
+<p>
+Several architectural patterns are commonly used to support systems of this
+scale:
+</p>
+
+<ul>
+<li>Use of CDNs to offload traffic from application servers</li>
+<li>Service-oriented architecture allowing systems to scale independently</li>
+<li>Caching strategies for frequently accessed metadata</li>
+<li>Asynchronous messaging between backend services</li>
+<li>Automated scaling of cloud infrastructure</li>
+</ul>
+
+<h2>Operational Considerations</h2>
+
+<p>
+At large scale, operational discipline becomes just as important as system
+design. Monitoring, observability, and incident response processes are
+critical components of maintaining reliability.
+</p>
+
+<p>
+Engineering teams often invest heavily in metrics dashboards, alerting
+systems, and automated deployment pipelines in order to maintain stability
+while continuing to ship new features.
+</p>
+
+<h2>Key Takeaways</h2>
+
+<p>
+Scalable streaming platforms are built through careful architectural
+decisions combined with strong operational practices. Systems that separate
+responsibilities across services, automate infrastructure management, and
+invest in observability are able to grow while maintaining reliability.
+</p>
+
+</body>
+</html>

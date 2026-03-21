@@ -55,7 +55,6 @@ h3 {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background: linear-gradient(180deg, #0f172a, #1e293b);
 }
 
 .hero-content {
@@ -81,7 +80,7 @@ h3 {
 }
 
 .subtitle {
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: var(--muted);
   max-width: 900px;
   margin: 0 auto
@@ -103,24 +102,24 @@ h3 {
   height: auto;
   max-width: 100%;
   border-radius: 50%;
-  border: 5px solid var(--border);
+  border: 3px solid var(--border);
 }
 
 .metrics-strip {
   margin: 2rem auto 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.9rem;
+  gap: 1rem;
   padding: 1rem;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 24px;
   background: var(--panel);
   backdrop-filter: blur(8px);
 }
 
 .metric {
   padding: 1rem;
-  border-radius: 12px;
+  border-radius: 24px;
   border: 1px solid var(--border);
   background: var(--panel);
 }
@@ -300,90 +299,16 @@ h3 {
   margin-left: 2rem;
 }
 
-.why-bullets {
-  display: inline-block;
-  text-align: left;
-  font-size: 1.1rem;
-  font-weight: 800;
-  padding: 0;
-  padding-top: 1rem;
-  margin: 0;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.4;
-}
-
-.why-text {
-  padding-left: 0;
-  padding-top: 0;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.why-section {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  max-width: 50%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 14px;
-  background: var(--charcoal-light);
-  text-align: center;
-}
-
-
 .no-background {
   background: var(--charcoal);
 }
 
-.why-image {
-  display: block;
-  width: 100%;
-  margin: auto;
-  border-radius: 14px;
-  height: auto;
-  max-width: 100%;
-}
-
-.why-cta-row {
-  margin: 0;
-  display: flex;
-  gap: 0.9rem;
-  justify-content: center;
-  flex-wrap: wrap
-}
-
-.why-cta {
-  display: inline-block;
-  padding: 0.75rem 1.35rem;
-  border-radius: 12px;
-  background: var(--electric-blue);
-  color: var(--charcoal);
-  font-weight: 900
-}
-
-.why-cta:hover {
-  background: white;
-}
-
-.why-header {
-  padding-bottom: 1rem;
-}
-
-.why-padded {
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
 .last {
-  padding-bottom: 5rem;
-  margin-bottom: 5rem;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+
 }
 
 .skills-grid {
@@ -553,12 +478,6 @@ h3 {
   justify-content: space-between;
 }
 
-.timeline-logo-container {}
-
-.timeline-dates-container {}
-
-
-
 .metrics-strip .metric {
   transition:
     transform 0.25s ease,
@@ -698,15 +617,6 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .why-section {
-    max-width: 100%;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-
-  }
-
   .case-section {
     max-width: 100%;
     margin-top: 0;
@@ -749,6 +659,22 @@ h3 {
   }
 }
 
+@keyframes heroPulseBg {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+body.hero-animate .hero {
+  background: linear-gradient(135deg, #0f172a, #1e293b, rgba(56, 189, 248, 0.12));  
+  background-size: 200% 200%;
+  animation: heroPulseBg 3s ease-in-out infinite alternate;
+}
+
 @keyframes heroGlow {
   0% {
     opacity: 0;
@@ -768,22 +694,6 @@ h3 {
   }
 }
 
-@keyframes heroPulseBg {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  100% {
-    background-position: 100% 50%;
-  }
-}
-
-body.hero-animate .hero {
-  background: linear-gradient(135deg, #0f172a, #1e293b, rgba(56, 189, 248, 0.12));
-  background-size: 200% 200%;
-  animation: heroPulseBg 10s ease-in-out infinite alternate;
-}
-
 body.hero-animate .hero-content>* {
   opacity: 0;
   animation: heroGlow 2s ease forwards;
@@ -794,32 +704,21 @@ body.hero-animate .hero-content .hero-image {
 }
 
 body.hero-animate .hero-content h1 {
-  animation-delay: 0.5s;
+  animation-delay: 0.25s;
 }
 
 body.hero-animate .hero-content .subtitle {
-  animation-delay: 0.75s;
+  animation-delay: 0.50s;
 }
 
 body.hero-animate .hero-content .hero-cta-row {
-  animation-delay: 1.25s;
+  animation-delay: 1s;
 }
 
 body.hero-animate .hero-content .metrics-strip {
-  animation-delay: 1.75s;
+  animation-delay: 1.5s;
 }
 
 body.hero-animate .hero-content .scroll-down {
-  animation-delay: 3s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body.hero-animate .hero {
-    animation: none;
-  }
-
-  body.hero-animate .hero-content>* {
-    opacity: 1;
-    animation: none;
-  }
+  animation-delay: 2s;
 }

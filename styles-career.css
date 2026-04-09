@@ -116,6 +116,20 @@
   width: 30%;
 }
 
+.career-footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  max-width: 50%;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--muted);
+}
+
 @media (max-width: 980px) {
   .career-section {
     max-width: 100%;
@@ -124,6 +138,10 @@
     margin-left: 1rem;
     margin-right: 1rem;
 
+  }
+
+  .career-footer-content {
+    max-width: 98%;
   }
 
   .btn {

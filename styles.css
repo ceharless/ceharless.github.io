@@ -202,20 +202,6 @@ h3 {
   color: var(--muted);
 }
 
-.footer-content-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 0.5rem;
-  padding-top: 1rem;
-  max-width: 80%;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--muted);
-}
-
 .to-top {
   display: inline-flex;
   align-items: center;
@@ -534,10 +520,6 @@ h3 {
   width: 25%;
 }
 
-.small-btn {
-  width: 15%
-}
-
 .btn:hover {
   color: var(--electric-blue) !important;
   border-radius: 50px;
@@ -609,8 +591,6 @@ h3 {
   .btn {
     width: 85%;
   }
-
-
 
   .hero h1 {
     font-size: 2.1rem

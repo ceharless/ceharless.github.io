@@ -508,6 +508,35 @@ h3 {
   }
 }
 
+.hireme-bullets {
+  display: inline-block;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.hireme-li {
+  padding-bottom: 0.25rem;
+}
+
+.hireme-text {
+  color: var(--muted);
+  padding-left: 0;
+  padding-top: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.centered {
+  text-align: center;
+}
+
 .btn {
   display: inline-block;
   padding: 0.75rem 1rem;
@@ -674,3 +703,73 @@ body.hero-animate .hero-content .metrics-strip {
 body.hero-animate .hero-content .scroll-down {
   animation-delay: 2s;
 }
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  display: none;
+  position: fixed; 
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.9);
+  overflow-y: auto;
+}
+
+.overlay-content {
+  margin: 5% auto;
+  width: 90%;
+  max-width: 700px;
+  text-align: center;
+}
+
+.overlay-content img {
+  margin-top: 1rem;
+  width: 100%;
+  height: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 50px;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.clickbtn {
+  background-color: transparent;
+  border-radius: 0px;
+  border: 4px solid var(--border) !important;  
+  color: var(--text) !important;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;  
+  transition: all 1s, ease 0s;
+}
+
+.clickbtn:hover {
+  background-color: var(--dark-blue);  
+  border-radius: 50px;
+  border-color: var(--electric-blue) !important;
+  transition: all 1s ease 0s;
+}
+
+
+@media (max-width: 980px) {
+.close-btn {
+  top: 5px;
+  right: 20px;
+}
+
+
+.hireme-bullets {
+  padding-left: 15px;
+}
+
+}
+

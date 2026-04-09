@@ -35,7 +35,7 @@
   padding-right: 0rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  max-width: 50%;
+  max-width: 75%;
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: auto;
@@ -46,7 +46,7 @@
 
 .career-image {
   display: block;
-  width: 100%;
+  width: 80%;
   margin: auto;
   border-radius: 14px;
   height: auto;
@@ -56,7 +56,7 @@
 
 .career-banner-image {
   display: block;
-  width: 100%;
+  width: 75%;
   margin: auto;
   height: auto;
   max-width: 100%;
@@ -122,7 +122,7 @@
   align-items: center;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
-  max-width: 50%;
+  max-width: 75%;
   margin-top: 0;
   margin-bottom: 0;
   margin-left: auto;
@@ -138,6 +138,14 @@
     margin-left: 1rem;
     margin-right: 1rem;
 
+  }
+
+  .career-banner-image {
+    width: 100%;
+  }
+
+  .career-image {
+    width: 100%;
   }
 
   .career-footer-content {

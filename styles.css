@@ -135,12 +135,16 @@ h3 {
   color: var(--muted)
 }
 
-.hero-cta-row {
+.cta-row {
   margin-top: 1.75rem;
   display: flex;
   gap: 0.9rem;
   justify-content: center;
   flex-wrap: wrap
+}
+
+.centered {
+  text-align: center;
 }
 
 .section {
@@ -304,23 +308,6 @@ h3 {
   margin-right: 0;
   margin-top: 0;
   margin-bottom: 0;
-}
-
-.contact-cta {
-  width: 100%;
-  text-align: center;
-}
-
-.contact-links {
-  margin: auto;
-  padding: 1rem;
-  width: fit-content;
-}
-
-.inline-grid-container {
-  display: inline-grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
 }
 
 .about-grid {
@@ -547,6 +534,10 @@ h3 {
   width: 25%;
 }
 
+.small-btn {
+  width: 15%
+}
+
 .btn:hover {
   color: var(--electric-blue) !important;
   border-radius: 50px;
@@ -615,9 +606,9 @@ h3 {
 }
 
 @media (max-width: 560px) {
-	.btn {
-		width: 85%;
-		}
+  .btn {
+    width: 85%;
+  }
 
 
 
@@ -692,7 +683,7 @@ body.hero-animate .hero-content .subtitle {
   animation-delay: 0.50s;
 }
 
-body.hero-animate .hero-content .hero-cta-row {
+body.hero-animate .hero-content .cta-row {
   animation-delay: 1s;
 }
 

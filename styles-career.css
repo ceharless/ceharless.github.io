@@ -31,8 +31,8 @@
 }
 
 .career-section {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0rem;
+  padding-right: 0rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   max-width: 50%;
@@ -124,6 +124,20 @@
     margin-left: 1rem;
     margin-right: 1rem;
 
+  }
+
+  .btn {
+    width: 85%;
+  }
+
+
+  .career-padded {
+    padding-left: 0rem;
+    padding-right: 0rem;
+  }
+
+  .career-bullets {
+    padding-left: 2rem;
   }
 
   .no-background {

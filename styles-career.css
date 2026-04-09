@@ -1,4 +1,4 @@
-.why-bullets {
+.career-bullets {
   display: inline-block;
   text-align: left;
   font-size: 1.1rem;
@@ -12,18 +12,25 @@
   margin-bottom: 1rem;
 }
 
-.why-li {
+.career-li {
   padding-bottom: 0.5rem;
 }
 
-.why-text {
+.career-text {
   padding-left: 0;
   padding-top: 0;
   font-size: 0.9rem;
   font-weight: 600;
 }
 
-.why-section {
+.career-intro-text {
+  padding-left: 0;
+  padding-top: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.career-section {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
@@ -38,7 +45,7 @@
   text-align: center;
 }
 
-.why-image {
+.career-image {
   display: block;
   width: 100%;
   margin: auto;
@@ -48,7 +55,7 @@
   padding-bottom: 1rem;
 }
 
-.why-cta-row {
+.career-cta-row {
   margin: 0;
   display: flex;
   gap: 0.9rem;
@@ -56,7 +63,7 @@
   flex-wrap: wrap
 }
 
-.why-cta {
+.career-cta {
   display: inline-block;
   padding: 0.75rem 1.35rem;
   border-radius: 12px;
@@ -65,15 +72,15 @@
   font-weight: 900
 }
 
-.why-cta:hover {
+.career-cta:hover {
   background: white;
 }
 
-.why-header {
+.career-header {
   padding-bottom: 1rem;
 }
 
-.why-padded {
+.career-padded {
   padding-left: 2rem;
   padding-right: 2rem;
   padding-top: 1rem;
@@ -93,7 +100,7 @@
 }
 
 @media (max-width: 980px) {
-  .why-section {
+  .career-section {
     max-width: 100%;
     margin-top: 0;
     margin-bottom: 1rem;

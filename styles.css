@@ -143,7 +143,6 @@ h3 {
   flex-wrap: wrap
 }
 
-
 .section {
   padding-bottom: 2rem;
   padding-top: 2rem;
@@ -536,7 +535,30 @@ h3 {
   }
 }
 
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  border-radius: 0px;
+  background-color: transparent;
+  font-weight: 850;
+  border: 4px solid var(--border) !important;
+  color: var(--text) !important;
+  transition: all 1s, ease 0s;
+}
+
+.btn:hover {
+  color: var(--electric-blue) !important;
+  border-radius: 50px;
+  border-color: var(--electric-blue) !important;
+  transition: all 1s ease 0s;
+}
+
 @media (max-width: 980px) {
+
+	.btn {
+		width: 100%;
+		}
+
   .metrics-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr))
   }
@@ -677,22 +699,4 @@ body.hero-animate .hero-content .metrics-strip {
 
 body.hero-animate .hero-content .scroll-down {
   animation-delay: 2s;
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.35rem;
-  border-radius: 6px;
-  background-color: transparent;
-  font-weight: 900;
-  border: 4px solid var(--border) !important;
-  color: var(--text) !important;
-  transition: all 1s, ease 0s;
-}
-
-.btn:hover {
-  color: var(--electric-blue) !important;
-  border-radius: 50px;
-  border-color: var(--electric-blue) !important;
-  transition: all 1s ease 0s;
 }

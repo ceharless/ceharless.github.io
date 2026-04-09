@@ -55,6 +55,14 @@
   padding-bottom: 1rem;
 }
 
+.career-banner-image {
+  text-align: center;
+  width: 600px;
+  height: 150px;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+}
+
 .career-cta-row {
   margin: 0;
   display: flex;
@@ -77,7 +85,7 @@
 }
 
 .career-header {
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .career-padded {

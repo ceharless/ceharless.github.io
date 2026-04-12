@@ -585,14 +585,10 @@ h3 {
 
   .about-grid {
     grid-template-columns: 1fr;
-    margin-left: 1rem;
-    margin-right: 1rem;
   }
 
   .teaching-grid {
     grid-template-columns: 1fr;
-    margin-left: 1rem;
-    margin-right: 1rem;
   }
 
   .inline-grid-container {

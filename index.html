@@ -16,16 +16,15 @@
 
   <link rel="stylesheet" href="styles.css" />
 
-
   <script>
     function openOverlay() {
       document.getElementById("imageOverlay").style.display = "block";
-      document.body.style.overflow = "hidden"; // Prevents background body from scrolling
+      document.body.style.overflow = "hidden";
     }
 
     function closeOverlay() {
       document.getElementById("imageOverlay").style.display = "none";
-      document.body.style.overflow = "auto"; // Re-enables background scrolling
+      document.body.style.overflow = "auto";
     }
 
   </script>
@@ -158,7 +157,7 @@
     </div>
 
     <div id="why" class="centered">
-      <button class="clickbtn" onclick="openOverlay()">Why You Should Hire Me</button>
+      <button class="btn" onclick="openOverlay()">Why You Should Hire Me</button>
     </div>
 
   </section>

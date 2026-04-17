@@ -1,74 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Case Study: Modernizing Search — From Monolith Pain to Safe, Scalable Delivery</title>
   <style>
-    :root{
+    :root {
       --bg: #0b1220;
-      --panel: rgba(255,255,255,0.06);
-      --panel2: rgba(255,255,255,0.09);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.72);
-      --faint: rgba(255,255,255,0.55);
-      --line: rgba(255,255,255,0.14);
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel2: rgba(255, 255, 255, 0.09);
+      --text: rgba(255, 255, 255, 0.92);
+      --muted: rgba(255, 255, 255, 0.72);
+      --faint: rgba(255, 255, 255, 0.55);
+      --line: rgba(255, 255, 255, 0.14);
       --accent: #6ee7ff;
-      --accent2:#a78bfa;
-      --good:#34d399;
-      --warn:#fbbf24;
-      --bad:#fb7185;
+      --accent2: #a78bfa;
+      --good: #34d399;
+      --warn: #fbbf24;
+      --bad: #fb7185;
 
       --radius: 16px;
-      --shadow: 0 12px 40px rgba(0,0,0,0.35);
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
     }
 
-    * { box-sizing: border-box; }
-    body{
-      margin:0;
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
       font-family: var(--sans);
       color: var(--text);
       background:
-        radial-gradient(1000px 600px at 15% 10%, rgba(167,139,250,0.22), transparent 60%),
-        radial-gradient(900px 500px at 70% 0%, rgba(110,231,255,0.18), transparent 60%),
-        radial-gradient(1100px 700px at 60% 85%, rgba(52,211,153,0.12), transparent 60%),
+        radial-gradient(1000px 600px at 15% 10%, rgba(167, 139, 250, 0.22), transparent 60%),
+        radial-gradient(900px 500px at 70% 0%, rgba(110, 231, 255, 0.18), transparent 60%),
+        radial-gradient(1100px 700px at 60% 85%, rgba(52, 211, 153, 0.12), transparent 60%),
         var(--bg);
       line-height: 1.55;
     }
 
-    a{ color: var(--accent); text-decoration: none; }
-    a:hover{ text-decoration: underline; }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
 
-    .wrap{
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrap {
       margin: 0 auto;
       padding: 2rem;
     }
 
-    header{
+    header {
       position: relative;
       padding: 2.25rem 2rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    header::after{
-      content:"";
-      position:absolute;
-      inset:-1px;
+    header::after {
+      content: "";
+      position: absolute;
+      inset: -1px;
       background:
-        radial-gradient(600px 250px at 15% 30%, rgba(110,231,255,0.18), transparent 60%),
-        radial-gradient(500px 240px at 80% 10%, rgba(167,139,250,0.18), transparent 60%);
-      pointer-events:none;
+        radial-gradient(600px 250px at 15% 30%, rgba(110, 231, 255, 0.18), transparent 60%),
+        radial-gradient(500px 240px at 80% 10%, rgba(167, 139, 250, 0.18), transparent 60%);
+      pointer-events: none;
       filter: blur(0.2px);
       opacity: 0.8;
     }
 
-    .hero{
+    .hero {
       position: relative;
       z-index: 1;
       display: grid;
@@ -77,61 +87,72 @@
       align-items: start;
     }
 
-    h1{
-      margin:0 0 .25rem 0;
+    h1 {
+      margin: 0 0 .25rem 0;
       font-size: clamp(1.6rem, 2.6vw, 2.4rem);
       letter-spacing: -0.02em;
     }
-    .subtitle{
+
+    .subtitle {
       margin: .25rem 0 0 0;
       color: var(--muted);
       max-width: 70ch;
     }
 
-    .chips{
-      display:flex;
+    .chips {
+      display: flex;
       flex-wrap: wrap;
       gap: .5rem;
       margin-top: 1rem;
     }
-    .chip{
+
+    .chip {
       font-size: .85rem;
       padding: .35rem .6rem;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.06);
       color: var(--muted);
       white-space: nowrap;
     }
-    .chip strong{ color: var(--text); font-weight: 600; }
 
-    .cta{
+    .chip strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .cta {
       position: relative;
       z-index: 1;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.06);
       padding: 1rem;
     }
-    .cta h2{
-      margin:0 0 .5rem 0;
+
+    .cta h2 {
+      margin: 0 0 .5rem 0;
       font-size: 1.05rem;
     }
-    .cta p{
-      margin:.25rem 0 0 0;
+
+    .cta p {
+      margin: .25rem 0 0 0;
       color: var(--muted);
       font-size: .95rem;
     }
-    .cta .btnrow{
-      display:flex;
-      gap:.5rem;
+
+    .cta .btnrow {
+      display: flex;
+      gap: .5rem;
       flex-wrap: wrap;
       margin-top: .75rem;
     }
-    button, .btn{
+
+    button,
+    .btn {
       appearance: none;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.07);
+      background: rgba(255, 255, 255, 0.07);
       color: var(--text);
       padding: .55rem .75rem;
       border-radius: 12px;
@@ -140,229 +161,316 @@
       cursor: pointer;
       transition: transform .08s ease, background .2s ease, border-color .2s ease;
     }
-    button:hover, .btn:hover{
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.20);
+
+    button:hover,
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(255, 255, 255, 0.20);
       transform: translateY(-1px);
     }
-    button:active, .btn:active{
+
+    button:active,
+    .btn:active {
       transform: translateY(0px);
     }
 
-    .grid{
+    .grid {
       margin-top: 1.25rem;
-      display:grid;
+      display: grid;
       grid-template-columns: 280px 1fr;
       gap: 1.25rem;
       align-items: start;
     }
 
-    nav{
+    nav {
       position: sticky;
       top: 1.25rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       padding: 1rem;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
     }
-    nav .label{
+
+    nav .label {
       font-size: .82rem;
       text-transform: uppercase;
       letter-spacing: .14em;
       color: var(--faint);
       margin-bottom: .6rem;
     }
-    nav a{
-      display:block;
+
+    nav a {
+      display: block;
       padding: .45rem .55rem;
       border-radius: 10px;
       color: var(--muted);
     }
-    nav a:hover{
-      background: rgba(255,255,255,0.07);
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.07);
       color: var(--text);
       text-decoration: none;
     }
-    nav a.active{
-      background: rgba(110,231,255,0.10);
-      border: 1px solid rgba(110,231,255,0.22);
+
+    nav a.active {
+      background: rgba(110, 231, 255, 0.10);
+      border: 1px solid rgba(110, 231, 255, 0.22);
       color: var(--text);
     }
 
-    main{
-      display:flex;
+    main {
+      display: flex;
       flex-direction: column;
       gap: 1.25rem;
     }
 
-    section{
+    section {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       padding: 1.25rem 1.25rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
     }
-    section h2{
-      margin:0 0 .75rem 0;
+
+    section h2 {
+      margin: 0 0 .75rem 0;
       font-size: 1.2rem;
       letter-spacing: -0.01em;
     }
-    section h3{
+
+    section h3 {
       margin: 1rem 0 .4rem 0;
       font-size: 1.05rem;
       color: var(--text);
     }
-    section p, section li{
+
+    section p {
+      margin: 0.5rem 0 0.2rem;
+      color: var(--text);
+      max-width: 88ch;
+    }
+
+    section li {
       color: var(--muted);
     }
-    ul{
-      margin:.5rem 0 0 1.2rem;
-      padding:0;
-    }
-    li{ margin:.35rem 0; }
 
-    .two{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
+    .last {
+      margin-bottom: 17rem;
+    }
+
+    ul {
+      margin: .5rem 0 0 1.2rem;
+      padding: 0;
+    }
+
+    li {
+      margin: .35rem 0;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
-      align-items: start;
+      margin-top: 1rem;
     }
 
-    .card{
+    .card {
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       padding: 1rem;
     }
-    .card h4{
-      margin:0 0 .35rem 0;
+
+    .card h3 {
+      margin: 0 0 .35rem;
+      font-size: 1.05rem;
+    }
+
+    .card h4 {
+      margin: 0 0 .35rem 0;
       font-size: 1rem;
     }
-    .kpi{
-      display:grid;
+
+    .card ul {
+      margin: .55rem 0 0;
+      padding-left: 1.1rem;
+      color: var(--muted);
+    }
+
+    .card li {
+      margin: .25rem 0;
+    }
+
+
+    .kpi {
+      display: grid;
       grid-template-columns: 1fr 1fr;
       gap: .75rem;
       margin-top: .75rem;
     }
-    .kpi .metric{
+
+    .kpi .metric {
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: .85rem;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.04);
     }
-    .metric .name{
+
+    .metric .name {
       color: var(--faint);
       font-size: .82rem;
       letter-spacing: .04em;
       text-transform: uppercase;
       margin-bottom: .25rem;
     }
-    .metric .val{
+
+    .metric .val {
       font-family: var(--mono);
       font-size: 1rem;
       color: var(--text);
     }
 
-    .pillrow{
-      display:flex;
+    .pillrow {
+      display: flex;
       flex-wrap: wrap;
-      gap:.45rem;
+      gap: .45rem;
       margin-top: .5rem;
     }
-    .pill{
+
+    .pill {
       font-size: .82rem;
       padding: .25rem .55rem;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--muted);
     }
-    .pill.good{ border-color: rgba(52,211,153,0.28); background: rgba(52,211,153,0.08); }
-    .pill.warn{ border-color: rgba(251,191,36,0.28); background: rgba(251,191,36,0.08); }
-    .pill.bad{ border-color: rgba(251,113,133,0.28); background: rgba(251,113,133,0.08); }
 
-    details{
+    .pill.good {
+      border-color: rgba(52, 211, 153, 0.28);
+      background: rgba(52, 211, 153, 0.08);
+    }
+
+    .pill.warn {
+      border-color: rgba(251, 191, 36, 0.28);
+      background: rgba(251, 191, 36, 0.08);
+    }
+
+    .pill.bad {
+      border-color: rgba(251, 113, 133, 0.28);
+      background: rgba(251, 113, 133, 0.08);
+    }
+
+    details {
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.04);
       padding: .75rem .85rem;
       margin-top: .75rem;
     }
-    summary{
-      cursor:pointer;
+
+    summary {
+      cursor: pointer;
       color: var(--text);
       font-weight: 600;
     }
-    details p{ margin: .6rem 0 0 0; color: var(--muted); }
 
-    pre{
+    details p {
+      margin: .6rem 0 0 0;
+      color: var(--muted);
+    }
+
+    pre {
       margin: .75rem 0 0 0;
       padding: 1rem;
       border-radius: 14px;
       border: 1px solid var(--line);
-      background: rgba(0,0,0,0.25);
-      overflow:auto;
-      color: rgba(255,255,255,0.85);
+      background: rgba(0, 0, 0, 0.25);
+      overflow: auto;
+      color: rgba(255, 255, 255, 0.85);
       font-family: var(--mono);
       font-size: .9rem;
       line-height: 1.45;
     }
-    code{ font-family: var(--mono); }
 
-    .timeline{
-      display:flex;
+    code {
+      font-family: var(--mono);
+    }
+
+    .timeline {
+      display: flex;
       flex-direction: column;
-      gap:.75rem;
+      gap: .75rem;
       margin-top: .75rem;
     }
-    .step{
+
+    .step {
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.04);
       padding: .9rem;
-      display:flex;
-      gap:.85rem;
-      align-items:flex-start;
+      display: flex;
+      gap: .85rem;
+      align-items: flex-start;
     }
-    .step .n{
+
+    .step .n {
       width: 34px;
       height: 34px;
       border-radius: 12px;
-      display:grid;
-      place-items:center;
+      display: grid;
+      place-items: center;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.06);
       color: var(--text);
       font-family: var(--mono);
       flex: 0 0 auto;
     }
-    .step .t{
-      margin:0;
+
+    .step .t {
+      margin: 0;
       font-weight: 650;
       color: var(--text);
     }
-    .step .d{
-      margin:.25rem 0 0 0;
+
+    .step .d {
+      margin: .25rem 0 0 0;
       color: var(--muted);
     }
 
-    .footer{
+    .footer {
       color: var(--faint);
       text-align: center;
       padding: 1.5rem 0 0;
       font-size: .9rem;
     }
 
-    @media (max-width: 980px){
-      .hero{ grid-template-columns: 1fr; }
-      .grid{ grid-template-columns: 1fr; }
-      nav{ position: relative; top: auto; }
-      .two{ grid-template-columns: 1fr; }
-      .kpi{ grid-template-columns: 1fr; }
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: relative;
+        top: auto;
+      }
+
+      .two {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
@@ -418,7 +526,7 @@
         <a href="#tradeoffs">Tradeoffs</a>
         <a href="#risks">Risks & Mitigations</a>
         <a href="#org">Team & Operating Model</a>
-        <a href="#3090">First 30/60/90 Days</a>
+        <a href="#days">First 30/60/90 Days</a>
         <a href="#artifacts">Artifacts</a>
       </nav>
 
@@ -428,7 +536,8 @@
           <p>
             Search is one of the most visible user experiences — and one of the easiest ways to accidentally melt
             your backend. Today, Search lives inside a legacy Java monolith, shares a database with everything else,
-            and is tightly coupled to product releases. The result: slow iteration and frequent “why is Search down again?”
+            and is tightly coupled to product releases. The result: slow iteration and frequent “why is Search down
+            again?”
             incidents.
           </p>
           <div class="two">
@@ -535,7 +644,8 @@
         <section id="goals">
           <h2>Goals & Success Metrics</h2>
           <p>
-            This plan is designed to show how I translate an ambiguous “Search is bad” complaint into measurable outcomes.
+            This plan is designed to show how I translate an ambiguous “Search is bad” complaint into measurable
+            outcomes.
           </p>
 
           <div class="two">
@@ -627,11 +737,13 @@
               <div>
                 <p class="t">Phase 3 (Weeks 6–20): Extract Search with a strangler approach</p>
                 <p class="d">
-                  Create a dedicated Search service behind a stable API contract, gradually routing traffic away from the monolith.
+                  Create a dedicated Search service behind a stable API contract, gradually routing traffic away from
+                  the monolith.
                 </p>
                 <ul>
                   <li>Define Search API contract (query, filters, pagination, facets, ranking params)</li>
-                  <li>Stand up Search service (stateless) and Search index (e.g., OpenSearch/Elasticsearch or managed equivalent)</li>
+                  <li>Stand up Search service (stateless) and Search index (e.g., OpenSearch/Elasticsearch or managed
+                    equivalent)</li>
                   <li>Build an indexing pipeline: source-of-truth events → indexing → validation</li>
                   <li>Route traffic gradually: 1% → 5% → 25% → 100% with canaries and rollback</li>
                 </ul>
@@ -640,7 +752,8 @@
                   <summary>Indexing strategy (pragmatic first, cleaner later)</summary>
                   <p>
                     Start with a nightly backfill + incremental updates from change events (CDC or app events).
-                    Add idempotency + replay to handle failures. Later, move toward stronger domain boundaries and ownership.
+                    Add idempotency + replay to handle failures. Later, move toward stronger domain boundaries and
+                    ownership.
                   </p>
                 </details>
               </div>
@@ -742,7 +855,8 @@
         <section id="org">
           <h2>Team & Operating Model</h2>
           <p>
-            Search succeeds when it’s treated as a product *and* a platform. Here’s the lightweight operating model I’d establish.
+            Search succeeds when it’s treated as a product *and* a platform. Here’s the lightweight operating model I’d
+            establish.
           </p>
 
           <div class="two">
@@ -773,7 +887,7 @@
           </details>
         </section>
 
-        <section id="3090">
+        <section id="days">
           <h2>First 30/60/90 Days</h2>
 
           <div class="timeline">
@@ -866,7 +980,6 @@ Follow-up:
   </div>
 
   <script>
-    // Highlight active nav link based on scroll position
     const navLinks = Array.from(document.querySelectorAll("nav a"));
     const sections = navLinks
       .map(a => document.querySelector(a.getAttribute("href")))
@@ -877,34 +990,13 @@ Follow-up:
         if (!entry.isIntersecting) return;
         const id = "#" + entry.target.id;
         navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === id));
-        // Update URL hash without jumping
         history.replaceState(null, "", id);
       });
     }, { rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
 
     sections.forEach(s => observer.observe(s));
 
-    // Copy section link
-    const copyBtn = document.getElementById("copyLinkBtn");
-    copyBtn.addEventListener("click", async () => {
-      const hash = location.hash || "#problem";
-      const url = location.origin + location.pathname + hash;
-      try{
-        await navigator.clipboard.writeText(url);
-        copyBtn.textContent = "Copied!";
-        setTimeout(() => copyBtn.textContent = "Copy section link", 900);
-      }catch(e){
-        // Fallback
-        const ta = document.createElement("textarea");
-        ta.value = url;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
-        copyBtn.textContent = "Copied!";
-        setTimeout(() => copyBtn.textContent = "Copy section link", 900);
-      }
-    });
   </script>
 </body>
+
 </html>

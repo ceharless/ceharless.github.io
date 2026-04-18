@@ -462,6 +462,10 @@
         grid-template-columns: 1fr;
       }
 
+      .btn {
+        width: 85%;
+      }
+
       .grid {
         grid-template-columns: 1fr;
       }

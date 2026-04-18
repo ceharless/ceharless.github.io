@@ -70,7 +70,7 @@
       opacity: 0.8;
     }
 
-    .hero {
+    .header {
       position: relative;
       z-index: 1;
       display: grid;
@@ -88,7 +88,6 @@
     .subtitle {
       margin: .25rem 0 0 0;
       color: var(--muted);
-      max-width: 70ch;
     }
 
     .cta {
@@ -446,6 +445,10 @@
       .kpi {
         grid-template-columns: 1fr;
       }
+
+      .desktop-only {
+        display: none;
+      }
     }
 
     @media (min-width: 980px) {
@@ -458,4 +461,8 @@
       font-size: 1.25rem;
       text-align: center;
       color: red;
+    }
+
+    .no-background {
+      background: transparent;
     }

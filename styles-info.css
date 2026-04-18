@@ -41,6 +41,10 @@ h2 {
   padding-top: 1rem;
 }
 
+p {
+  margin: 0.5rem;
+}
+
 pre {
   display: block;
   font-family: monospace;
@@ -57,7 +61,6 @@ pre {
 ul {
   padding-left: 3rem;
 }
-
 
 .case-section {
   padding-left: 1rem;

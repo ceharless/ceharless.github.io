@@ -24,10 +24,6 @@
             A diagram-driven architecture walkthrough: requirements, high-level design, ranking & personalization,
             metadata pipelines, caching, real-time signals, and resilience.
           </p>
-          <div class="chips">
-            <div class="chip">Read-Heavy System</div>
-            <div class="chip">Diagram-First</div>
-          </div>
         </div>
         <aside class="cta">
           <h2>TL;DR Pitch</h2>
@@ -122,12 +118,10 @@
             then returns a ranked, hydrated response.
           </p>
 
+          <h3>Diagram A: High-level Architecture</h3>
           <div class="diagram">
-            <div class="diagram-header">
-              <span>Diagram A — High-level architecture</span><br />
-              <span>Client → Gateway → Orchestrator → (Rec/Search/Trending/Metadata) → Rank → Cache</span>
-            </div>
             <div class="diagram-body">
+              <span>Client → Gateway → Orchestrator → (Rec/Search/Trending/Metadata) → Rank → Cache</span>
               <!-- Inline SVG diagram (no external dependencies) -->
               <svg viewBox="0 0 1100 420" width="100%" height="auto" role="img"
                 aria-label="High-level discovery architecture diagram">
@@ -225,9 +219,8 @@
 
               <p class="caption">
                 The <strong>Discovery Orchestrator</strong> enforces a latency budget: it fans out in parallel,
-                aggregates results,
-                applies business rules, hydrates metadata, and returns a ranked response. Caching lives at multiple
-                layers.
+                aggregates results, applies business rules, hydrates metadata, and returns a ranked response.
+                Caching lives at multiple layers.
               </p>
             </div>
           </div>
@@ -285,12 +278,11 @@
               </ul>
             </div>
           </div>
+
+          <h3>Diagram B: Recommendation Stages</h3>
           <div class="diagram">
-            <div class="diagram-header">
-              <span>Diagram B — Recommendation stages</span><br />
-              <span>Generate → Filter → Rank → Re-rank</span>
-            </div>
             <div class="diagram-body">
+              <span>Generate → Filter → Rank → Re-rank</span>
               <svg viewBox="0 0 1100 220" width="100%" height="auto" role="img"
                 aria-label="Recommendation pipeline diagram">
                 <defs>
@@ -382,12 +374,10 @@
             complete, and fresh.
           </p>
 
+          <h3>Diagram C: Metadata Ingestion & Indexing</h3>
           <div class="diagram">
-            <div class="diagram-header">
-              <span>Diagram C — Metadata ingestion & indexing</span><br />
-              <span>Ingest → Store → Index → Feature store</span>
-            </div>
             <div class="diagram-body">
+              <span>Ingest → Store → Index → Feature store</span>
               <svg viewBox="0 0 1100 260" width="100%" height="auto" role="img" aria-label="Metadata pipeline diagram">
                 <defs>
                   <style>
@@ -530,12 +520,10 @@
             services.
           </p>
 
+          <h3>Diagram D: Streaming Signals → Feature Store → Online Ranking</h3>
           <div class="diagram">
-            <div class="diagram-header">
-              <span>Diagram D — Streaming signals → feature store → online ranking</span><br />
-              <span>Events • Kafka/Kinesis • Flink/Spark • Feature store</span>
-            </div>
             <div class="diagram-body">
+              <span>Events • Kafka/Kinesis • Flink/Spark • Feature store</span>
               <svg viewBox="0 0 1100 250" width="100%" height="auto" role="img"
                 aria-label="Real-time personalization diagram">
                 <defs>
@@ -597,8 +585,7 @@
 
               <p class="caption">
                 Streaming keeps personalization fresh while keeping request latency low: compute features continuously,
-                then
-                score quickly online.
+                then score quickly online.
               </p>
             </div>
           </div>
@@ -619,7 +606,7 @@
               </ul>
             </div>
             <div class="card">
-              <h3>Graceful degradation</h3>
+              <h3>Graceful Degradation</h3>
               <ul>
                 <li>If personalization times out → fallback to trending</li>
                 <li>If metadata hydration fails → return minimal cards</li>
@@ -647,30 +634,30 @@
                 <th>Decision</th>
                 <th>Option A</th>
                 <th>Option B</th>
-                <th>Typical choice</th>
+                <th>Typical Choice</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Consistency vs freshness</td>
+                <td>Consistency vs Freshness</td>
                 <td>Strong consistency (slower)</td>
                 <td>Eventual consistency (faster)</td>
                 <td>Eventual consistency for feeds</td>
               </tr>
               <tr>
-                <td>Precompute vs real-time rank</td>
+                <td>Precompute vs Real-time Rank</td>
                 <td>Precompute (cheap, fast)</td>
                 <td>Real-time (more relevant, costly)</td>
                 <td>Hybrid: precompute + re-rank</td>
               </tr>
               <tr>
-                <td>Unified vs separate indexes</td>
+                <td>Unified vs Separate Indexes</td>
                 <td>Unified metadata/index</td>
                 <td>Separate per feature team</td>
                 <td>Unified for consistency</td>
               </tr>
               <tr>
-                <td>Fan-out orchestration</td>
+                <td>Fan-out Orchestration</td>
                 <td>Central orchestrator</td>
                 <td>Client-side aggregation</td>
                 <td>Central orchestrator</td>
@@ -684,7 +671,7 @@
 
           <div class="two">
             <div class="card">
-              <h3>Common failure modes</h3>
+              <h3>Common Failure Modes</h3>
               <ul>
                 <li>Recommendation service timeout</li>
                 <li>Cache-miss stampede</li>

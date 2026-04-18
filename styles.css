@@ -58,32 +58,30 @@ h3 {
 }
 
 .hero-content {
-  max-width: 1050px;
-  margin-top: 1rem;
+  margin-top: 0;
   margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
   padding-top: 0;
-  padding-bottom: 6rem;
+  padding-bottom: 4rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
 
 .hero h1 {
   font-size: 2.6rem;
-  margin-bottom: 0.75rem
+  margin-bottom: 0.75rem;
 }
 
 .scroll-down {
-  padding-top: 2rem;
+  margin: 0.5rem;
 }
 
 .subtitle {
   font-size: 1rem;
   color: var(--muted);
-  max-width: 900px;
-  margin: 0 auto
+  margin: 0 auto;
 }
 
 .hero-image {
@@ -105,8 +103,15 @@ h3 {
   border: 3px solid var(--border);
 }
 
+.tagline {
+  margin: 1rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
 .metrics-strip {
-  margin: 2rem auto 0;
+  margin: 1rem;
+  margin-top: 1.5rem;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
@@ -136,7 +141,7 @@ h3 {
 }
 
 .cta-row {
-  margin-top: 1.75rem;
+  margin: 1.5rem;
   display: flex;
   gap: 0.9rem;
   justify-content: center;
@@ -218,6 +223,16 @@ h3 {
   color: var(--text)
 }
 
+.card {
+  padding: 1rem;
+  margin: 1rem;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
 .case-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -230,7 +245,7 @@ h3 {
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
-  height: 275px;
+  height: 250px;
 }
 
 .case-card-link {
@@ -263,22 +278,21 @@ h3 {
   padding-bottom: 3rem;
   margin-top: 1rem;
   margin-bottom: 3rem;
-
 }
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
   margin-top: 1rem;
 }
 
 .skills-card {
   padding: 1rem;
+  padding-bottom: 1.5rem;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
-  height: 200px;
 }
 
 .skills-card ul {
@@ -310,12 +324,6 @@ h3 {
   border: 1px solid var(--border);
   background: var(--panel);
   height: 175px;
-}
-
-.about-tagline {
-  margin-top: 1.25rem;
-  text-align: center;
-  font-size: 1.25rem;
 }
 
 .teaching-grid {
@@ -697,12 +705,16 @@ body.hero-animate .hero-content .cta-row {
   animation-delay: 1s;
 }
 
-body.hero-animate .hero-content .metrics-strip {
+body.hero-animate .hero-content .tagline {
   animation-delay: 1.5s;
 }
 
-body.hero-animate .hero-content .scroll-down {
+body.hero-animate .hero-content .metrics-strip {
   animation-delay: 2s;
+}
+
+body.hero-animate .hero-content .scroll-down {
+  animation-delay: 2.5s;
 }
 
 .about-img {

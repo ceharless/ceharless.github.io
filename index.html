@@ -34,10 +34,34 @@
       document.body.style.overflow = "auto";
     }
 
+    function openNav() {
+      document.getElementById("mySidenav").classList.add("navOpen");
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").classList.remove("navOpen");
+    }
+
   </script>
 </head>
 
-<body class="hero-animate">
+<body id="#top" class="hero-animate">
+
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#about">About</a>
+    <a href="#career">Seeking Opportunities</a>
+    <a href="#cases">Case Studies</a>
+    <a href="#info">Information Studies</a>
+    <a href="#timeline">Career Timeline</a>
+    <a href="#teaching">Teaching & Research</a>
+    <a href="#writing">Articles</a>
+    <a href="#skills">Core Skills</a>
+    <a href="#contact">Contact</a>
+    <a href="#top" class="to-top">↑ top</a>
+  </div>
+
+  <span class="menuButton" onclick="openNav()">&#9776;</span>
 
   <header class="hero reveal">
     <div class="hero-content">
@@ -205,7 +229,7 @@
   <hr class="mobile-only" />
 
   <section id="info" class="section">
-    <h2>High-Level Informational Studies</h2>
+    <h2>Informational Studies</h2>
     <div class="case-grid">
       <article class="case-card highlight-card" tabindex="0">
         <h3>Scaling Media Platforms</h3>
@@ -470,11 +494,20 @@
       <div class="footer-copyright">
         <p>© 2026 Charles Harless</p>
       </div>
-      <div class="footer-top">
-        <a class="to-top" href="#top" aria-label="Go to top">↑ top</a>
-      </div>
     </div>
   </footer>
+
+  <script>
+    const menuLinks = document.querySelectorAll('.sidenav a');
+    const overlay = document.getElementById('mySidenav');
+
+    menuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        overlay.classList.remove('navOpen');
+      });
+    });
+
+  </script>
 
 </body>
 

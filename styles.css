@@ -153,6 +153,59 @@ h3 {
   text-align: center;
 }
 
+.menuButton {
+  font-size: 30px;
+  cursor: pointer;
+  position: fixed;
+  top: 12px;
+  left: 20px;
+  z-index: 2;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--charcoal);
+  overflow-x: hidden;
+  transition: all 0.5s ease-in allow-discrete;
+  padding-top: 60px;
+  z-index: 1;
+}
+
+.sidenav a {
+  padding: 5px 5px 5px 20px;
+  text-decoration: none;
+  font-size: 1.25rem;
+  color: var(--muted);
+  display: block;
+  transition: all 0.3s ease-out allow-discrete;
+}
+
+.sidenav a:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 2px;
+  right: 20px;
+  font-size: 36px;
+}
+
+.navOpen {
+  width: 250px;
+}
+
+.to-top {
+  margin-top: 15px !important;
+  font-size: 1rem !important;
+}
+
 .section {
   padding-bottom: 2rem;
   padding-top: 2rem;
@@ -195,33 +248,16 @@ h3 {
 }
 
 .footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
+  text-align: center;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
   max-width: 80%;
-  margin-top: 0;
+  margin-top: 0.5rem;
   margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
   color: var(--muted);
-}
-
-.to-top {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 0.85rem;
-  color: var(--muted);
-  font-size: 0.8rem;
-  border-radius: 24px;
-  border: 1px solid var(--border);
-}
-
-.to-top:hover {
-  border-color: rgba(56, 189, 248, 0.45);
-  color: var(--text)
 }
 
 .card {
@@ -624,6 +660,12 @@ h3 {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
+
+  .section h2 {
+    font-size: 1.75rem;
+    margin-left: 2rem;
+  }
+
 
   body {
     background: var(--charcoal-light);

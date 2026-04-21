@@ -822,7 +822,7 @@ body.hero-animate .hero-content .scroll-down {
     padding-left: 15px;
   }
 
-  .about-img {
+  .desktop-only {
     display: none;
   }
 

@@ -90,7 +90,7 @@ h3 {
   width: 200px;
   height: 200px;
   margin: 0 auto;
-  margin-top: 3rem;
+  margin-top: 4rem;
 }
 
 .hero-image img {
@@ -173,7 +173,7 @@ h3 {
   left: 0;
   background: var(--charcoal);
   overflow-x: hidden;
-  transition: all 0.5s ease-in allow-discrete;
+  transition: all 0.5s ease-in;
   padding-top: 2.5rem;
   z-index: 1600;
 }
@@ -186,7 +186,7 @@ h3 {
   font-size: 1.25rem;
   color: var(--muted);
   display: block;
-  transition: all 0.3s ease-out allow-discrete;
+  transition: none;
 }
 
 .sidenav a:hover {

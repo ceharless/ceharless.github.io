@@ -74,7 +74,7 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
+      grid-template-columns: 1fr;
       gap: 1.25rem;
       align-items: start;
     }
@@ -228,7 +228,7 @@
     }
 
     ul {
-      margin: .5rem 0 0 1.2rem;
+      margin: .5rem 0 0 2.5rem;
       padding: 0;
     }
 
@@ -261,41 +261,13 @@
     }
 
     .card ul {
-      margin: .55rem 0 0;
+      margin: .55rem 0 0 1.5rem;
       padding-left: 1.1rem;
       color: var(--muted);
     }
 
     .card li {
       margin: .25rem 0;
-    }
-
-    .kpi {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .75rem;
-      margin-top: .75rem;
-    }
-
-    .kpi .metric {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: .85rem;
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .metric .name {
-      color: var(--faint);
-      font-size: .82rem;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      margin-bottom: .25rem;
-    }
-
-    .metric .val {
-      font-family: var(--mono);
-      font-size: 1rem;
-      color: var(--text);
     }
 
     details {
@@ -467,7 +439,7 @@
       }
 
       .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
 
       nav {
@@ -476,10 +448,6 @@
       }
 
       .two {
-        grid-template-columns: 1fr;
-      }
-
-      .kpi {
         grid-template-columns: 1fr;
       }
 

@@ -28,461 +28,437 @@
 
 <body>
   <div class="wrap">
-    <div class="mobile-only">
-      <p class="warn"><strong>NOTICE!</strong> Case studies are not available for mobile devices</p>
-    </div>
 
     <header>
       <div class="header">
-        <div>
-          <h1>Scaling Streaming Platforms to Millions of Users</h1>
-          <p class="subtitle">
-            Streaming platforms are among the most operationally demanding systems in modern software. Unlike
-            traditional web applications, media platforms must support highly variable traffic patterns, deliver
-            low-latency experiences globally, and coordinate across a large set of distributed systems—all while
-            maintaining a seamless user experience.
-          </p>
-          <p class="subtitle">
-            This case study outlines the architectural and operational patterns used to build and scale media platforms
-            capable of supporting millions of users without sacrificing performance, reliability, or delivery speed.
-          </p>
-        </div>
+        <h1>Scaling Streaming Platforms to Millions of Users</h1>
+        <p class="subtitle">
+          Streaming platforms are among the most operationally demanding systems in modern software. Unlike
+          traditional web applications, media platforms must support highly variable traffic patterns, deliver
+          low-latency experiences globally, and coordinate across a large set of distributed systems—all while
+          maintaining a seamless user experience.</p>
+        <p class="subtitle">
+          Across my work on large-scale media and streaming platforms at companies including Disney, Amazon, and
+          NBCUniversal, I worked on systems that needed to reliably serve millions of users while integrating content
+          services, identity systems, partner APIs, and global media delivery infrastructure. These systems had to
+          remain highly available during major content launches, traffic surges, and continuous product iteration.</p>
+        <p class="subtitle">
+          This case study outlines the architectural and operational patterns used to build and scale media platforms
+          capable of supporting millions of users without sacrificing performance, reliability, or delivery speed.
+        </p>
+      </div>
 
-        <aside class="cta">
-          <h2>TL;DR Pitch</h2>
+    </header>
+
+    <div class="grid">
+      <nav aria-label="Table of contents" class="desktop-only">
+        <div class="label">Sections</div>
+        <a href="#problem">Problem Statement</a>
+        <a href="#context">Context & Constraints</a>
+        <a href="#requirements">Requirements</a>
+        <a href="#architecture">High-Level Architecture</a>
+        <a href="#flow">Request Flow</a>
+        <a href="#services">Core Services</a>
+        <a href="#scaling">Scaling & Caching Strategy</a>
+        <a href="#latency">Latency Optimization</a>
+        <a href="#ops">Operational Excellence</a>
+        <a href="#scaling">Scaling & Caching Strategy</a>
+        <a href="#tradeoffs">Tradeoffs</a>
+        <a href="#risks">Risks & Mitigations</a>
+        <a href="#goals">Outcomes & Key Takeaways</a>
+        <br />
+        <a href="index.html" class="returnHome">Return Home</a>
+      </nav>
+
+      <main>
+        <section id="problem">
+          <h2>Problem Statement</h2>
+          <div class="card">
+            <p>
+              Streaming systems operate under highly dynamic load conditions. Traffic is rarely steady. New content
+              releases, homepage promotions, product launches, live events, and marketing campaigns can create
+              immediate spikes in demand, often within minutes. At scale, the challenge is not simply serving video.
+              The challenge is coordinating an entire ecosystem
+              of services that must all perform reliably under load.
+            </p>
+            <ul>
+              <li>User authentication and entitlement</li>
+              <li>Content metadata retrieval</li>
+              <li>Playback authorization</li>
+              <li>Billing and subscription validation</li>
+              <li>Search and recommendations</li>
+              <li>Media delivery and CDN routing</li>
+              <li>Analytics and event collection</li>
+              <li>Third-party partner integrations</li>
+              <li>Slow or inconsistent results during peak usage</li>
+            </ul>
+            <p>
+              A delay in any one of these systems can degrade the entire user experience. Even if the video CDN is
+              healthy, failures in authentication, entitlement, or metadata can prevent playback entirely. The core
+              challenge was designing a platform that could absorb unpredictable demand, maintain low
+              latency, and continue operating reliably even when individual dependencies degraded.
+            </p>
+          </div>
+        </section>
+
+        <section id="context">
+          <h2>Context & Constraints</h2>
+          <p>Media platforms operate with a unique set of constraints that make scaling especially difficult.</p>
+          <div class="two">
+            <div class="card">
+              <h4>1. Traffic is highly bursty</h4>
+              <p>Unlike enterprise systems with relatively predictable load, media platforms experience abrupt and
+                uneven demand. A major release can create a sharp traffic spike in minutes, often concentrated around
+                specific regions or devices. Systems must be designed for elasticity—not just peak throughput.</p>
+            </div>
+            <div class="card">
+              <h4>2. User expectations are unforgiving</h4>
+              <p>Playback systems have near-zero tolerance for latency or failure. Users may tolerate a slow-loading
+                retail page. They will not tolerate buffering, failed playback, or login interruptions during a
+                premium viewing experience.</p>
+            </div>
+            <div class="card">
+              <h4>3. The platform is dependency-heavy</h4>
+              <p>Streaming platforms are orchestration systems. Playback often depends on successful coordination
+                across internal services and third-party systems which creates significant operational complexity and
+                many potential points of failure. These points of failure include identity providers, billing vendors,
+                DRM providers,
+                content partners, device platforms, and recommendation engines</p>
+            </div>
+            <div class="card">
+              <h4>4. Reliability must coexist with rapid delivery</h4>
+              <p>
+                Media platforms are product-driven environments. Teams must continuously ship features, improve UX,
+                support new devices, and integrate new partners—all without introducing downtime. That makes
+                operational maturity just as important as architecture.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        <section id="requirements">
+          <h2>Requirements</h2>
+          <p>To support large-scale streaming workloads, the platform needed to meet several core requirements:</p>
+          <div class="two">
+            <div class="card">
+              <h3>Functional Requirements</h3>
+              <ul>
+                <li>Support millions of concurrent users</li>
+                <li>Deliver content globally with low latency</li>
+                <li>Authenticate and authorize users reliably</li>
+                <li>Serve content metadata quickly and consistently</li>
+                <li>Support playback entitlement and subscription checks</li>
+                <li>Integrate with partner systems and external APIs</li>
+                <li>Enable frequent product releases without service interruption</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Non-Functional Requirements</h3>
+              <ul>
+                <li>High availability across all critical services</li>
+                <li>Low-latency API response times</li>
+                <li>Fault tolerance across service dependencies</li>
+                <li>Horizontal scalability under burst traffic</li>
+                <li>Strong observability and operational visibility</li>
+                <li>Safe deployment patterns with rollback support</li>
+              </ul>
+            </div>
+          </div>
+
+        </section>
+
+        <section id="architecture">
+          <h2>High-Level Architecture</h2>
           <p>
-            Across my work on large-scale media and streaming platforms at companies including Disney, Amazon, and
-            NBCUniversal, I worked on systems that needed to reliably serve millions of users while integrating content
-            services, identity systems, partner APIs, and global media delivery infrastructure. These systems had to
-            remain highly available during major content launches, traffic surges, and continuous product iteration.
+            To meet these requirements, the platform was designed as a service-oriented distributed system with clear
+            separation of concerns. This architecture allowed services to scale independently, reduced blast radius,
+            and enabled teams to iterate on bounded domains without tightly coupling release cycles. At a high level,
+            the architecture consisted of:
           </p>
-        </aside>
+          <div class="card">
+            <ul>
+              <li><strong>Client Applications</strong> - Web, mobile, smart TV, and partner device clients</li>
+              <li><strong>Edge Layer / CDN</strong> - Static asset caching, media delivery, edge routing, request
+                offload</li>
+              <li><strong>API Gateway</strong> - Request routing, authentication enforcement, rate limiting,
+                observability</li>
+              <li><strong>Core Platform Services</strong> - Identity, entitlement, catalog, playback, billing, search,
+                recommendations</li>
+              <li><strong>Async Processing Layer</strong> - Event pipelines, ingestion, analytics, notifications,
+                partner sync</li>
+              <li><strong>Data Layer</strong> - Relational systems, distributed caches, search indexes, object storage
+              </li>
+              <li><strong>Observability & Operations Layer</strong> - Metrics, tracing, dashboards, alerting,
+                deployment automation
+              </li>
 
+            </ul>
+          </div>
+        </section>
+
+        <section id="flow">
+          <h2>Request Flow</h2>
+          <p>A typical playback request illustrates the orchestration challenge. This flow demonstrates a key reality
+            of streaming systems: video delivery is only the final step. The user
+            experience depends on the successful coordination of many lower-latency service calls before the first
+            frame
+            is ever delivered.</p>
+          <div class="card">
+            <h3>User Playback Flow</h3>
+            <ol>
+              <li>User opens app and requests content</li>
+              <li>Client requests metadata from API gateway</li>
+              <li>Gateway routes request to catalog service</li>
+              <li>Catalog service returns title metadata, availability, and playback options</li>
+              <li>Client initiates playback request</li>
+              <li>Playback service validates:
+                <ul>
+                  <li>user identity</li>
+                  <li>subscription status</li>
+                  <li>entitlement</li>
+                  <li>device compatibility</li>
+                  <li>regional restrictions</li>
+                </ul>
+              </li>
+              <li>Playback service requests DRM / tokenized playback authorization</li>
+              <li>Signed playback URL returned to client</li>
+              <li>Client streams media through CDN</li>
+              <li>Playback and engagement events are asynchronously published for analytics</li>
+
+            </ol>
+          </div>
+
+        </section>
+
+        <section id="services">
+          <h2>Core Services</h2>
+          <p>Several services consistently sat on the critical path and required the highest reliability investment.
+          </p>
+          <div class="two">
+            <div class="card">
+              <h3>Identity & Authentication</h3>
+              <p>Handled login, session validation, token refresh, and account authentication. This service had to remain fast, highly available, and resilient to downstream identity provider
+                issues.</p>
+            </div>
+            <div class="card">
+              <h3>Entitlement & Authorization</h3>
+              <p>Validated whether a user had rights to access content based on purchase history, subscription state,
+                region, and licensing constraints. This service was often one of the most business-critical components because
+                it sat directly on the playback
+                path.</p>
+            </div>
+            <div class="card">
+              <h3>Catalog & Metadata</h3>
+              <p>Served title metadata, artwork, availability, content relationships, and regional variants. High read volume made aggressive caching essential.</p>
+            </div>
+            <div class="card">
+              <h3>Content Management System</h3>
+              <p>Served non-title specific information for the application</p>
+            </div>
+
+            <div class="card">
+              <h3>Playback Service</h3>
+              <p>Orchestrated entitlement checks, device validation, DRM, playback token generation, and stream
+                authorization. This was the most latency-sensitive backend service before video delivery began.</p>
+            </div>
+            <div class="card">
+              <h3>Event & Analytics Pipeline</h3>
+              <p>Handled playback telemetry, engagement events, quality metrics, and downstream analytics. This system needed to scale independently and remain asynchronous to avoid impacting user-facing latency.</p>
+            </div>
+          </div>
+
+        </section>
+
+        <section id="scaling">
+          <h2>Scaling & Caching Strategy</h2>
+          <p>Scaling was driven primarily through horizontal elasticity, aggressive caching, and asynchronous
+            decoupling.</p>
+
+          <div class="two">
+            <div class="card">
+              <h3>Horizontal Scaling</h3>
+              <p>Stateless services were deployed behind load balancers and scaled horizontally based on various
+                factors. This allowed services to expand rapidly during content spikes.</p>
+              <ul>
+                <li>request volume</li>
+                <li>CPU utilization</li>
+                <li>latency thresholds</li>
+                <li>queue depth</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>CDN Offload</h3>
+              <p>CDNs absorbed the majority of static and media traffic, dramatically reducing origin load and
+                improving
+                global latency. This was one of the highest-leverage scaling decisions in the platform.</p>
+            </div>
+            <div class="card">
+              <h3>Distributed Caching</h3>
+              <p>Caching was critical for protecting core services from repeated high-volume reads. Caching reduced
+                pressure on downstream systems and significantly improved tail latency. Common cache targets included:
+              </p>
+              <ul>
+                <li>content metadata</li>
+                <li>entitlement snapshots</li>
+                <li>session tokens</li>
+                <li>configuration data</li>
+                <li>feature flags</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Async Decoupling</h3>
+              <p>Non-critical workflows were removed from synchronous request paths and handled asynchronously. This
+                reduced latency on customer-facing paths and improved resilience under load.</p>
+              <ul>
+                <li>analytics events</li>
+                <li>notifications</li>
+                <li>reporting</li>
+                <li>partner synchronization</li>
+                <li>recommendation updates</li>
+              </ul>
+            </div>
+          </div>
+
+        </section>
+
+        <section id="latency">
+          <h2>Latency Optimization</h2>
+          <p>Latency optimization focused less on any single service and more on reducing dependency cost across the
+            request chain. At scale, small latency improvements compound quickly. Saving 30–50 ms across several
+            services can
+            materially improve startup time and playback success rates.</p>
+          <p>Key optimizations included:</p>
+          <ul>
+            <li>minimizing synchronous service hops</li>
+            <li>caching high-frequency reads</li>
+            <li>parallelizing downstream requests where possible</li>
+            <li>using precomputed entitlement and metadata views</li>
+            <li>reducing payload size for mobile and device clients</li>
+            <li>keeping critical-path APIs narrowly scoped</li>
+            <li>shifting non-essential work to async pipelines</li>
+          </ul>
+        </section>
+
+        <section id="ops">
+          <h2>Operational Excellence</h2>
+          <p>Architecture alone does not keep systems reliable at scale. Operational discipline is equally important.
+            These capabilities reduced mean time to detect, isolate, and recover from incidents while allowing teams
+            to continue shipping safely.
+          </p>
+          <p>Key operational investments included:</p>
+          <ul>
+            <li>centralized observability dashboards</li>
+            <li>service-level latency and error monitoring</li>
+            <li>distributed tracing across request chains</li>
+            <li>automated alerting and incident routing</li>
+            <li>canary deployments</li>
+            <li>rollback automation</li>
+            <li>dependency health monitoring</li>
+            <li>load and failure testing</li>
+          </ul>
+        </section>
+
+        <section id="tradeoffs">
+          <h2>Tradeoffs</h2>
+          <p>Several architectural tradeoffs were necessary. These tradeoffs were manageable, but only with strong
+            engineering standards and operational maturity.</p>
+
+          <div class="two">
+            <div class="card">
+              <h3>Microservices vs Operational Complexity</h3>
+              <p>Microservices improved scaling and ownership boundaries, but introduced more network dependencies,
+                operational overhead, and observability complexity.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Aggressive Caching vs Consistency</h3>
+              <p>Caching improved performance and resilience, but introduced staleness risks—especially for
+                entitlement and subscription state.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Async Processing vs Debuggability</h3>
+              <p>Asynchronous workflows improved performance and fault isolation, but made debugging and traceability
+                more complex.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Fast Iteration vs Stability</h3>
+              <p>Frequent releases accelerated product velocity, but required stronger deployment discipline and
+                better safeguards.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+        <section id="risks">
+          <h2>Risks & Mitigations</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Risk</th>
+                <th>Mitigation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Traffic spikes overwhelm origin services</td>
+                <td>Horizontal autoscaling, CDN offload, rate limiting</td>
+              </tr>
+              <tr>
+                <td>Downstream dependency failure impacts playback</td>
+                <td>Timeouts, retries, circuit breakers, fallbacks</td>
+              </tr>
+              <tr>
+                <td>Cache stampedes under burst load</td>
+                <td>Request coalescing, TTL jitter, cache warming</td>
+              </tr>
+              <tr>
+                <td>Deployment regressions affect availability</td>
+                <td>Canary releases, rollback automation, health checks</td>
+              </tr>
+              <tr>
+                <td>Slow service chains increase startup latency</td>
+                <td>Request path simplification, caching, async offload</td>
+              </tr>
+              <tr>
+                <td>Third-party partner instability</td>
+                <td>Isolation layers, retries, graceful degradation</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="outcomes">
+          <h2>Outcomes & Key Takeaways</h2>
+          <p>Scaling streaming systems is less about a single architectural choice and more about building disciplined
+            systems across architecture, operations, and delivery. The most effective patterns consistently were:</p>
+          <ul>
+            <li>clear service boundaries</li>
+            <li>aggressive edge and metadata caching</li>
+            <li>async decoupling of non-critical work</li>
+            <li>strong observability and incident response</li>
+            <li>deployment automation with safe rollback paths</li>
+          </ul>
+          <p>
+            The core lesson was simple: systems scale best when architecture and operations are designed together. At
+            large scale, reliability is not just a technical outcome. It is a product feature.
+          </p>
+
+        </section>
         <div class="cta-row mobile-only">
           <a href="index.html" class="btn">Return Home</a>
         </div>
 
-      </div>
-    </header>
 
-    <div class="desktop-only">
-      <div class="grid">
-        <nav aria-label="Table of contents">
-          <div class="label">Sections</div>
-          <a href="#problem">Problem Statement</a>
-          <a href="#context">Context & Constraints</a>
-          <a href="#requirements">Requirements</a>
-          <a href="#architecture">High-Level Architecture</a>
-          <a href="#flow">Request Flow</a>
-          <a href="#services">Core Services</a>
-          <a href="#scaling">Scaling & Caching Strategy</a>
-          <a href="#latency">Latency Optimization</a>
-          <a href="#ops">Operational Excellence</a>
-          <a href="#scaling">Scaling & Caching Strategy</a>
-          <a href="#tradeoffs">Tradeoffs</a>
-          <a href="#risks">Risks & Mitigations</a>
-          <a href="#goals">Outcomes & Key Takeaways</a>
-          <br />
-          <a href="index.html" class="returnHome">Return Home</a>
-        </nav>
-
-        <main>
-          <section id="problem">
-            <h2>Problem Statement</h2>
-            <div class="card">
-              <p>
-                Streaming systems operate under highly dynamic load conditions. Traffic is rarely steady. New content
-                releases, homepage promotions, product launches, live events, and marketing campaigns can create
-                immediate spikes in demand, often within minutes. At scale, the challenge is not simply serving video.
-                The challenge is coordinating an entire ecosystem
-                of services that must all perform reliably under load.
-              </p>
-              <ul>
-                <li>User authentication and entitlement</li>
-                <li>Content metadata retrieval</li>
-                <li>Playback authorization</li>
-                <li>Billing and subscription validation</li>
-                <li>Search and recommendations</li>
-                <li>Media delivery and CDN routing</li>
-                <li>Analytics and event collection</li>
-                <li>Third-party partner integrations</li>
-                <li>Slow or inconsistent results during peak usage</li>
-              </ul>
-              <p>
-                A delay in any one of these systems can degrade the entire user experience. Even if the video CDN is
-                healthy, failures in authentication, entitlement, or metadata can prevent playback entirely. The core
-                challenge was designing a platform that could absorb unpredictable demand, maintain low
-                latency, and continue operating reliably even when individual dependencies degraded.
-              </p>
-            </div>
-          </section>
-
-          <section id="context">
-            <h2>Context & Constraints</h2>
-            <p>Media platforms operate with a unique set of constraints that make scaling especially difficult.</p>
-            <div class="two">
-              <div class="card">
-                <h4>1. Traffic is highly bursty</h4>
-                <p>Unlike enterprise systems with relatively predictable load, media platforms experience abrupt and
-                  uneven demand. A major release can create a sharp traffic spike in minutes, often concentrated around
-                  specific regions or devices. Systems must be designed for elasticity—not just peak throughput.</p>
-              </div>
-              <div class="card">
-                <h4>2. User expectations are unforgiving</h4>
-                <p>Playback systems have near-zero tolerance for latency or failure. Users may tolerate a slow-loading
-                  retail page. They will not tolerate buffering, failed playback, or login interruptions during a
-                  premium viewing experience.</p>
-              </div>
-              <div class="card">
-                <h4>3. The platform is dependency-heavy</h4>
-                <p>Streaming platforms are orchestration systems. Playback often depends on successful coordination
-                  across internal services and third-party systems which creates significant operational complexity and
-                  many potential points of failure.</p>
-                <ul>
-                  <li>Identity providers</li>
-                  <li>Billing vendors</li>
-                  <li>DRM providers</li>
-                  <li>Content partners</li>
-                  <li>Device platforms</li>
-                  <li>Recommendation engines</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>4. Reliability must coexist with rapid delivery</h4>
-                <p>
-                  Media platforms are product-driven environments. Teams must continuously ship features, improve UX,
-                  support new devices, and integrate new partners—all without introducing downtime. That makes
-                  operational maturity just as important as architecture.
-                </p>
-              </div>
-            </div>
-
-          </section>
-
-          <section id="requirements">
-            <h2>Requirements</h2>
-            <p>To support large-scale streaming workloads, the platform needed to meet several core requirements:</p>
-            <div class="two">
-              <div class="card">
-                <h3>Functional Requirements</h3>
-                <ul>
-                  <li>Support millions of concurrent users</li>
-                  <li>Deliver content globally with low latency</li>
-                  <li>Authenticate and authorize users reliably</li>
-                  <li>Serve content metadata quickly and consistently</li>
-                  <li>Support playback entitlement and subscription checks</li>
-                  <li>Integrate with partner systems and external APIs</li>
-                  <li>Enable frequent product releases without service interruption</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h3>Non-Functional Requirements</h3>
-                <ul>
-                  <li>High availability across all critical services</li>
-                  <li>Low-latency API response times</li>
-                  <li>Fault tolerance across service dependencies</li>
-                  <li>Horizontal scalability under burst traffic</li>
-                  <li>Strong observability and operational visibility</li>
-                  <li>Safe deployment patterns with rollback support</li>
-                </ul>
-              </div>
-            </div>
-
-          </section>
-
-          <section id="architecture">
-            <h2>High-Level Architecture</h2>
-            <p>
-              To meet these requirements, the platform was designed as a service-oriented distributed system with clear
-              separation of concerns. This architecture allowed services to scale independently, reduced blast radius,
-              and enabled teams to iterate on bounded domains without tightly coupling release cycles. At a high level,
-              the architecture consisted of:
-            </p>
-            <div class="card">
-              <ul>
-                <li><strong>Client Applications</strong> - Web, mobile, smart TV, and partner device clients</li>
-                <li><strong>Edge Layer / CDN</strong> - Static asset caching, media delivery, edge routing, request
-                  offload</li>
-                <li><strong>API Gateway</strong> - Request routing, authentication enforcement, rate limiting,
-                  observability</li>
-                <li><strong>Core Platform Services</strong> - Identity, entitlement, catalog, playback, billing, search,
-                  recommendations</li>
-                <li><strong>Async Processing Layer</strong> - Event pipelines, ingestion, analytics, notifications,
-                  partner sync</li>
-                <li><strong>Data Layer</strong> - Relational systems, distributed caches, search indexes, object storage
-                </li>
-                <li><strong>Observability & Operations Layer</strong> - Metrics, tracing, dashboards, alerting,
-                  deployment automation
-                </li>
-
-              </ul>
-            </div>
-          </section>
-
-          <section id="flow">
-            <h2>Request Flow</h2>
-            <p>A typical playback request illustrates the orchestration challenge. This flow demonstrates a key reality
-              of streaming systems: video delivery is only the final step. The user
-              experience depends on the successful coordination of many lower-latency service calls before the first
-              frame
-              is ever delivered.</p>
-            <div class="card">
-              <h3>User Playback Flow</h3>
-              <ol>
-                <li>User opens app and requests content</li>
-                <li>Client requests metadata from API gateway</li>
-                <li>Gateway routes request to catalog service</li>
-                <li>Catalog service returns title metadata, availability, and playback options</li>
-                <li>Client initiates playback request</li>
-                <li>Playback service validates:
-                  <ul>
-                    <li>user identity</li>
-                    <li>subscription status</li>
-                    <li>entitlement</li>
-                    <li>device compatibility</li>
-                    <li>regional restrictions</li>
-                  </ul>
-                </li>
-                <li>Playback service requests DRM / tokenized playback authorization</li>
-                <li>Signed playback URL returned to client</li>
-                <li>Client streams media through CDN</li>
-                <li>Playback and engagement events are asynchronously published for analytics</li>
-
-              </ol>
-            </div>
-
-          </section>
-
-          <section id="services">
-            <h2>Core Services</h2>
-            <p>Several services consistently sat on the critical path and required the highest reliability investment.
-            </p>
-            <div class="two">
-              <div class="card">
-                <h3>Identity & Authentication</h3>
-                <p>Handled login, session validation, token refresh, and account authentication. This service had to
-                  remain
-                  fast, highly available, and resilient to downstream identity provider issues.</p>
-              </div>
-              <div class="card">
-                <h3>Entitlement & Authorization</h3>
-                <p>Validated whether a user had rights to access content based on purchase history, subscription state,
-                  region,
-                  and licensing constraints. This service was often one of the most business-critical components because
-                  it sat directly on the playback
-                  path.</p>
-              </div>
-              <div class="card">
-                <h3>Catalog & Metadata</h3>
-                <p>Served title metadata, artwork, availability, content relationships, and regional variants. High read
-                  volume
-                  made aggressive caching essential.</p>
-              </div>
-              <div class="card">
-                <h3>Content Management System</h3>
-                <p>Served non-title specific information for the application</p>
-              </div>
-
-              <div class="card">
-                <h3>Playback Service</h3>
-                <p>Orchestrated entitlement checks, device validation, DRM, playback token generation, and stream
-                  authorization. This was the most latency-sensitive backend service before video delivery began.</p>
-              </div>
-              <div class="card">
-                <h3>Event & Analytics Pipeline</h3>
-                <p>Handled playback telemetry, engagement events, quality metrics, and downstream analytics. This system
-                  needed
-                  to scale independently and remain asynchronous to avoid impacting user-facing latency.</p>
-              </div>
-            </div>
-
-          </section>
-
-          <section id="scaling">
-            <h2>Scaling & Caching Strategy</h2>
-            <p>Scaling was driven primarily through horizontal elasticity, aggressive caching, and asynchronous
-              decoupling.</p>
-
-            <div class="two">
-              <div class="card">
-                <h3>Horizontal Scaling</h3>
-                <p>Stateless services were deployed behind load balancers and scaled horizontally based on various
-                  factors. This allowed services to expand rapidly during content spikes.</p>
-                <ul>
-                  <li>request volume</li>
-                  <li>CPU utilization</li>
-                  <li>latency thresholds</li>
-                  <li>queue depth</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h3>CDN Offload</h3>
-                <p>CDNs absorbed the majority of static and media traffic, dramatically reducing origin load and
-                  improving
-                  global latency. This was one of the highest-leverage scaling decisions in the platform.</p>
-              </div>
-              <div class="card">
-                <h3>Distributed Caching</h3>
-                <p>Caching was critical for protecting core services from repeated high-volume reads. Caching reduced
-                  pressure on downstream systems and significantly improved tail latency. Common cache targets included:
-                </p>
-                <ul>
-                  <li>content metadata</li>
-                  <li>entitlement snapshots</li>
-                  <li>session tokens</li>
-                  <li>configuration data</li>
-                  <li>feature flags</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h3>Async Decoupling</h3>
-                <p>Non-critical workflows were removed from synchronous request paths and handled asynchronously. This
-                  reduced latency on customer-facing paths and improved resilience under load.</p>
-                <ul>
-                  <li>analytics events</li>
-                  <li>notifications</li>
-                  <li>reporting</li>
-                  <li>partner synchronization</li>
-                  <li>recommendation updates</li>
-                </ul>
-              </div>
-            </div>
-
-          </section>
-
-          <section id="latency">
-            <h2>Latency Optimization</h2>
-            <p>Latency optimization focused less on any single service and more on reducing dependency cost across the
-              request chain. At scale, small latency improvements compound quickly. Saving 30–50 ms across several
-              services can
-              materially improve startup time and playback success rates.</p>
-            <p>Key optimizations included:</p>
-            <ul>
-              <li>minimizing synchronous service hops</li>
-              <li>caching high-frequency reads</li>
-              <li>parallelizing downstream requests where possible</li>
-              <li>using precomputed entitlement and metadata views</li>
-              <li>reducing payload size for mobile and device clients</li>
-              <li>keeping critical-path APIs narrowly scoped</li>
-              <li>shifting non-essential work to async pipelines</li>
-            </ul>
-          </section>
-
-          <section id="ops">
-            <h2>Operational Excellence</h2>
-            <p>Architecture alone does not keep systems reliable at scale. Operational discipline is equally important.
-              These capabilities reduced mean time to detect, isolate, and recover from incidents while allowing teams
-              to continue shipping safely.
-            </p>
-            <p>Key operational investments included:</p>
-            <ul>
-              <li>centralized observability dashboards</li>
-              <li>service-level latency and error monitoring</li>
-              <li>distributed tracing across request chains</li>
-              <li>automated alerting and incident routing</li>
-              <li>canary deployments</li>
-              <li>rollback automation</li>
-              <li>dependency health monitoring</li>
-              <li>load and failure testing</li>
-            </ul>
-          </section>
-
-          <section id="tradeoffs">
-            <h2>Tradeoffs</h2>
-            <p>Several architectural tradeoffs were necessary. These tradeoffs were manageable, but only with strong
-              engineering standards and operational maturity.</p>
-
-            <div class="two">
-              <div class="card">
-                <h3>Microservices vs Operational Complexity</h3>
-                <p>Microservices improved scaling and ownership boundaries, but introduced more network dependencies,
-                  operational overhead, and observability complexity.
-                </p>
-              </div>
-              <div class="card">
-                <h3>Aggressive Caching vs Consistency</h3>
-                <p>Caching improved performance and resilience, but introduced staleness risks—especially for
-                  entitlement and subscription state.
-                </p>
-              </div>
-              <div class="card">
-                <h3>Async Processing vs Debuggability</h3>
-                <p>Asynchronous workflows improved performance and fault isolation, but made debugging and traceability
-                  more complex.
-                </p>
-              </div>
-              <div class="card">
-                <h3>Fast Iteration vs Stability</h3>
-                <p>Frequent releases accelerated product velocity, but required stronger deployment discipline and
-                  better safeguards.
-                </p>
-              </div>
-
-            </div>
-          </section>
-
-          <section id="risks">
-            <h2>Risks & Mitigations</h2>
-
-            <table>
-              <thead>
-                <tr>
-                  <th>Risk</th>
-                  <th>Mitigation</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Traffic spikes overwhelm origin services</td>
-                  <td>Horizontal autoscaling, CDN offload, rate limiting</td>
-                </tr>
-                <tr>
-                  <td>Downstream dependency failure impacts playback</td>
-                  <td>Timeouts, retries, circuit breakers, fallbacks</td>
-                </tr>
-                <tr>
-                  <td>Cache stampedes under burst load</td>
-                  <td>Request coalescing, TTL jitter, cache warming</td>
-                </tr>
-                <tr>
-                  <td>Deployment regressions affect availability</td>
-                  <td>Canary releases, rollback automation, health checks</td>
-                </tr>
-                <tr>
-                  <td>Slow service chains increase startup latency</td>
-                  <td>Request path simplification, caching, async offload</td>
-                </tr>
-                <tr>
-                  <td>Third-party partner instability</td>
-                  <td>Isolation layers, retries, graceful degradation</td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
-
-          <section id="outcomes">
-            <h2>Outcomes & Key Takeaways</h2>
-            <p>Scaling streaming systems is less about a single architectural choice and more about building disciplined
-              systems across architecture, operations, and delivery. The most effective patterns consistently were:</p>
-            <ul>
-              <li>clear service boundaries</li>
-              <li>aggressive edge and metadata caching</li>
-              <li>async decoupling of non-critical work</li>
-              <li>strong observability and incident response</li>
-              <li>deployment automation with safe rollback paths</li>
-            </ul>
-            <p>
-              The core lesson was simple: systems scale best when architecture and operations are designed together. At
-              large scale, reliability is not just a technical outcome. It is a product feature.
-            </p>
-
-          </section>
-
-        </main>
-      </div>
+      </main>
     </div>
-
   </div>
+
+
 
   <script>
     const navLinks = Array.from(document.querySelectorAll("nav a"));

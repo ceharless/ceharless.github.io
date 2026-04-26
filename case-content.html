@@ -20,7 +20,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4SN4HWPGD5"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-4SN4HWPGD5');
@@ -28,715 +28,689 @@
 
 <body>
   <div class="wrap">
-    <div class="mobile-only">
-      <p class="warn"><strong>NOTICE!</strong> Case studies are not available for mobile devices</p>
-    </div>
 
     <header>
       <div class="header">
-        <div>
-          <h1>Content Discovery System</h1>
-          <p class="subtitle">
-            A diagram-driven architecture walkthrough: requirements, high-level design, ranking & personalization,
-            metadata pipelines, caching, real-time signals, and resilience.
-          </p>
-        </div>
-        <aside class="cta">
-          <h2>TL;DR Pitch</h2>
+        <h1>Content Discovery System</h1>
+        <p class="subtitle">
+          A diagram-driven architecture walkthrough: requirements, high-level design, ranking & personalization,
+          metadata pipelines, caching, real-time signals, and resilience. A strong discovery system directly drives
+          engagement, retention, and revenue. It also tends to be one of the highest-throughput systems in the entire
+          product because it sits on the hot path of “what do I do next?”
+        </p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <nav aria-label="Table of contents" class="desktop-only">
+        <div class="label">Sections</div>
+        <a href="#problem">Problem Statement</a>
+        <a href="#requirements">Requirements</a>
+        <a href="#architecture">High-level Architecture</a>
+        <a href="#requestflow">Request Flow</a>
+        <a href="#services">Core Services</a>
+        <a href="#metadata">Metadata & Indexing</a>
+        <a href="#scaling">Scaling & Caching</a>
+        <a href="#realtime">Real-time Personalization</a>
+        <a href="#latency">Latency Optimization</a>
+        <a href="#tradeoffs">Tradeoffs</a>
+        <a href="#resilience">Resilience</a>
+        <br />
+        <a href="index.html" class="returnHome">Return Home</a>
+      </nav>
+
+      <main>
+        <section id="problem">
+          <h2>Problem Statement</h2>
           <p>
-            A strong discovery system directly drives engagement, retention, and revenue. It also tends to be one of the
-            highest-throughput systems in the entire product because it sits on the hot path of “what do I do next?”
+            Discovery is how users find what they didn’t know they wanted. And yes, it’s the most politely aggressive
+            part of your product. A content discovery system powers personalized homepages, search results,
+            recommendation carousels, and
+            trending feeds. At scale, it becomes a distributed system combining metadata, retrieval, ranking,
+            personalization,
+            caching, and real-time signals.
           </p>
-          <div class="kpi">
-            <div class="metric">
-              <div class="name">Target Latency</div>
-              <div class="val">P95 &lt; 200ms</div>
+        </section>
+
+        <section id="requirements">
+          <h2>Requirements</h2>
+          <div class="two">
+            <div class="card">
+              <h4>Functional</h4>
+              <ul>
+                <li>Personalized recommendations for homepage & carousels</li>
+                <li>Keyword-based search discovery</li>
+                <li>Trending / popular content surfacing</li>
+                <li>Near real-time updates to rankings</li>
+                <li>Multi-device support (web, mobile, TV)</li>
+              </ul>
             </div>
-            <div class="metric">
-              <div class="name">Availability</div>
-              <div class="val">99.9%+</div>
+            <div class="card">
+              <h4>Non-functional</h4>
+              <ul>
+                <li>Low latency: &lt; 200ms P95 for discovery queries</li>
+                <li>High availability: 99.9%+ with graceful degradation</li>
+                <li>Horizontal scalability to millions of users</li>
+                <li>High read throughput (often 100:1 reads:writes)</li>
+                <li>Fault tolerance & observability</li>
+              </ul>
             </div>
           </div>
-        </aside>
+
+          <details>
+            <summary>Design Constraint</summary>
+            <p>
+              <strong>Latency budgets</strong> should be explicit: the orchestrator enforces timeouts and fallbacks so
+              the UI never “hangs” waiting for personalization.
+            </p>
+          </details>
+        </section>
+
+        <section id="architecture">
+          <h2>High-level Architecture</h2>
+          <p>
+            We’ll use a discovery orchestrator that fans out to recommendation, trending, search, and metadata
+            services,
+            then returns a ranked, hydrated response.
+          </p>
+
+          <h3>Diagram A: High-level Architecture</h3>
+          <div class="diagram">
+            <div class="diagram-body">
+              <span>Client → Gateway → Orchestrator → (Rec/Search/Trending/Metadata) → Rank → Cache</span>
+              <!-- Inline SVG diagram (no external dependencies) -->
+              <svg viewBox="0 0 1100 420" width="100%" height="auto" role="img"
+                aria-label="High-level discovery architecture diagram">
+                <defs>
+                  <style>
+                    .box {
+                      fill: rgba(255, 255, 255, 0.06);
+                      stroke: rgba(255, 255, 255, 0.22);
+                      stroke-width: 2;
+                      rx: 14;
+                    }
+
+                    .t {
+                      fill: rgba(255, 255, 255, 0.9);
+                      font: 16px ui-monospace, Menlo, Consolas, monospace;
+                    }
+
+                    .m {
+                      fill: rgba(255, 255, 255, 0.68);
+                      font: 13px ui-monospace, Menlo, Consolas, monospace;
+                    }
+
+                    .a {
+                      stroke: rgba(125, 211, 252, 0.8);
+                      stroke-width: 3;
+                      marker-end: url(#arrow);
+                    }
+
+                    .b {
+                      stroke: rgba(167, 139, 250, 0.8);
+                      stroke-width: 3;
+                      marker-end: url(#arrow);
+                    }
+
+                    .c {
+                      stroke: rgba(52, 211, 153, 0.8);
+                      stroke-width: 3;
+                      marker-end: url(#arrow);
+                    }
+                  </style>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
+                    orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.72)"></path>
+                  </marker>
+                </defs>
+
+                <!-- Left -->
+                <rect class="box" x="40" y="170" width="200" height="80" rx="14"></rect>
+                <text class="t" x="70" y="205">Clients</text>
+                <text class="m" x="70" y="230">Web • Mobile • TV</text>
+
+                <rect class="box" x="280" y="170" width="200" height="80" rx="14"></rect>
+                <text class="t" x="305" y="205">API Gateway</text>
+                <text class="m" x="305" y="230">Auth • routing</text>
+
+                <rect class="box" x="520" y="140" width="240" height="140" rx="14"></rect>
+                <text class="t" x="545" y="185">Discovery Service</text>
+                <text class="m" x="545" y="210">Orchestrator</text>
+                <text class="m" x="545" y="235">timeouts • fallbacks</text>
+                <text class="m" x="545" y="260">Response shaping</text>
+
+                <!-- Right services -->
+                <rect class="box" x="820" y="40" width="240" height="70" rx="14"></rect>
+                <text class="t" x="845" y="78">Recommendation</text>
+                <text class="m" x="845" y="100">Candidates → rank</text>
+
+                <rect class="box" x="820" y="130" width="240" height="70" rx="14"></rect>
+                <text class="t" x="845" y="168">Search</text>
+                <text class="m" x="845" y="190">Index • retrieval</text>
+
+                <rect class="box" x="820" y="220" width="240" height="70" rx="14"></rect>
+                <text class="t" x="845" y="258">Trending</text>
+                <text class="m" x="845" y="280">Popularity • freshness</text>
+
+                <rect class="box" x="820" y="310" width="240" height="70" rx="14"></rect>
+                <text class="t" x="845" y="348">Metadata</text>
+                <text class="m" x="845" y="370">Hydration • availability</text>
+
+                <!-- Bottom -->
+                <rect class="box" x="520" y="310" width="240" height="70" rx="14"></rect>
+                <text class="t" x="545" y="348">Cache</text>
+                <text class="m" x="545" y="370">Redis • CDN • edge</text>
+
+                <!-- Arrows -->
+                <line class="a" x1="240" y1="210" x2="280" y2="210"></line>
+                <line class="a" x1="480" y1="210" x2="520" y2="210"></line>
+
+                <line class="b" x1="760" y1="170" x2="820" y2="75"></line>
+                <line class="b" x1="760" y1="195" x2="820" y2="165"></line>
+                <line class="b" x1="760" y1="220" x2="820" y2="255"></line>
+                <line class="b" x1="760" y1="245" x2="820" y2="345"></line>
+
+                <line class="c" x1="640" y1="280" x2="640" y2="310"></line>
+              </svg>
+
+              <p class="caption">
+                The <strong>Discovery Orchestrator</strong> enforces a latency budget: it fans out in parallel,
+                aggregates results, applies business rules, hydrates metadata, and returns a ranked response.
+                Caching lives at multiple layers.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        <section id="requestflow">
+          <h2>End-to-end Request Flow</h2>
+
+          <p>
+            When a user opens the homepage, the system typically:
+          </p>
+          <div class="card">
+            <ol style="margin:.2rem 0 0; padding-left: 1.2rem; color: rgba(255,255,255,0.82);">
+              <li>Client → API Gateway → Discovery Service</li>
+              <li>Discovery fans out to <span class="kbd">Recommendation</span>, <span class="kbd">Trending</span>,
+                <span class="kbd">Search</span>, <span class="kbd">Metadata</span>
+              </li>
+              <li>Rank / re-rank candidates and apply business constraints</li>
+              <li>Cache final ranked list and respond</li>
+            </ol>
+          </div>
+
+          <details>
+            <summary>Key Pattern</summary>
+            <p>
+              The orchestrator prevents any single downstream dependency from becoming a “single point of user
+              frustration.”
+            </p>
+          </details>
+
+        </section>
+
+        <section id="services">
+          <h2>Core Services</h2>
+
+          <div class="two">
+            <div class="card">
+
+              <h3>Discovery Orchestrator</h3>
+              <ul>
+                <li>Parallel fan-out to upstream sources</li>
+                <li>Enforces timeouts & fallbacks</li>
+                <li>Applies business logic & experimentation</li>
+                <li>Response shaping per device/UI</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Recommendation Pipeline</h3>
+              <ul>
+                <li><strong>Candidate generation</strong> (fast, broad)</li>
+                <li>Filtering (policy, availability, diversity)</li>
+                <li><strong>Ranking</strong> (ML or heuristics)</li>
+                <li>Re-ranking (context: session, device, time)</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>Diagram B: Recommendation Stages</h3>
+          <div class="diagram">
+            <div class="diagram-body">
+              <span>Generate → Filter → Rank → Re-rank</span>
+              <svg viewBox="0 0 1100 220" width="100%" height="auto" role="img"
+                aria-label="Recommendation pipeline diagram">
+                <defs>
+                  <style>
+                    .box {
+                      fill: rgba(255, 255, 255, 0.06);
+                      stroke: rgba(255, 255, 255, 0.22);
+                      stroke-width: 2;
+                      rx: 14;
+                    }
+
+                    .t {
+                      fill: rgba(255, 255, 255, 0.9);
+                      font: 16px ui-monospace, Menlo, Consolas, monospace;
+                    }
+
+                    .m {
+                      fill: rgba(255, 255, 255, 0.68);
+                      font: 13px ui-monospace, Menlo, Consolas, monospace;
+                    }
+
+                    .a {
+                      stroke: rgba(125, 211, 252, 0.85);
+                      stroke-width: 3;
+                      marker-end: url(#arrow);
+                    }
+                  </style>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
+                    orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.72)"></path>
+                  </marker>
+                </defs>
+
+                <rect class="box" x="40" y="70" width="240" height="90" rx="14"></rect>
+                <text class="t" x="65" y="110">Candidate Gen</text>
+                <text class="m" x="65" y="135">Fast • retrieval</text>
+
+                <rect class="box" x="320" y="70" width="240" height="90" rx="14"></rect>
+                <text class="t" x="345" y="110">Filtering</text>
+                <text class="m" x="345" y="135">Policy • availability</text>
+
+                <rect class="box" x="600" y="70" width="240" height="90" rx="14"></rect>
+                <text class="t" x="625" y="110">Ranking</text>
+                <text class="m" x="625" y="135">Model score per item</text>
+
+                <rect class="box" x="880" y="70" width="185" height="90" rx="14"></rect>
+                <text class="t" x="905" y="110">Re-rank</text>
+                <text class="m" x="905" y="135">Context adjustment</text>
+
+                <line class="a" x1="280" y1="115" x2="320" y2="115"></line>
+                <line class="a" x1="560" y1="115" x2="600" y2="115"></line>
+                <line class="a" x1="840" y1="115" x2="880" y2="115"></line>
+              </svg>
+
+              <p class="caption">
+                Candidate generation must be extremely fast; ranking provides precision. Many systems use a hybrid:
+                precomputed candidates + online re-ranking for context.
+              </p>
+            </div>
+          </div>
+
+          <div class="two" style="margin-top:1rem;">
+            <div class="card">
+              <h3>Search integration</h3>
+              <ul>
+                <li>Full-text index (OpenSearch/Elasticsearch)</li>
+                <li>Semantic/vector search for intent</li>
+                <li>Autocomplete + query suggestions</li>
+                <li>Unified metadata consistency with recs</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Metadata hydration</h3>
+              <ul>
+                <li>Titles, tags, images, availability</li>
+                <li>Region/device eligibility rules</li>
+                <li>De-normalized read models</li>
+                <li>Cache-friendly payload shaping</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="metadata">
+          <h2>Metadata & Indexing Pipeline</h2>
+
+          <p>
+            Discovery quality is often gated less by your ranking model and more by whether your metadata is correct,
+            complete, and fresh.
+          </p>
+
+          <h3>Diagram C: Metadata Ingestion & Indexing</h3>
+          <div class="diagram">
+            <div class="diagram-body">
+              <span>Ingest → Store → Index → Feature store</span>
+              <svg viewBox="0 0 1100 260" width="100%" height="auto" role="img" aria-label="Metadata pipeline diagram">
+                <defs>
+                  <style>
+                    .box {
+                      fill: rgba(255, 255, 255, 0.06);
+                      stroke: rgba(255, 255, 255, 0.22);
+                      stroke-width: 2;
+                      rx: 14;
+                    }
+
+                    .t {
+                      fill: rgba(255, 255, 255, 0.9);
+                      font: 16px ui-monospace, Menlo, Consolas, monospace;
+                    }
+
+                    .m {
+                      fill: rgba(255, 255, 255, 0.68);
+                      font: 13px ui-monospace, Menlo, Consolas, monospace;
+                    }
+
+                    .a {
+                      stroke: rgba(52, 211, 153, 0.85);
+                      stroke-width: 3;
+                      marker-end: url(#arrow);
+                    }
+                  </style>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
+                    orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.72)"></path>
+                  </marker>
+                </defs>
+
+                <rect class="box" x="40" y="85" width="220" height="90" rx="14"></rect>
+                <text class="t" x="65" y="125">Content ingest</text>
+                <text class="m" x="65" y="150">New titles • updates</text>
+
+                <rect class="box" x="290" y="85" width="240" height="90" rx="14"></rect>
+                <text class="t" x="315" y="125">Primary store</text>
+                <text class="m" x="315" y="150">Metadata DB</text>
+
+                <rect class="box" x="560" y="35" width="240" height="90" rx="14"></rect>
+                <text class="t" x="585" y="75">Indexing</text>
+                <text class="m" x="585" y="100">Search index updates</text>
+
+                <rect class="box" x="560" y="135" width="240" height="90" rx="14"></rect>
+                <text class="t" x="585" y="175">Feature pipeline</text>
+                <text class="m" x="585" y="200">Batch + streaming</text>
+
+                <rect class="box" x="830" y="35" width="230" height="90" rx="14"></rect>
+                <text class="t" x="855" y="75">Search index</text>
+                <text class="m" x="855" y="100">Retrieval</text>
+
+                <rect class="box" x="830" y="135" width="230" height="90" rx="14"></rect>
+                <text class="t" x="855" y="175">Feature store</text>
+                <text class="m" x="855" y="200">Online ranking</text>
+
+                <line class="a" x1="260" y1="130" x2="290" y2="130"></line>
+                <line class="a" x1="530" y1="130" x2="560" y2="80"></line>
+                <line class="a" x1="530" y1="130" x2="560" y2="180"></line>
+                <line class="a" x1="800" y1="80" x2="830" y2="80"></line>
+                <line class="a" x1="800" y1="180" x2="830" y2="180"></line>
+              </svg>
+
+              <p class="caption">
+                Split paths: indexing updates search retrieval, while features power personalization and ranking. Use
+                batch
+                for depth and streaming for freshness.
+              </p>
+            </div>
+          </div>
+
+          <details>
+            <summary>Reality Check</summary>
+            <p>
+              If your metadata pipeline is wrong, your “perfect model” will confidently recommend broken links.
+              Machines
+              can
+              be very persuasive liars.
+            </p>
+          </details>
+
+
+        </section>
+
+        <section id="scaling">
+          <h2>Scaling & Caching</h2>
+
+          <p>
+            Discovery is usually <strong>read-heavy</strong>. Optimize for reads with multi-layer caching and
+            precomputed
+            candidates.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Cache layer</th>
+                <th>Purpose</th>
+                <th>Typical TTL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CDN</td>
+                <td>Static / anonymous discovery, shell responses, common assets</td>
+                <td>Seconds → minutes</td>
+              </tr>
+              <tr>
+                <td>Edge cache</td>
+                <td>Geo-aware personalization for “lightly personalized” segments</td>
+                <td>Seconds</td>
+              </tr>
+              <tr>
+                <td>Redis</td>
+                <td>Hot per-user recommendation lists, trending pools</td>
+                <td>10s → few minutes</td>
+              </tr>
+              <tr>
+                <td>Service cache</td>
+                <td>Ranked results, metadata hydration, expensive joins</td>
+                <td>Short TTL + invalidation</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <details>
+            <summary>Pro Tip</summary>
+            <p>
+              Cache the <strong>final ranked list</strong> (when safe), not just raw candidates. That avoids
+              re-running
+              expensive ranking on every request.
+            </p>
+          </details>
+
+
+        </section>
+
+        <section id="realtime">
+          <h2>Real-time Personalization</h2>
+          <p>
+            For sub-minute personalization, stream user events into an online feature store consumed by ranking
+            services.
+          </p>
+
+          <h3>Diagram D: Streaming Signals → Feature Store → Online Ranking</h3>
+          <div class="diagram">
+            <div class="diagram-body">
+              <span>Events • Kafka/Kinesis • Flink/Spark • Feature store</span>
+              <svg viewBox="0 0 1100 250" width="100%" height="auto" role="img"
+                aria-label="Real-time personalization diagram">
+                <defs>
+                  <style>
+                    .box {
+                      fill: rgba(255, 255, 255, 0.06);
+                      stroke: rgba(255, 255, 255, 0.22);
+                      stroke-width: 2;
+                      rx: 14;
+                    }
+
+                    .t {
+                      fill: rgba(255, 255, 255, 0.9);
+                      font: 16px ui-monospace, Menlo, Consolas, monospace;
+                    }
+
+                    .m {
+                      fill: rgba(255, 255, 255, 0.68);
+                      font: 13px ui-monospace, Menlo, Consolas, monospace;
+                    }
+
+                    .a {
+                      stroke: rgba(125, 211, 252, 0.85);
+                      stroke-width: 3;
+                      marker-end: url(#arrow);
+                    }
+                  </style>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
+                    orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.72)"></path>
+                  </marker>
+                </defs>
+
+                <rect class="box" x="40" y="85" width="220" height="90" rx="14"></rect>
+                <text class="t" x="65" y="125">User events</text>
+                <text class="m" x="65" y="150">click • watch • search</text>
+
+                <rect class="box" x="290" y="85" width="220" height="90" rx="14"></rect>
+                <text class="t" x="315" y="125">Event bus</text>
+                <text class="m" x="315" y="150">Kafka / Kinesis</text>
+
+                <rect class="box" x="540" y="85" width="240" height="90" rx="14"></rect>
+                <text class="t" x="565" y="125">Stream processing</text>
+                <text class="m" x="565" y="150">Flink / Spark</text>
+
+                <rect class="box" x="810" y="40" width="250" height="80" rx="14"></rect>
+                <text class="t" x="835" y="78">Feature store</text>
+                <text class="m" x="835" y="100">online features</text>
+
+                <rect class="box" x="810" y="130" width="250" height="80" rx="14"></rect>
+                <text class="t" x="835" y="168">Ranking service</text>
+                <text class="m" x="835" y="190">low-latency scoring</text>
+
+                <line class="a" x1="260" y1="130" x2="290" y2="130"></line>
+                <line class="a" x1="510" y1="130" x2="540" y2="130"></line>
+                <line class="a" x1="780" y1="130" x2="810" y2="80"></line>
+                <line class="a" x1="780" y1="130" x2="810" y2="170"></line>
+              </svg>
+
+              <p class="caption">
+                Streaming keeps personalization fresh while keeping request latency low: compute features
+                continuously,
+                then score quickly online.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="latency">
+          <h2>Latency Optimization</h2>
+
+          <div class="two">
+            <div class="card">
+              <h3>Tactics</h3>
+              <ul>
+                <li>Parallel fan-out calls (async)</li>
+                <li>Precompute candidate pools</li>
+                <li>Cache ranked responses</li>
+                <li>Short-circuit slow dependencies</li>
+                <li>Edge caching for anonymous traffic</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Graceful Degradation</h3>
+              <ul>
+                <li>If personalization times out → fallback to trending</li>
+                <li>If metadata hydration fails → return minimal cards</li>
+                <li>If search index lags → serve last known good</li>
+                <li>Load shedding during spikes</li>
+              </ul>
+            </div>
+          </div>
+
+          <details>
+            <summary>Latency Budget Rule</summary>
+            <p>
+              The orchestrator should treat downstream services like a buffet: you take what’s ready <em>before</em>
+              the
+              kitchen closes.
+            </p>
+          </details>
+
+        </section>
+
+        <section id="tradeoffs">
+          <h2>Tradeoffs</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Decision</th>
+                <th>Option A</th>
+                <th>Option B</th>
+                <th>Typical Choice</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Consistency vs Freshness</td>
+                <td>Strong consistency (slower)</td>
+                <td>Eventual consistency (faster)</td>
+                <td>Eventual consistency for feeds</td>
+              </tr>
+              <tr>
+                <td>Precompute vs Real-time Rank</td>
+                <td>Precompute (cheap, fast)</td>
+                <td>Real-time (more relevant, costly)</td>
+                <td>Hybrid: precompute + re-rank</td>
+              </tr>
+              <tr>
+                <td>Unified vs Separate Indexes</td>
+                <td>Unified metadata/index</td>
+                <td>Separate per feature team</td>
+                <td>Unified for consistency</td>
+              </tr>
+              <tr>
+                <td>Fan-out Orchestration</td>
+                <td>Central orchestrator</td>
+                <td>Client-side aggregation</td>
+                <td>Central orchestrator</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="resilience">
+          <h2>Failure Scenarios & Resilience</h2>
+
+          <div class="two">
+            <div class="card">
+              <h3>Common Failure Modes</h3>
+              <ul>
+                <li>Recommendation service timeout</li>
+                <li>Cache-miss stampede</li>
+                <li>Search index lag / partial outage</li>
+                <li>Feature store skew / stale features</li>
+                <li>Model regression (quality drop)</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Mitigations</h3>
+              <ul>
+                <li>Circuit breakers + per-call timeouts</li>
+                <li>Request coalescing + jittered TTLs</li>
+                <li>Fallback pools: trending / editorial</li>
+                <li>Multi-region failover paths</li>
+                <li>Quality monitoring + rapid rollback</li>
+              </ul>
+            </div>
+          </div>
+
+          <details>
+            <summary>Operational Truth</summary>
+            <p>
+              Resilience is less about “never failing” and more about “failing in ways the user barely notices.”
+            </p>
+          </details>
+
+        </section>
+
 
         <div class="cta-row mobile-only">
           <a href="index.html" class="btn">Return Home</a>
         </div>
 
-      </div>
-    </header>
 
-    <div class="desktop-only">
-      <div class="grid">
-        <nav aria-label="Table of contents">
-          <div class="label">Sections</div>
-          <a href="#problem">Problem Statement</a>
-          <a href="#requirements">Requirements</a>
-          <a href="#architecture">High-level Architecture</a>
-          <a href="#requestflow">Request Flow</a>
-          <a href="#services">Core Services</a>
-          <a href="#metadata">Metadata & Indexing</a>
-          <a href="#scaling">Scaling & Caching</a>
-          <a href="#realtime">Real-time Personalization</a>
-          <a href="#latency">Latency Optimization</a>
-          <a href="#tradeoffs">Tradeoffs</a>
-          <a href="#resilience">Resilience</a>
-          <br />
-          <a href="index.html" class="returnHome">Return Home</a>
-        </nav>
-
-        <main>
-          <section id="problem">
-            <h2>Problem Statement</h2>
-            <p>
-              Discovery is how users find what they didn’t know they wanted. And yes, it’s the most politely aggressive
-              part of your product.
-            </p>
-            <p>
-              A content discovery system powers personalized homepages, search results, recommendation carousels, and
-              trending feeds.
-              At scale, it becomes a distributed system combining metadata, retrieval, ranking, personalization,
-              caching,
-              and real-time signals.
-            </p>
-
-          </section>
-
-          <section id="requirements">
-            <h2>Requirements</h2>
-            <div class="two">
-              <div class="card">
-                <h4>Functional</h4>
-                <ul>
-                  <li>Personalized recommendations for homepage & carousels</li>
-                  <li>Keyword-based search discovery</li>
-                  <li>Trending / popular content surfacing</li>
-                  <li>Near real-time updates to rankings</li>
-                  <li>Multi-device support (web, mobile, TV)</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>Non-functional</h4>
-                <ul>
-                  <li>Low latency: &lt; 200ms P95 for discovery queries</li>
-                  <li>High availability: 99.9%+ with graceful degradation</li>
-                  <li>Horizontal scalability to millions of users</li>
-                  <li>High read throughput (often 100:1 reads:writes)</li>
-                  <li>Fault tolerance & observability</li>
-                </ul>
-              </div>
-            </div>
-
-            <details>
-              <summary>Design Constraint</summary>
-              <p>
-                <strong>Latency budgets</strong> should be explicit: the orchestrator enforces timeouts and fallbacks so
-                the UI never “hangs” waiting for personalization.
-              </p>
-            </details>
-          </section>
-
-          <section id="architecture">
-            <h2>High-level Architecture</h2>
-            <p>
-              We’ll use a discovery orchestrator that fans out to recommendation, trending, search, and metadata
-              services,
-              then returns a ranked, hydrated response.
-            </p>
-
-            <h3>Diagram A: High-level Architecture</h3>
-            <div class="diagram">
-              <div class="diagram-body">
-                <span>Client → Gateway → Orchestrator → (Rec/Search/Trending/Metadata) → Rank → Cache</span>
-                <!-- Inline SVG diagram (no external dependencies) -->
-                <svg viewBox="0 0 1100 420" width="100%" height="auto" role="img"
-                  aria-label="High-level discovery architecture diagram">
-                  <defs>
-                    <style>
-                      .box {
-                        fill: rgba(255, 255, 255, 0.06);
-                        stroke: rgba(255, 255, 255, 0.22);
-                        stroke-width: 2;
-                        rx: 14;
-                      }
-
-                      .t {
-                        fill: rgba(255, 255, 255, 0.9);
-                        font: 16px ui-monospace, Menlo, Consolas, monospace;
-                      }
-
-                      .m {
-                        fill: rgba(255, 255, 255, 0.68);
-                        font: 13px ui-monospace, Menlo, Consolas, monospace;
-                      }
-
-                      .a {
-                        stroke: rgba(125, 211, 252, 0.8);
-                        stroke-width: 3;
-                        marker-end: url(#arrow);
-                      }
-
-                      .b {
-                        stroke: rgba(167, 139, 250, 0.8);
-                        stroke-width: 3;
-                        marker-end: url(#arrow);
-                      }
-
-                      .c {
-                        stroke: rgba(52, 211, 153, 0.8);
-                        stroke-width: 3;
-                        marker-end: url(#arrow);
-                      }
-                    </style>
-                    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
-                      orient="auto-start-reverse">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.72)"></path>
-                    </marker>
-                  </defs>
-
-                  <!-- Left -->
-                  <rect class="box" x="40" y="170" width="200" height="80" rx="14"></rect>
-                  <text class="t" x="70" y="205">Clients</text>
-                  <text class="m" x="70" y="230">Web • Mobile • TV</text>
-
-                  <rect class="box" x="280" y="170" width="200" height="80" rx="14"></rect>
-                  <text class="t" x="305" y="205">API Gateway</text>
-                  <text class="m" x="305" y="230">Auth • routing</text>
-
-                  <rect class="box" x="520" y="140" width="240" height="140" rx="14"></rect>
-                  <text class="t" x="545" y="185">Discovery Service</text>
-                  <text class="m" x="545" y="210">Orchestrator</text>
-                  <text class="m" x="545" y="235">timeouts • fallbacks</text>
-                  <text class="m" x="545" y="260">Response shaping</text>
-
-                  <!-- Right services -->
-                  <rect class="box" x="820" y="40" width="240" height="70" rx="14"></rect>
-                  <text class="t" x="845" y="78">Recommendation</text>
-                  <text class="m" x="845" y="100">Candidates → rank</text>
-
-                  <rect class="box" x="820" y="130" width="240" height="70" rx="14"></rect>
-                  <text class="t" x="845" y="168">Search</text>
-                  <text class="m" x="845" y="190">Index • retrieval</text>
-
-                  <rect class="box" x="820" y="220" width="240" height="70" rx="14"></rect>
-                  <text class="t" x="845" y="258">Trending</text>
-                  <text class="m" x="845" y="280">Popularity • freshness</text>
-
-                  <rect class="box" x="820" y="310" width="240" height="70" rx="14"></rect>
-                  <text class="t" x="845" y="348">Metadata</text>
-                  <text class="m" x="845" y="370">Hydration • availability</text>
-
-                  <!-- Bottom -->
-                  <rect class="box" x="520" y="310" width="240" height="70" rx="14"></rect>
-                  <text class="t" x="545" y="348">Cache</text>
-                  <text class="m" x="545" y="370">Redis • CDN • edge</text>
-
-                  <!-- Arrows -->
-                  <line class="a" x1="240" y1="210" x2="280" y2="210"></line>
-                  <line class="a" x1="480" y1="210" x2="520" y2="210"></line>
-
-                  <line class="b" x1="760" y1="170" x2="820" y2="75"></line>
-                  <line class="b" x1="760" y1="195" x2="820" y2="165"></line>
-                  <line class="b" x1="760" y1="220" x2="820" y2="255"></line>
-                  <line class="b" x1="760" y1="245" x2="820" y2="345"></line>
-
-                  <line class="c" x1="640" y1="280" x2="640" y2="310"></line>
-                </svg>
-
-                <p class="caption">
-                  The <strong>Discovery Orchestrator</strong> enforces a latency budget: it fans out in parallel,
-                  aggregates results, applies business rules, hydrates metadata, and returns a ranked response.
-                  Caching lives at multiple layers.
-                </p>
-              </div>
-            </div>
-
-          </section>
-
-          <section id="requestflow">
-            <h2>End-to-end Request Flow</h2>
-
-            <p>
-              When a user opens the homepage, the system typically:
-            </p>
-            <div class="card">
-              <ol style="margin:.2rem 0 0; padding-left: 1.2rem; color: rgba(255,255,255,0.82);">
-                <li>Client → API Gateway → Discovery Service</li>
-                <li>Discovery fans out to <span class="kbd">Recommendation</span>, <span class="kbd">Trending</span>,
-                  <span class="kbd">Search</span>, <span class="kbd">Metadata</span>
-                </li>
-                <li>Rank / re-rank candidates and apply business constraints</li>
-                <li>Cache final ranked list and respond</li>
-              </ol>
-            </div>
-
-            <details>
-              <summary>Key Pattern</summary>
-              <p>
-                The orchestrator prevents any single downstream dependency from becoming a “single point of user
-                frustration.”
-              </p>
-            </details>
-
-          </section>
-
-          <section id="services">
-            <h2>Core Services</h2>
-
-            <div class="two">
-              <div class="card">
-
-                <h3>Discovery Orchestrator</h3>
-                <ul>
-                  <li>Parallel fan-out to upstream sources</li>
-                  <li>Enforces timeouts & fallbacks</li>
-                  <li>Applies business logic & experimentation</li>
-                  <li>Response shaping per device/UI</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h3>Recommendation Pipeline</h3>
-                <ul>
-                  <li><strong>Candidate generation</strong> (fast, broad)</li>
-                  <li>Filtering (policy, availability, diversity)</li>
-                  <li><strong>Ranking</strong> (ML or heuristics)</li>
-                  <li>Re-ranking (context: session, device, time)</li>
-                </ul>
-              </div>
-            </div>
-
-            <h3>Diagram B: Recommendation Stages</h3>
-            <div class="diagram">
-              <div class="diagram-body">
-                <span>Generate → Filter → Rank → Re-rank</span>
-                <svg viewBox="0 0 1100 220" width="100%" height="auto" role="img"
-                  aria-label="Recommendation pipeline diagram">
-                  <defs>
-                    <style>
-                      .box {
-                        fill: rgba(255, 255, 255, 0.06);
-                        stroke: rgba(255, 255, 255, 0.22);
-                        stroke-width: 2;
-                        rx: 14;
-                      }
-
-                      .t {
-                        fill: rgba(255, 255, 255, 0.9);
-                        font: 16px ui-monospace, Menlo, Consolas, monospace;
-                      }
-
-                      .m {
-                        fill: rgba(255, 255, 255, 0.68);
-                        font: 13px ui-monospace, Menlo, Consolas, monospace;
-                      }
-
-                      .a {
-                        stroke: rgba(125, 211, 252, 0.85);
-                        stroke-width: 3;
-                        marker-end: url(#arrow);
-                      }
-                    </style>
-                    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
-                      orient="auto-start-reverse">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.72)"></path>
-                    </marker>
-                  </defs>
-
-                  <rect class="box" x="40" y="70" width="240" height="90" rx="14"></rect>
-                  <text class="t" x="65" y="110">Candidate Gen</text>
-                  <text class="m" x="65" y="135">Fast • retrieval</text>
-
-                  <rect class="box" x="320" y="70" width="240" height="90" rx="14"></rect>
-                  <text class="t" x="345" y="110">Filtering</text>
-                  <text class="m" x="345" y="135">Policy • availability</text>
-
-                  <rect class="box" x="600" y="70" width="240" height="90" rx="14"></rect>
-                  <text class="t" x="625" y="110">Ranking</text>
-                  <text class="m" x="625" y="135">Model score per item</text>
-
-                  <rect class="box" x="880" y="70" width="185" height="90" rx="14"></rect>
-                  <text class="t" x="905" y="110">Re-rank</text>
-                  <text class="m" x="905" y="135">Context adjustment</text>
-
-                  <line class="a" x1="280" y1="115" x2="320" y2="115"></line>
-                  <line class="a" x1="560" y1="115" x2="600" y2="115"></line>
-                  <line class="a" x1="840" y1="115" x2="880" y2="115"></line>
-                </svg>
-
-                <p class="caption">
-                  Candidate generation must be extremely fast; ranking provides precision. Many systems use a hybrid:
-                  precomputed candidates + online re-ranking for context.
-                </p>
-              </div>
-            </div>
-
-            <div class="two" style="margin-top:1rem;">
-              <div class="card">
-                <h3>Search integration</h3>
-                <ul>
-                  <li>Full-text index (OpenSearch/Elasticsearch)</li>
-                  <li>Semantic/vector search for intent</li>
-                  <li>Autocomplete + query suggestions</li>
-                  <li>Unified metadata consistency with recs</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h3>Metadata hydration</h3>
-                <ul>
-                  <li>Titles, tags, images, availability</li>
-                  <li>Region/device eligibility rules</li>
-                  <li>De-normalized read models</li>
-                  <li>Cache-friendly payload shaping</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section id="metadata">
-            <h2>Metadata & Indexing Pipeline</h2>
-
-            <p>
-              Discovery quality is often gated less by your ranking model and more by whether your metadata is correct,
-              complete, and fresh.
-            </p>
-
-            <h3>Diagram C: Metadata Ingestion & Indexing</h3>
-            <div class="diagram">
-              <div class="diagram-body">
-                <span>Ingest → Store → Index → Feature store</span>
-                <svg viewBox="0 0 1100 260" width="100%" height="auto" role="img"
-                  aria-label="Metadata pipeline diagram">
-                  <defs>
-                    <style>
-                      .box {
-                        fill: rgba(255, 255, 255, 0.06);
-                        stroke: rgba(255, 255, 255, 0.22);
-                        stroke-width: 2;
-                        rx: 14;
-                      }
-
-                      .t {
-                        fill: rgba(255, 255, 255, 0.9);
-                        font: 16px ui-monospace, Menlo, Consolas, monospace;
-                      }
-
-                      .m {
-                        fill: rgba(255, 255, 255, 0.68);
-                        font: 13px ui-monospace, Menlo, Consolas, monospace;
-                      }
-
-                      .a {
-                        stroke: rgba(52, 211, 153, 0.85);
-                        stroke-width: 3;
-                        marker-end: url(#arrow);
-                      }
-                    </style>
-                    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
-                      orient="auto-start-reverse">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.72)"></path>
-                    </marker>
-                  </defs>
-
-                  <rect class="box" x="40" y="85" width="220" height="90" rx="14"></rect>
-                  <text class="t" x="65" y="125">Content ingest</text>
-                  <text class="m" x="65" y="150">New titles • updates</text>
-
-                  <rect class="box" x="290" y="85" width="240" height="90" rx="14"></rect>
-                  <text class="t" x="315" y="125">Primary store</text>
-                  <text class="m" x="315" y="150">Metadata DB</text>
-
-                  <rect class="box" x="560" y="35" width="240" height="90" rx="14"></rect>
-                  <text class="t" x="585" y="75">Indexing</text>
-                  <text class="m" x="585" y="100">Search index updates</text>
-
-                  <rect class="box" x="560" y="135" width="240" height="90" rx="14"></rect>
-                  <text class="t" x="585" y="175">Feature pipeline</text>
-                  <text class="m" x="585" y="200">Batch + streaming</text>
-
-                  <rect class="box" x="830" y="35" width="230" height="90" rx="14"></rect>
-                  <text class="t" x="855" y="75">Search index</text>
-                  <text class="m" x="855" y="100">Retrieval</text>
-
-                  <rect class="box" x="830" y="135" width="230" height="90" rx="14"></rect>
-                  <text class="t" x="855" y="175">Feature store</text>
-                  <text class="m" x="855" y="200">Online ranking</text>
-
-                  <line class="a" x1="260" y1="130" x2="290" y2="130"></line>
-                  <line class="a" x1="530" y1="130" x2="560" y2="80"></line>
-                  <line class="a" x1="530" y1="130" x2="560" y2="180"></line>
-                  <line class="a" x1="800" y1="80" x2="830" y2="80"></line>
-                  <line class="a" x1="800" y1="180" x2="830" y2="180"></line>
-                </svg>
-
-                <p class="caption">
-                  Split paths: indexing updates search retrieval, while features power personalization and ranking. Use
-                  batch
-                  for depth and streaming for freshness.
-                </p>
-              </div>
-            </div>
-
-            <details>
-              <summary>Reality Check</summary>
-              <p>
-                If your metadata pipeline is wrong, your “perfect model” will confidently recommend broken links.
-                Machines
-                can
-                be very persuasive liars.
-              </p>
-            </details>
-
-
-          </section>
-
-          <section id="scaling">
-            <h2>Scaling & Caching</h2>
-
-            <p>
-              Discovery is usually <strong>read-heavy</strong>. Optimize for reads with multi-layer caching and
-              precomputed
-              candidates.
-            </p>
-
-            <table>
-              <thead>
-                <tr>
-                  <th>Cache layer</th>
-                  <th>Purpose</th>
-                  <th>Typical TTL</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>CDN</td>
-                  <td>Static / anonymous discovery, shell responses, common assets</td>
-                  <td>Seconds → minutes</td>
-                </tr>
-                <tr>
-                  <td>Edge cache</td>
-                  <td>Geo-aware personalization for “lightly personalized” segments</td>
-                  <td>Seconds</td>
-                </tr>
-                <tr>
-                  <td>Redis</td>
-                  <td>Hot per-user recommendation lists, trending pools</td>
-                  <td>10s → few minutes</td>
-                </tr>
-                <tr>
-                  <td>Service cache</td>
-                  <td>Ranked results, metadata hydration, expensive joins</td>
-                  <td>Short TTL + invalidation</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <details>
-              <summary>Pro Tip</summary>
-              <p>
-                Cache the <strong>final ranked list</strong> (when safe), not just raw candidates. That avoids
-                re-running
-                expensive ranking on every request.
-              </p>
-            </details>
-
-
-          </section>
-
-          <section id="realtime">
-            <h2>Real-time Personalization</h2>
-            <p>
-              For sub-minute personalization, stream user events into an online feature store consumed by ranking
-              services.
-            </p>
-
-            <h3>Diagram D: Streaming Signals → Feature Store → Online Ranking</h3>
-            <div class="diagram">
-              <div class="diagram-body">
-                <span>Events • Kafka/Kinesis • Flink/Spark • Feature store</span>
-                <svg viewBox="0 0 1100 250" width="100%" height="auto" role="img"
-                  aria-label="Real-time personalization diagram">
-                  <defs>
-                    <style>
-                      .box {
-                        fill: rgba(255, 255, 255, 0.06);
-                        stroke: rgba(255, 255, 255, 0.22);
-                        stroke-width: 2;
-                        rx: 14;
-                      }
-
-                      .t {
-                        fill: rgba(255, 255, 255, 0.9);
-                        font: 16px ui-monospace, Menlo, Consolas, monospace;
-                      }
-
-                      .m {
-                        fill: rgba(255, 255, 255, 0.68);
-                        font: 13px ui-monospace, Menlo, Consolas, monospace;
-                      }
-
-                      .a {
-                        stroke: rgba(125, 211, 252, 0.85);
-                        stroke-width: 3;
-                        marker-end: url(#arrow);
-                      }
-                    </style>
-                    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8"
-                      orient="auto-start-reverse">
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.72)"></path>
-                    </marker>
-                  </defs>
-
-                  <rect class="box" x="40" y="85" width="220" height="90" rx="14"></rect>
-                  <text class="t" x="65" y="125">User events</text>
-                  <text class="m" x="65" y="150">click • watch • search</text>
-
-                  <rect class="box" x="290" y="85" width="220" height="90" rx="14"></rect>
-                  <text class="t" x="315" y="125">Event bus</text>
-                  <text class="m" x="315" y="150">Kafka / Kinesis</text>
-
-                  <rect class="box" x="540" y="85" width="240" height="90" rx="14"></rect>
-                  <text class="t" x="565" y="125">Stream processing</text>
-                  <text class="m" x="565" y="150">Flink / Spark</text>
-
-                  <rect class="box" x="810" y="40" width="250" height="80" rx="14"></rect>
-                  <text class="t" x="835" y="78">Feature store</text>
-                  <text class="m" x="835" y="100">online features</text>
-
-                  <rect class="box" x="810" y="130" width="250" height="80" rx="14"></rect>
-                  <text class="t" x="835" y="168">Ranking service</text>
-                  <text class="m" x="835" y="190">low-latency scoring</text>
-
-                  <line class="a" x1="260" y1="130" x2="290" y2="130"></line>
-                  <line class="a" x1="510" y1="130" x2="540" y2="130"></line>
-                  <line class="a" x1="780" y1="130" x2="810" y2="80"></line>
-                  <line class="a" x1="780" y1="130" x2="810" y2="170"></line>
-                </svg>
-
-                <p class="caption">
-                  Streaming keeps personalization fresh while keeping request latency low: compute features
-                  continuously,
-                  then score quickly online.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section id="latency">
-            <h2>Latency Optimization</h2>
-
-            <div class="two">
-              <div class="card">
-                <h3>Tactics</h3>
-                <ul>
-                  <li>Parallel fan-out calls (async)</li>
-                  <li>Precompute candidate pools</li>
-                  <li>Cache ranked responses</li>
-                  <li>Short-circuit slow dependencies</li>
-                  <li>Edge caching for anonymous traffic</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h3>Graceful Degradation</h3>
-                <ul>
-                  <li>If personalization times out → fallback to trending</li>
-                  <li>If metadata hydration fails → return minimal cards</li>
-                  <li>If search index lags → serve last known good</li>
-                  <li>Load shedding during spikes</li>
-                </ul>
-              </div>
-            </div>
-
-            <details>
-              <summary>Latency Budget Rule</summary>
-              <p>
-                The orchestrator should treat downstream services like a buffet: you take what’s ready <em>before</em>
-                the
-                kitchen closes.
-              </p>
-            </details>
-
-          </section>
-
-          <section id="tradeoffs">
-            <h2>Tradeoffs</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Decision</th>
-                  <th>Option A</th>
-                  <th>Option B</th>
-                  <th>Typical Choice</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Consistency vs Freshness</td>
-                  <td>Strong consistency (slower)</td>
-                  <td>Eventual consistency (faster)</td>
-                  <td>Eventual consistency for feeds</td>
-                </tr>
-                <tr>
-                  <td>Precompute vs Real-time Rank</td>
-                  <td>Precompute (cheap, fast)</td>
-                  <td>Real-time (more relevant, costly)</td>
-                  <td>Hybrid: precompute + re-rank</td>
-                </tr>
-                <tr>
-                  <td>Unified vs Separate Indexes</td>
-                  <td>Unified metadata/index</td>
-                  <td>Separate per feature team</td>
-                  <td>Unified for consistency</td>
-                </tr>
-                <tr>
-                  <td>Fan-out Orchestration</td>
-                  <td>Central orchestrator</td>
-                  <td>Client-side aggregation</td>
-                  <td>Central orchestrator</td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
-
-          <section id="resilience" class="last">
-            <h2>Failure Scenarios & Resilience</h2>
-
-            <div class="two">
-              <div class="card">
-                <h3>Common Failure Modes</h3>
-                <ul>
-                  <li>Recommendation service timeout</li>
-                  <li>Cache-miss stampede</li>
-                  <li>Search index lag / partial outage</li>
-                  <li>Feature store skew / stale features</li>
-                  <li>Model regression (quality drop)</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h3>Mitigations</h3>
-                <ul>
-                  <li>Circuit breakers + per-call timeouts</li>
-                  <li>Request coalescing + jittered TTLs</li>
-                  <li>Fallback pools: trending / editorial</li>
-                  <li>Multi-region failover paths</li>
-                  <li>Quality monitoring + rapid rollback</li>
-                </ul>
-              </div>
-            </div>
-
-            <details>
-              <summary>Operational Truth</summary>
-              <p>
-                Resilience is less about “never failing” and more about “failing in ways the user barely notices.”
-              </p>
-            </details>
-
-          </section>
-
-        </main>
-      </div>
+      </main>
     </div>
-
   </div>
+
 
   <script>
     const navLinks = Array.from(document.querySelectorAll("nav a"));

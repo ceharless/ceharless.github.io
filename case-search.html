@@ -20,7 +20,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4SN4HWPGD5"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-4SN4HWPGD5');
@@ -28,447 +28,409 @@
 
 <body>
   <div class="wrap">
-    <div class="mobile-only">
-      <p class="warn"><strong>NOTICE!</strong> Case studies are not available for mobile devices</p>
-    </div>
 
     <header>
       <div class="header">
-        <div>
-          <h1>Case Study: Modernizing Search</h1>
-          <p class="subtitle">
-            A pragmatic, incremental plan to transform “Search is scary” into “Search is boring” —
-            by stabilizing reliability, speeding delivery, and extracting a Search service from a legacy monolith.
-          </p>
-          <p class="subtitle">
-            Search is one of the most visible user experiences — and one of the easiest ways to accidentally melt
-            your backend. Today, Search lives inside a legacy Java monolith, shares a database with everything else,
-            and is tightly coupled to product releases. The result: slow iteration and frequent “why is Search down
-            again?” incidents.
-          </p>
-        </div>
-        <aside class="cta">
-          <h2>TL;DR Pitch</h2>
-          <p>
-            Improve observability + safe releases first, then extract Search using a strangler approach.
-            Deliver measurable wins every 4–6 weeks without betting the business on a rewrite.
-          </p>
-          <div class="kpi">
-            <div class="metric">
-              <div class="name">Target deploy freq</div>
-              <div class="val">weekly → daily</div>
-            </div>
-            <div class="metric">
-              <div class="name">Target MTTR</div>
-              <div class="val">60m → &lt;15m</div>
-            </div>
-            <div class="metric">
-              <div class="name">Target p95 latency</div>
-              <div class="val">900ms → &lt;250ms</div>
-            </div>
-            <div class="metric">
-              <div class="name">Target incident rate</div>
-              <div class="val">-50%</div>
-            </div>
-          </div>
-        </aside>
-
-        <div class="cta-row mobile-only">
-          <a href="index.html" class="btn">Return Home</a>
-        </div>
-
+        <h1>Modernizing Search</h1>
+        <p class="subtitle">
+          A pragmatic, incremental plan to transform “Search is scary” into “Search is boring” —
+          by stabilizing reliability, speeding delivery, and extracting a Search service from a legacy monolith.
+          Search is one of the most visible user experiences — and one of the easiest ways to accidentally melt
+          your backend. Today, Search lives inside a legacy Java monolith, shares a database with everything else,
+          and is tightly coupled to product releases. The result: slow iteration and frequent “why is Search down
+          again?” incidents.
+        </p>
       </div>
     </header>
 
-    <div class="desktop-only">
-      <div class="grid">
-        <nav aria-label="Table of contents">
-          <div class="label">Sections</div>
-          <a href="#problem">Problem Statement</a>
-          <a href="#context">Context & Constraints</a>
-          <a href="#symptoms">Symptoms & Root Causes</a>
-          <a href="#goals">Goals & Success Metrics</a>
-          <a href="#plan">Proposed Plan</a>
-          <a href="#tradeoffs">Tradeoffs</a>
-          <a href="#risks">Risks & Mitigations</a>
-          <a href="#org">Team & Operating Model</a>
-          <a href="#days">First 30/60/90 Days</a>
-          <a href="#artifacts">Artifacts</a>
-          <br />
-          <a href="index.html" class="returnHome">Return Home</a>
-        </nav>
+    <div class="grid">
+      <nav aria-label="Table of contents" class="desktop-only">
+        <div class="label">Sections</div>
+        <a href="#problem">Problem Statement</a>
+        <a href="#context">Context & Constraints</a>
+        <a href="#symptoms">Symptoms & Root Causes</a>
+        <a href="#goals">Goals & Success Metrics</a>
+        <a href="#plan">Proposed Plan</a>
+        <a href="#tradeoffs">Tradeoffs</a>
+        <a href="#risks">Risks & Mitigations</a>
+        <a href="#org">Team & Operating Model</a>
+        <a href="#days">First 30/60/90 Days</a>
+        <a href="#artifacts">Artifacts</a>
+        <br />
+        <a href="index.html" class="returnHome">Return Home</a>
+      </nav>
 
-        <main>
-          <section id="problem">
-            <h2>Problem Statement</h2>
-            <div class="two">
-              <div class="card">
-                <h4>What Users Experience</h4>
-                <ul>
-                  <li>Slow or inconsistent results during peak usage</li>
-                  <li>Irrelevant ranking (poor discovery → lower engagement)</li>
-                  <li>Periodic outages that affect core flows</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>What Engineering Experiences</h4>
-                <ul>
-                  <li>Search changes require full monolith releases</li>
-                  <li>Hard-to-debug failures (limited observability)</li>
-                  <li>Index rebuilds are manual + risky</li>
-                </ul>
-              </div>
+      <main>
+        <section id="problem">
+          <h2>Problem Statement</h2>
+          <div class="two">
+            <div class="card">
+              <h4>What Users Experience</h4>
+              <ul>
+                <li>Slow or inconsistent results during peak usage</li>
+                <li>Irrelevant ranking (poor discovery → lower engagement)</li>
+                <li>Periodic outages that affect core flows</li>
+              </ul>
             </div>
-          </section>
-
-          <section id="context">
-            <h2>Context & Constraints</h2>
-            <div class="two">
-              <div class="card">
-                <h4>Assumed Environment</h4>
-                <ul>
-                  <li>Java monolith serving web + mobile APIs</li>
-                  <li>Relational DB shared across domains</li>
-                  <li>Search relies on DB queries + ad-hoc caching</li>
-                  <li>Traffic spikes (events, promos, seasonality)</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>Constraints</h4>
-                <ul>
-                  <li>No “pause product for 6 months” rewrite</li>
-                  <li>Small-ish team (5–8 engineers) initially</li>
-                  <li>Need measurable improvements quickly</li>
-                  <li>Reliability is a feature (even if it’s not on the roadmap)</li>
-                </ul>
-              </div>
+            <div class="card">
+              <h4>What Engineering Experiences</h4>
+              <ul>
+                <li>Search changes require full monolith releases</li>
+                <li>Hard-to-debug failures (limited observability)</li>
+                <li>Index rebuilds are manual + risky</li>
+              </ul>
             </div>
+          </div>
+        </section>
 
-            <details>
-              <summary>Principle: Make the riskiest thing smaller</summary>
+        <section id="context">
+          <h2>Context & Constraints</h2>
+          <div class="two">
+            <div class="card">
+              <h4>Assumed Environment</h4>
+              <ul>
+                <li>Java monolith serving web + mobile APIs</li>
+                <li>Relational DB shared across domains</li>
+                <li>Search relies on DB queries + ad-hoc caching</li>
+                <li>Traffic spikes (events, promos, seasonality)</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Constraints</h4>
+              <ul>
+                <li>No “pause product for 6 months” rewrite</li>
+                <li>Small-ish team (5–8 engineers) initially</li>
+                <li>Need measurable improvements quickly</li>
+                <li>Reliability is a feature (even if it’s not on the roadmap)</li>
+              </ul>
+            </div>
+          </div>
+
+          <details>
+            <summary>Principle: Make the riskiest thing smaller</summary>
+            <p>
+              Instead of one giant migration, we shrink risk by improving visibility + release safety first,
+              then extracting Search incrementally using a strangler pattern. Every phase ships value.
+            </p>
+          </details>
+        </section>
+
+        <section id="symptoms">
+          <h2>Symptoms & Root Causes</h2>
+
+          <h3>Symptoms</h3>
+          <ul>
+            <li><strong>Incidents:</strong> query storms, DB contention, cache stampedes</li>
+            <li><strong>Slow delivery:</strong> Search improvements wait on monolith release trains</li>
+            <li><strong>Debug pain:</strong> “What changed?” takes too long to answer</li>
+          </ul>
+
+          <h3>Root Causes</h3>
+          <div class="two">
+            <div class="card">
+              <h4>Tight Coupling</h4>
               <p>
-                Instead of one giant migration, we shrink risk by improving visibility + release safety first,
-                then extracting Search incrementally using a strangler pattern. Every phase ships value.
+                Search code, schema, and release cadence are entangled with unrelated product areas.
+                A small ranking tweak becomes a full-system gamble.
               </p>
-            </details>
-          </section>
-
-          <section id="symptoms">
-            <h2>Symptoms & Root Causes</h2>
-
-            <h3>Symptoms</h3>
-            <ul>
-              <li><strong>Incidents:</strong> query storms, DB contention, cache stampedes</li>
-              <li><strong>Slow delivery:</strong> Search improvements wait on monolith release trains</li>
-              <li><strong>Debug pain:</strong> “What changed?” takes too long to answer</li>
-            </ul>
-
-            <h3>Root Causes</h3>
-            <div class="two">
-              <div class="card">
-                <h4>Tight Coupling</h4>
-                <p>
-                  Search code, schema, and release cadence are entangled with unrelated product areas.
-                  A small ranking tweak becomes a full-system gamble.
-                </p>
-              </div>
-              <div class="card">
-                <h4>Weak Guardrails</h4>
-                <p>
-                  Limited timeouts, missing circuit breakers, and insufficient rate limiting allow one bad query
-                  to become everyone’s bad day.
-                </p>
-              </div>
-              <div class="card">
-                <h4>Poor Observability</h4>
-                <p>
-                  If you can’t see it, you can’t fix it. Lack of tracing + correlation IDs makes root cause analysis
-                  slow.
-                </p>
-              </div>
-              <div class="card">
-                <h4>Unclear Ownership</h4>
-                <p>
-                  “Search is everyone’s responsibility” becomes “Search is nobody’s responsibility.” Incidents repeat.
-                </p>
-              </div>
             </div>
-          </section>
-
-          <section id="goals">
-            <h2>Goals & Success Metrics</h2>
-            <p>
-              This plan is designed to show how I translate an ambiguous “Search is bad” complaint into measurable
-              outcomes.
-            </p>
-
-            <div class="two">
-              <div class="card">
-                <h4>Reliability</h4>
-                <ul>
-                  <li>Cut Search-related incidents by <strong>50%</strong></li>
-                  <li>Reduce MTTR from ~60 minutes to <strong>&lt;15 minutes</strong></li>
-                  <li>Establish SLOs and an error budget to guide tradeoffs</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>Performance & Delivery</h4>
-                <ul>
-                  <li>Improve Search p95 latency: ~900ms → <strong>&lt;250ms</strong></li>
-                  <li>Increase deployment frequency: weekly → <strong>daily</strong></li>
-                  <li>Reduce change failure rate with canaries + fast rollback</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section id="plan">
-            <h2>Proposed Plan</h2>
-            <p>
-              The plan has three phases. Each phase reduces risk and improves outcomes without blocking product
-              delivery.
-            </p>
-
-            <div class="timeline">
-              <div class="step">
-                <div class="n">1</div>
-                <div>
-                  <p class="t">Phase 1 (Weeks 1–4): Stabilize Search</p>
-                  <p class="d">
-                    Add observability, guardrails, and incident hygiene so we can measure, debug, and recover quickly.
-                  </p>
-                  <ul>
-                    <li>Define Search SLOs (availability + latency) and baseline current metrics</li>
-                    <li>Add correlation IDs + tracing across request → search execution → datastore</li>
-                    <li>Implement rate limiting, timeouts, circuit breakers for known hotspots</li>
-                    <li>Create an incident playbook + postmortem workflow (action items must have owners/dates)</li>
-                  </ul>
-                  <details>
-                    <summary>Definition of Done</summary>
-                    <p>
-                      Dashboards answer: “Is Search healthy?”, “What changed?”, and “Where is time spent?”
-                      On-call can roll back or mitigate within minutes.
-                    </p>
-                  </details>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="n">2</div>
-                <div>
-                  <p class="t">Phase 2 (Weeks 3–8): Ship Safely and Frequently</p>
-                  <p class="d">
-                    Reduce blast radius with progressive delivery so Search changes don’t require bravery medals.
-                  </p>
-                  <ul>
-                    <li>CI/CD improvements: parallel tests, quarantine flaky tests, faster build pipeline</li>
-                    <li>Introduce feature flags for ranking/experiments</li>
-                    <li>Canary releases for monolith Search changes + automated rollback triggers</li>
-                    <li>Create a Search release checklist that becomes automation over time</li>
-                  </ul>
-                  <details>
-                    <summary>Why This Matters for Search</summary>
-                    <p>
-                      Search changes can be high variance (query patterns, index shifts, ranking tweaks).
-                      Canary + rollback turns unknowns into controlled experiments.
-                    </p>
-                  </details>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="n">3</div>
-                <div>
-                  <p class="t">Phase 3 (Weeks 6–20): Extract Search into Stable Service</p>
-                  <p class="d">
-                    Create a dedicated Search service behind a stable API contract, gradually routing traffic away from
-                    the monolith.
-                  </p>
-                  <ul>
-                    <li>Define Search API contract (query, filters, pagination, facets, ranking params)</li>
-                    <li>Stand up Search service (stateless) and Search index (e.g., OpenSearch/Elasticsearch or managed
-                      equivalent)</li>
-                    <li>Build an indexing pipeline: source-of-truth events → indexing → validation</li>
-                    <li>Route traffic gradually: 1% → 5% → 25% → 100% with canaries and rollback</li>
-                  </ul>
-
-                  <details>
-                    <summary>Indexing Strategy</summary>
-                    <p>
-                      Begin being pragmatic at first and then cleanup later.
-                      Start with a nightly backfill + incremental updates from change events (CDC or app events).
-                      Add idempotency + replay to handle failures.
-                      Later, move toward stronger domain boundaries and ownership.
-                    </p>
-                  </details>
-                </div>
-              </div>
-            </div>
-
-          </section>
-
-          <section id="tradeoffs">
-            <h2>Tradeoffs</h2>
-
-            <div class="two">
-              <div class="card">
-                <h4>Rewrite vs Incremental Extraction</h4>
-                <p>
-                  A full rewrite is tempting and often catastrophic. Incremental extraction delivers wins continuously
-                  and avoids a “big bang” cutover.
-                </p>
-              </div>
-
-              <div class="card">
-                <h4>Shared DB vs Database Per Service</h4>
-                <p>
-                  For Search, the index is the serving store; the DB remains source of truth.
-                  Early on, we can read from shared DB for indexing, then evolve toward clearer data ownership.
-                </p>
-              </div>
-
-              <div class="card">
-                <h4>Relevance Quality vs Platform Reliability</h4>
-                <p>
-                  Ranking experiments are valuable, but the system must be stable first.
-                  We sequence reliability/observability before aggressive relevance experimentation.
-                </p>
-              </div>
-
-              <div class="card">
-                <h4>Latency vs Cost</h4>
-                <p>
-                  Search infrastructure can get expensive if left unchecked. Set budgets and monitor cost-per-query,
-                  then tune index/shards/caches based on measured usage.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section id="risks">
-            <h2>Risks & Mitigations</h2>
-            <div class="two">
-              <div class="card">
-                <h4>Risk: stale or inconsistent results</h4>
-                <ul>
-                  <li>Mitigation: index update SLAs + replayable event stream</li>
-                  <li>Mitigation: validation jobs (sample compare monolith vs service results)</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>Risk: traffic spikes overwhelm the index</h4>
-                <ul>
-                  <li>Mitigation: rate limits, request shaping, caching hot queries</li>
-                  <li>Mitigation: autoscaling + load tests using realistic query distributions</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>Risk: scope creep</h4>
-                <ul>
-                  <li>Mitigation: enforce API boundaries + phased roadmap</li>
-                  <li>Mitigation: define “not now” list (synonyms, personalization, etc.)</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>Risk: organizational issues and unclear ownership</h4>
-                <ul>
-                  <li>Mitigation: explicit Search ownership + on-call rotation</li>
-                  <li>Mitigation: operational readiness checklist before traffic ramp</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section id="org">
-            <h2>Team & Operating Model</h2>
-            <p>
-              Search succeeds when it’s treated as a product and a platform and here is the lightweight operating model
-              to establish.
-            </p>
-
-            <div class="two">
-              <div class="card">
-                <h4>Ownership</h4>
-                <ul>
-                  <li>One team owns Search service + indexing pipeline + dashboards</li>
-                  <li>Clear on-call rotation and escalation</li>
-                  <li>Partner team owns source-of-truth data quality</li>
-                </ul>
-              </div>
-              <div class="card">
-                <h4>Cadence</h4>
-                <ul>
-                  <li>Weekly reliability review (top incidents, trends, action items)</li>
-                  <li>Monthly performance/cost review (cost-per-query, capacity planning)</li>
-                  <li>Experiment review for ranking changes (guardrails + metrics)</li>
-                </ul>
-              </div>
-            </div>
-
-            <details>
-              <summary>Metrics To Track</summary>
+            <div class="card">
+              <h4>Weak Guardrails</h4>
               <p>
-                Deployment frequency, lead time for changes, change failure rate, MTTR,
-                p95 latency, error rate, query volume, cost-per-query, index freshness lag.
+                Limited timeouts, missing circuit breakers, and insufficient rate limiting allow one bad query
+                to become everyone’s bad day.
               </p>
-            </details>
-          </section>
+            </div>
+            <div class="card">
+              <h4>Poor Observability</h4>
+              <p>
+                If you can’t see it, you can’t fix it. Lack of tracing + correlation IDs makes root cause analysis
+                slow.
+              </p>
+            </div>
+            <div class="card">
+              <h4>Unclear Ownership</h4>
+              <p>
+                “Search is everyone’s responsibility” becomes “Search is nobody’s responsibility.” Incidents repeat.
+              </p>
+            </div>
+          </div>
+        </section>
 
-          <section id="days">
-            <h2>First 30/60/90 Days</h2>
+        <section id="goals">
+          <h2>Goals & Success Metrics</h2>
+          <p>
+            This plan is designed to show how I translate an ambiguous “Search is bad” complaint into measurable
+            outcomes.
+          </p>
 
-            <div class="timeline">
-              <div class="step">
-                <div class="n">30</div>
-                <div>
-                  <p class="t">Days 1–30: Baseline + Guardrails</p>
-                  <p class="d">
-                    Instrument Search, define SLOs, stabilize incidents, and make “what happened?” answerable quickly.
+          <div class="two">
+            <div class="card">
+              <h4>Reliability</h4>
+              <ul>
+                <li>Cut Search-related incidents by <strong>50%</strong></li>
+                <li>Reduce MTTR from ~60 minutes to <strong>&lt;15 minutes</strong></li>
+                <li>Establish SLOs and an error budget to guide tradeoffs</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Performance & Delivery</h4>
+              <ul>
+                <li>Improve Search p95 latency: ~900ms → <strong>&lt;250ms</strong></li>
+                <li>Increase deployment frequency: weekly → <strong>daily</strong></li>
+                <li>Reduce change failure rate with canaries + fast rollback</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="plan">
+          <h2>Proposed Plan</h2>
+          <p>
+            The plan has three phases. Each phase reduces risk and improves outcomes without blocking product
+            delivery.
+          </p>
+
+          <div class="timeline">
+            <div class="step">
+              <div class="n">1</div>
+              <div>
+                <p class="t">Phase 1 (Weeks 1–4): Stabilize Search</p>
+                <p class="d">
+                  Add observability, guardrails, and incident hygiene so we can measure, debug, and recover quickly.
+                </p>
+                <ul>
+                  <li>Define Search SLOs (availability + latency) and baseline current metrics</li>
+                  <li>Add correlation IDs + tracing across request → search execution → datastore</li>
+                  <li>Implement rate limiting, timeouts, circuit breakers for known hotspots</li>
+                  <li>Create an incident playbook + postmortem workflow (action items must have owners/dates)</li>
+                </ul>
+                <details>
+                  <summary>Definition of Done</summary>
+                  <p>
+                    Dashboards answer: “Is Search healthy?”, “What changed?”, and “Where is time spent?”
+                    On-call can roll back or mitigate within minutes.
                   </p>
-                  <ul>
-                    <li>Dashboards + alerts for latency/error/saturation</li>
-                    <li>Top 3 failure modes mitigated (timeouts, rate limits, cache stampede protection)</li>
-                    <li>Incident playbook + postmortem discipline</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="n">60</div>
-                <div>
-                  <p class="t">Days 31–60: Safer Releases + Contract Design</p>
-                  <p class="d">
-                    Improve CI/CD, introduce canaries/flags, and finalize the Search API contract and indexing approach.
-                  </p>
-                  <ul>
-                    <li>Canary + rollback in place for Search changes</li>
-                    <li>Search API contract reviewed with consumers</li>
-                    <li>Index schema + pipeline design ready</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="n">90</div>
-                <div>
-                  <p class="t">Days 61–90: First Traffic on New Search Service</p>
-                  <p class="d">
-                    Deploy Search service + index, run shadow traffic, then start controlled ramp with guardrails.
-                  </p>
-                  <ul>
-                    <li>Shadow mode comparisons (service vs monolith)</li>
-                    <li>1% traffic ramp with automated rollback triggers</li>
-                    <li>Post-launch learnings → next extraction milestones</li>
-                  </ul>
-                </div>
+                </details>
               </div>
             </div>
-          </section>
 
-          <section id="artifacts" class="last">
-            <h2>Artifacts</h2>
-            <h3>Search Service Level Objective</h3>
-            <pre><code>Service: Search API
+            <div class="step">
+              <div class="n">2</div>
+              <div>
+                <p class="t">Phase 2 (Weeks 3–8): Ship Safely and Frequently</p>
+                <p class="d">
+                  Reduce blast radius with progressive delivery so Search changes don’t require bravery medals.
+                </p>
+                <ul>
+                  <li>CI/CD improvements: parallel tests, quarantine flaky tests, faster build pipeline</li>
+                  <li>Introduce feature flags for ranking/experiments</li>
+                  <li>Canary releases for monolith Search changes + automated rollback triggers</li>
+                  <li>Create a Search release checklist that becomes automation over time</li>
+                </ul>
+                <details>
+                  <summary>Why This Matters for Search</summary>
+                  <p>
+                    Search changes can be high variance (query patterns, index shifts, ranking tweaks).
+                    Canary + rollback turns unknowns into controlled experiments.
+                  </p>
+                </details>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="n">3</div>
+              <div>
+                <p class="t">Phase 3 (Weeks 6–20): Extract Search into Stable Service</p>
+                <p class="d">
+                  Create a dedicated Search service behind a stable API contract, gradually routing traffic away from
+                  the monolith.
+                </p>
+                <ul>
+                  <li>Define Search API contract (query, filters, pagination, facets, ranking params)</li>
+                  <li>Stand up Search service (stateless) and Search index (e.g., OpenSearch/Elasticsearch or managed
+                    equivalent)</li>
+                  <li>Build an indexing pipeline: source-of-truth events → indexing → validation</li>
+                  <li>Route traffic gradually: 1% → 5% → 25% → 100% with canaries and rollback</li>
+                </ul>
+
+                <details>
+                  <summary>Indexing Strategy</summary>
+                  <p>
+                    Begin being pragmatic at first and then cleanup later.
+                    Start with a nightly backfill + incremental updates from change events (CDC or app events).
+                    Add idempotency + replay to handle failures.
+                    Later, move toward stronger domain boundaries and ownership.
+                  </p>
+                </details>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <section id="tradeoffs">
+          <h2>Tradeoffs</h2>
+
+          <div class="two">
+            <div class="card">
+              <h4>Rewrite vs Incremental Extraction</h4>
+              <p>
+                A full rewrite is tempting and often catastrophic. Incremental extraction delivers wins continuously
+                and avoids a “big bang” cutover.
+              </p>
+            </div>
+
+            <div class="card">
+              <h4>Shared DB vs Database Per Service</h4>
+              <p>
+                For Search, the index is the serving store; the DB remains source of truth.
+                Early on, we can read from shared DB for indexing, then evolve toward clearer data ownership.
+              </p>
+            </div>
+
+            <div class="card">
+              <h4>Relevance Quality vs Platform Reliability</h4>
+              <p>
+                Ranking experiments are valuable, but the system must be stable first.
+                We sequence reliability/observability before aggressive relevance experimentation.
+              </p>
+            </div>
+
+            <div class="card">
+              <h4>Latency vs Cost</h4>
+              <p>
+                Search infrastructure can get expensive if left unchecked. Set budgets and monitor cost-per-query,
+                then tune index/shards/caches based on measured usage.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="risks">
+          <h2>Risks & Mitigations</h2>
+          <div class="two">
+            <div class="card">
+              <h4>Risk: stale or inconsistent results</h4>
+              <ul>
+                <li>Mitigation: index update SLAs + replayable event stream</li>
+                <li>Mitigation: validation jobs (sample compare monolith vs service results)</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Risk: traffic spikes overwhelm the index</h4>
+              <ul>
+                <li>Mitigation: rate limits, request shaping, caching hot queries</li>
+                <li>Mitigation: autoscaling + load tests using realistic query distributions</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Risk: scope creep</h4>
+              <ul>
+                <li>Mitigation: enforce API boundaries + phased roadmap</li>
+                <li>Mitigation: define “not now” list (synonyms, personalization, etc.)</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Risk: organizational issues and unclear ownership</h4>
+              <ul>
+                <li>Mitigation: explicit Search ownership + on-call rotation</li>
+                <li>Mitigation: operational readiness checklist before traffic ramp</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="org">
+          <h2>Team & Operating Model</h2>
+          <p>
+            Search succeeds when it’s treated as a product and a platform and here is the lightweight operating model
+            to establish.
+          </p>
+
+          <div class="two">
+            <div class="card">
+              <h4>Ownership</h4>
+              <ul>
+                <li>One team owns Search service + indexing pipeline + dashboards</li>
+                <li>Clear on-call rotation and escalation</li>
+                <li>Partner team owns source-of-truth data quality</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Cadence</h4>
+              <ul>
+                <li>Weekly reliability review (top incidents, trends, action items)</li>
+                <li>Monthly performance/cost review (cost-per-query, capacity planning)</li>
+                <li>Experiment review for ranking changes (guardrails + metrics)</li>
+              </ul>
+            </div>
+          </div>
+
+          <details>
+            <summary>Metrics To Track</summary>
+            <p>
+              Deployment frequency, lead time for changes, change failure rate, MTTR,
+              p95 latency, error rate, query volume, cost-per-query, index freshness lag.
+            </p>
+          </details>
+        </section>
+
+        <section id="days">
+          <h2>First 30/60/90 Days</h2>
+
+          <div class="timeline">
+            <div class="step">
+              <div class="n">30</div>
+              <div>
+                <p class="t">Days 1–30: Baseline + Guardrails</p>
+                <p class="d">
+                  Instrument Search, define SLOs, stabilize incidents, and make “what happened?” answerable quickly.
+                </p>
+                <ul>
+                  <li>Dashboards + alerts for latency/error/saturation</li>
+                  <li>Top 3 failure modes mitigated (timeouts, rate limits, cache stampede protection)</li>
+                  <li>Incident playbook + postmortem discipline</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="n">60</div>
+              <div>
+                <p class="t">Days 31–60: Safer Releases + Contract Design</p>
+                <p class="d">
+                  Improve CI/CD, introduce canaries/flags, and finalize the Search API contract and indexing approach.
+                </p>
+                <ul>
+                  <li>Canary + rollback in place for Search changes</li>
+                  <li>Search API contract reviewed with consumers</li>
+                  <li>Index schema + pipeline design ready</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="n">90</div>
+              <div>
+                <p class="t">Days 61–90: First Traffic on New Search Service</p>
+                <p class="d">
+                  Deploy Search service + index, run shadow traffic, then start controlled ramp with guardrails.
+                </p>
+                <ul>
+                  <li>Shadow mode comparisons (service vs monolith)</li>
+                  <li>1% traffic ramp with automated rollback triggers</li>
+                  <li>Post-launch learnings → next extraction milestones</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="artifacts">
+          <h2>Artifacts</h2>
+          <h3>Search Service Level Objective</h3>
+          <pre><code>Service: Search API
 SLOs:
   Availability: 99.9% (monthly)
   Latency: p95 &lt; 250ms (monthly, excluding bots)
@@ -477,8 +439,8 @@ Error budget policy:
   - If error budget burn &gt; 2x for 2 days → pause non-critical launches, focus on reliability
   - Canary required for ranking/index changes</code></pre>
 
-            <h3>Release Ramp Plan (Progressive Delivery)</h3>
-            <pre><code>Traffic ramp:
+          <h3>Release Ramp Plan (Progressive Delivery)</h3>
+          <pre><code>Traffic ramp:
   0%  → shadow mode (compare results + latency)
   1%  → canary (alerts: error rate, p95, index freshness lag)
   5%  → validate peak window
@@ -490,8 +452,8 @@ Rollback triggers:
   - p95 latency &gt; baseline +Y% for 10 min
   - Index freshness lag &gt; threshold</code></pre>
 
-            <h3>Incident Postmortem Template</h3>
-            <pre><code>Postmortem: Search incident - [date]
+          <h3>Incident Postmortem Template</h3>
+          <pre><code>Postmortem: Search incident - [date]
 Impact: [who/what/when]
 Root cause: [technical cause + contributing factors]
 Detection: [how found, why not earlier]
@@ -501,13 +463,18 @@ Action items:
 Follow-up:
   - What changed in our process to prevent repetition?</code></pre>
 
-          </section>
+        </section>
 
-        </main>
-      </div>
+        <div class="cta-row mobile-only">
+          <a href="index.html" class="btn">Return Home</a>
+        </div>
+
+
+      </main>
     </div>
-
   </div>
+
+
 
   <script>
     const navLinks = Array.from(document.querySelectorAll("nav a"));

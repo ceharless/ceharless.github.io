@@ -9,15 +9,17 @@
   --semimuted: rgba(229, 231, 235, 0.75);
   --border: rgba(255, 255, 255, 0.1);
   --panel: rgba(15, 23, 42, 0.5);
-  --panel-strong: rgba(15, 23, 42, 0.8);
-  --panel-solid: rgba(15, 23, 42, 1);
+  --bars: rgba(15, 23, 42, 1);
+
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif
+  font-family: var(--sans)
 }
 
 html {
@@ -49,7 +51,7 @@ h3 {
 }
 
 .stmt {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .hero {
@@ -144,7 +146,8 @@ h3 {
 }
 
 .cta-row {
-  margin: 1.5rem;
+  margin: 1rem;
+  padding: 1rem;
   display: flex;
   gap: 0.9rem;
   justify-content: center;
@@ -225,12 +228,9 @@ h3 {
 }
 
 .section {
-  padding-bottom: 2rem;
-  padding-top: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding: 2rem;
   max-width: 80%;
-  margin-top: 2rem;
+  margin-top: 4rem;
   margin-bottom: 2rem;
   margin-left: auto;
   margin-right: auto;
@@ -238,13 +238,9 @@ h3 {
   background: var(--charcoal-light);
 }
 
-.contact {
-  margin-bottom: 10rem;
-}
-
 .section h2 {
   font-size: 2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -262,7 +258,7 @@ h3 {
   left: 0;
   width: 100%;
   height: 3rem;
-  background: var(--panel-solid);
+  background: var(--bars);
   z-index: 1000;
 }
 
@@ -271,7 +267,7 @@ h3 {
   bottom: 0;
   width: 100%;
   height: 3rem;
-  background: var(--panel-solid);
+  background: var(--bars);
   z-index: 1000;
 }
 
@@ -453,6 +449,11 @@ h3 {
 
 .metrics-strip .metric:hover::after {
   opacity: 1;
+}
+
+.blank {
+  margin: 7rem;
+  padding: 7rem;
 }
 
 @media (hover: none) {
@@ -645,70 +646,6 @@ h3 {
   }
 }
 
-@keyframes heroPulseBg {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  100% {
-    background-position: 100% 50%;
-  }
-}
-
-body.hero-animate .hero {
-  background: linear-gradient(135deg, #0f172a, #1e293b, rgba(56, 189, 248, 0.12));
-  background-size: 200% 200%;
-  animation: heroPulseBg 3s ease-in-out infinite alternate;
-}
-
-@keyframes heroGlow {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-    filter: blur(2px);
-  }
-
-  60% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-body.hero-animate .hero-content>* {
-  opacity: 0;
-  animation: heroGlow 2s ease forwards;
-}
-
-body.hero-animate .hero-content .hero-image {
-  animation-delay: 0.25s;
-}
-
-body.hero-animate .hero-content h1 {
-  animation-delay: 0.50s;
-}
-
-body.hero-animate .hero-content .subtitle {
-  animation-delay: 1s;
-}
-
-body.hero-animate .hero-content .cta-row {
-  animation-delay: 1.5s;
-}
-
-body.hero-animate .hero-content .metrics-strip {
-  animation-delay: 2s;
-}
-
-body.hero-animate .hero-content .scroll-down {
-  animation-delay: 2.5s;
-}
-
 .about-img {
   display: block;
   width: 80%;
@@ -767,4 +704,72 @@ body.hero-animate .hero-content .scroll-down {
     display: none;
   }
 
+}
+
+@keyframes heroPulseBg {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+body.hero-animate .hero {
+  background: linear-gradient(135deg, #0f172a, #1e293b, rgba(56, 189, 248, 0.12));
+  background-size: 200% 200%;
+  animation: heroPulseBg 3s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+    filter: blur(3px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.hero-animate .hero-content>* {
+  opacity: 0;
+  animation: heroGlow 3s ease forwards;
+}
+
+body.hero-animate .hero-content .hero-image {
+  animation-delay: 0.25s;
+}
+
+body.hero-animate .hero-content h1 {
+  animation-delay: 0.50s;
+}
+
+body.hero-animate .hero-content .subtitle {
+  animation-delay: 0.75s;
+}
+
+body.hero-animate .hero-content .cta-row {
+  animation-delay: 1.00s;
+}
+
+body.hero-animate .hero-content h3 {
+  animation-delay: 1.25s;
+}
+
+body.hero-animate .hero-content .metrics-strip {
+  animation-delay: 1.50s;
+}
+
+body.hero-animate .hero-content .scroll-down {
+  animation-delay: 1.75s;
 }

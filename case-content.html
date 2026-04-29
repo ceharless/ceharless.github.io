@@ -33,7 +33,10 @@
       <div class="header">
         <h1>Content Discovery System</h1>
         <p class="subtitle">
-A diagram-driven architecture walkthrough: requirements, high-level design, ranking & personalization, metadata pipelines, caching, real-time signals, and resilience. A strong discovery system directly drives engagement, retention, and revenue. It also tends to be one of the highest-throughput systems in the entire product because it sits on the hot path of “what do I do next?”
+          A diagram-driven architecture walkthrough: requirements, high-level design, ranking & personalization,
+          metadata pipelines, caching, real-time signals, and resilience. A strong discovery system directly drives
+          engagement, retention, and revenue. It also tends to be one of the highest-throughput systems in the entire
+          product because it sits on the hot path of “what do I do next?”
         </p>
       </div>
     </header>
@@ -703,6 +706,7 @@ A diagram-driven architecture walkthrough: requirements, high-level design, rank
           <a href="index.html" class="btn">Return Home</a>
         </div>
 
+        <div class="blank"></div>
 
       </main>
     </div>
@@ -719,6 +723,8 @@ A diagram-driven architecture walkthrough: requirements, high-level design, rank
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         const id = "#" + entry.target.id;
+        console.log(id);
+
         navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === id));
         history.replaceState(null, "", id);
       });
